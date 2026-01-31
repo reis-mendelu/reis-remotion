@@ -24,9 +24,9 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
   const isFinished = downloadProgress?.isFinished;
 
   const downloadLabel = downloadProgress
-    ? `Stahování (${downloadProgress.completed}/${downloadProgress.total})...`
+    ? `Stáhnout (${downloadProgress.completed}/${downloadProgress.total})`
     : isDownloading
-    ? "Stahování..."
+    ? `Stáhnout (${totalFiles})`
     : `Stáhnout (${totalFiles})`;
 
   const tabs = [
@@ -48,9 +48,37 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
           </span>
         </div>
 
-        {/* Close button */}
-        <div className="text-[#f3f4f6]/40 hover:text-[#f3f4f6]/60 cursor-pointer">
-          <X size={22} strokeWidth={1.5} />
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          <div 
+            className={`
+              relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-[14px] transition-all
+              ${isFinished 
+                ? "bg-[#79be15] text-white" 
+                : "bg-[#79be15] text-white hover:bg-[#88d618]"}
+            `}
+          >
+             {/* Progress Indicator on the left */}
+            {isDownloading && (
+               <div className="flex items-center gap-1.5 mr-1 pr-2 border-r border-white/20">
+                  <Loader2 size={14} className="animate-spin" />
+                  <span className="text-[12px] opacity-80 tabular-nums">
+                    {downloadProgress ? `${downloadProgress.completed}/${downloadProgress.total}` : `0/${totalFiles}`}
+                  </span>
+               </div>
+            )}
+
+            {isFinished ? (
+              <Check size={16} />
+            ) : !isDownloading && (
+              <Download size={16} />
+            )}
+            <span>{downloadLabel}</span>
+          </div>
+
+          <div className="text-[#f3f4f6]/40 hover:text-[#f3f4f6]/60 cursor-pointer">
+            <X size={22} strokeWidth={1.5} />
+          </div>
         </div>
       </div>
 

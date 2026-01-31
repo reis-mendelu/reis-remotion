@@ -7,12 +7,14 @@ interface SubjectDrawerFileListProps {
   groups: FileGroup[];
   selectedIds: string[];
   downloadedIds: string[];
+  downloadingIds?: string[];
 }
 
 export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
   groups,
   selectedIds,
   downloadedIds,
+  downloadingIds = [],
 }) => {
   const frame = useCurrentFrame();
 
@@ -95,16 +97,40 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
                     )}
                   </div>
 
-                  <FileText
-                    size={16}
-                    className={`transition-opacity ${
-                      isDownloaded
-                        ? "text-[#79be15]/40"
-                        : isSelected
-                        ? "text-[#79be15]/40"
-                        : "text-[#f3f4f6]/20"
-                    }`}
-                  />
+                  <div className="relative">
+                    <FileText
+                      size={16}
+                      className={`transition-opacity ${
+                        isDownloaded
+                          ? "text-[#79be15]/40"
+                          : isSelected
+                          ? "text-[#79be15]/60"
+                          : "text-[#f3f4f6]/20"
+                      }`}
+                    />
+                    
+                    {/* Bouncing Download Badge */}
+                    {isDownloaded && (
+                      <div 
+                        className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#79be15] rounded-full border border-[#1f2937] animate-bounce"
+                        style={{
+                          transform: `scale(${interpolate(frame % 30, [0, 15, 30], [1, 1.2, 1])})`,
+                          boxShadow: "0 0 10px rgba(121, 190, 21, 0.5)"
+                        }}
+                      />
+                    )}
+
+                    {/* Downloading Pulse */}
+                    {downloadingIds.includes(file.link) && (
+                      <div 
+                        className="absolute inset-0 rounded-full bg-[#79be15] opacity-20"
+                        style={{
+                          transform: `scale(${interpolate(frame % 20, [0, 20], [1, 2])})`,
+                          opacity: interpolate(frame % 20, [0, 20], [0.4, 0])
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
               );
             })}

@@ -6,9 +6,9 @@ import { SubjectDrawerHeader } from "../../components/SubjectDrawer/Header";
 import { SubjectDrawerFileList } from "../../components/SubjectDrawer/Tabs/FileList";
 import { SubjectDrawerSyllabus } from "../../components/SubjectDrawer/Tabs/Syllabus";
 import { SubjectDrawerSuccessRate } from "../../components/SubjectDrawer/Tabs/SuccessRate";
-import { SubjectDrawerSchema, type SubjectDrawerProps } from "./schema";
+import { type SubjectDrawerProps } from "./schema";
 
-export const SubjectDrawerComposition: React.FC<SubjectDrawerProps> = (props) => {
+export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?: React.ReactNode }> = (props) => {
   const {
     subject,
     groups = [],
@@ -19,6 +19,8 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps> = (props) =>
     scale = 1,
     selectedIds = [],
     downloadedIds = [],
+    downloadingIds = [],
+    children,
   } = props;
 
   const { fps } = useVideoConfig();
@@ -54,6 +56,8 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps> = (props) =>
             subject={subject}
             activeTab={activeTab}
             totalFiles={groups.reduce((acc, g) => acc + g.files.length, 0)}
+            isDownloading={downloadingIds.length > 0 && downloadedIds.length === 0}
+            downloadProgress={downloadedIds.length === groups.reduce((acc, g) => acc + g.files.length, 0) ? { completed: downloadedIds.length, total: downloadedIds.length, isFinished: true } : null}
           />
 
           <div className="flex-1 overflow-y-auto bg-[#1e2329]/30">
@@ -62,6 +66,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps> = (props) =>
                     groups={groups}
                     selectedIds={selectedIds}
                     downloadedIds={downloadedIds}
+                    downloadingIds={downloadingIds}
                 />
             )}
             {activeTab === "syllabus" && (
@@ -72,6 +77,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps> = (props) =>
             )}
           </div>
         </div>
+        {children}
       </MendeluEnvironment>
     </AbsoluteFill>
   );

@@ -67,10 +67,12 @@ export const SubjectDrawerSchema = z.object({
   scale: z.number().default(1),
   selectedIds: z.array(z.string()).default([]),
   downloadedIds: z.array(z.string()).default([]),
+  downloadingIds: z.array(z.string()).default([]),
 });
 
 export type File = z.infer<typeof FileSchema>;
 export type FileGroup = z.infer<typeof FileGroupSchema>;
 export type Teacher = z.infer<typeof TeacherSchema>;
 export type Subject = z.infer<typeof SubjectSchema>;
-export type SubjectDrawerProps = z.infer<typeof SubjectDrawerSchema>;
+export type SubjectDrawerProps = z.input<typeof SubjectDrawerSchema>;
+export type SubjectDrawerOutput = z.infer<typeof SubjectDrawerSchema>;

@@ -8,7 +8,7 @@ import { SpolkyComposition, SpolkyCompositionSchema } from "./components/Spolky/
 import { ProfessionalText } from "./components/ProfessionalText";
 import { ReISIntroduction } from "./compositions/ReISIntroduction";
 import { SubjectDrawerComposition } from "./compositions/SubjectDrawer";
-import { SubjectDrawerShowcase } from "./compositions/SubjectDrawer/Showcase";
+import { FilesHint } from "./compositions/SubjectDrawer/FilesHint";
 import { SubjectDrawerSchema } from "./compositions/SubjectDrawer/schema";
 
 export const RemotionRoot: React.FC = () => {
@@ -24,9 +24,9 @@ export const RemotionRoot: React.FC = () => {
           height={1080}
         />
         <Composition
-          id="SubjectDrawer-Showcase"
-          component={SubjectDrawerShowcase}
-          durationInFrames={150}
+          id="SubjectDrawer-FilesHint"
+          component={FilesHint}
+          durationInFrames={200}
           fps={30}
           width={1920}
           height={1080}
