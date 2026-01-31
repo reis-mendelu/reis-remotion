@@ -7,7 +7,21 @@
 
 import { Config } from "@remotion/cli/config";
 import { enableTailwind } from '@remotion/tailwind-v4';
+import path from "path";
 
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
-Config.overrideWebpackConfig(enableTailwind);
+Config.overrideWebpackConfig((currentConfiguration) => {
+  const configWithTailwind = enableTailwind(currentConfiguration);
+  
+  return {
+    ...configWithTailwind,
+    resolve: {
+      ...configWithTailwind.resolve,
+      alias: {
+        ...(configWithTailwind.resolve?.alias || {}),
+        "@": path.resolve(__dirname, "../reis/src"),
+      },
+    },
+  };
+});
