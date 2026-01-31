@@ -5,6 +5,7 @@ import {
   OutlookSyncComposition,
   OutlookSyncSchema,
 } from "./Composition";
+import { SpolkyComposition, SpolkyCompositionSchema } from "./components/Spolky/SpolkyComposition";
 import { loadFont } from "@remotion/google-fonts/Inter";
 
 loadFont();
@@ -92,6 +93,21 @@ export const RemotionRoot: React.FC = () => {
             syncStatus: "syncing",
             eventCount: 3,
             scale: 4, // 4K Upscaling
+          }}
+        />
+      </Folder>
+      <Folder name="Spolky-Animations">
+        <Composition
+          id="SpolkyExpanded"
+          component={SpolkyComposition}
+          durationInFrames={180}
+          fps={30}
+          width={1280}
+          height={720}
+          schema={SpolkyCompositionSchema}
+          defaultProps={{
+            spolkyExpanded: true,
+            subscribedIds: ["supef", "esn"],
           }}
         />
       </Folder>
