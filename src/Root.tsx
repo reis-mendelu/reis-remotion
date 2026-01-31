@@ -39,6 +39,22 @@ export const RemotionRoot: React.FC = () => {
             animate: false,
           }}
         />
+        <Composition
+          id="OutlookSyncPremium"
+          component={OutlookSyncComposition}
+          durationInFrames={60}
+          fps={30}
+          width={600}
+          height={300}
+          schema={OutlookSyncSchema}
+          defaultProps={{
+            enabled: true,
+            loading: true,
+            showInfo: true,
+            progress: 1,
+            animate: true,
+          }}
+        />
       </Folder>
     </>
   );
