@@ -39,6 +39,8 @@ export const OutlookSyncSchema = z.object({
   // Sync Status Props
   syncStatus: z.enum(["pending", "syncing", "completed"]).default("pending"),
   eventCount: z.number().default(3),
+  // 4K Scaling Support
+  scale: z.number().default(1),
 });
 
 const VideoOutlookSyncToggle: React.FC<{
@@ -294,6 +296,7 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   depth: staticDepth = 0,
   syncStatus = "pending",
   eventCount = 3,
+  scale = 1,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, fps } = useVideoConfig();
@@ -343,7 +346,7 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
           style={{
             opacity: entranceOpacity,
             transformStyle: "preserve-3d",
-            transform: `translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
+            transform: `scale(${scale}) translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
             boxShadow: `
               ${-rotY / 2}px ${shadowDepth}px ${shadowBlur}px rgba(0,0,0,0.5),
               0 0 40px rgba(0,0,0,0.2)

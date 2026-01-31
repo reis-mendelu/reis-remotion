@@ -75,8 +75,8 @@ export const RemotionRoot: React.FC = () => {
           component={OutlookSyncComposition}
           durationInFrames={150} // Accelerated from 240
           fps={30}
-          width={800}
-          height={600}
+          width={3840}
+          height={2160}
           schema={OutlookSyncSchema}
           defaultProps={{
             enabled: true,
@@ -89,6 +89,7 @@ export const RemotionRoot: React.FC = () => {
             depth: 50,
             syncStatus: "syncing",
             eventCount: 3,
+            scale: 4, // 4K Upscaling
           }}
         />
       </Folder>
