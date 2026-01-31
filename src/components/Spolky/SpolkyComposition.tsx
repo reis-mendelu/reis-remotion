@@ -2,6 +2,7 @@ import { z } from "zod";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate, Sequence } from "remotion";
 import { ProfilePopup } from "./ProfilePopup";
 import { MendeluEnvironment } from "../../Environment";
+import { Background } from "../Background";
 import { SoundEffect } from "../SoundEffect";
 
 export const SpolkyCompositionSchema = z.object({
@@ -12,7 +13,6 @@ export const SpolkyCompositionSchema = z.object({
 
 export const SpolkyComposition: React.FC<z.infer<typeof SpolkyCompositionSchema>> = ({
   spolkyExpanded,
-  subscribedIds,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -65,10 +65,11 @@ export const SpolkyComposition: React.FC<z.infer<typeof SpolkyCompositionSchema>
   const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 20;
 
   return (
-    <AbsoluteFill className="bg-[#0f1113] items-center justify-center" style={{ perspective: "1200px" }}>
+    <AbsoluteFill className="items-center justify-center" style={{ perspective: "1200px" }}>
+      <Background preset="mendelu-dark" />
       
       {/* Entrance Swoosh */}
-      <Sequence from={0}>
+      <Sequence>
          <SoundEffect type="SWOOSH" volume={0.5} />
       </Sequence>
       

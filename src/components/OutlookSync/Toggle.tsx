@@ -9,7 +9,7 @@ interface ToggleProps {
   progress: number;
 }
 
-export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading, showInfo, progress }) => {
+export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading, progress }) => {
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
   

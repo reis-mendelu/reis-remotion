@@ -57,7 +57,7 @@ export const SyncVisualization: React.FC<VisualizationProps> = ({ syncStatus, pr
         {/* Progress Bar - Left to Right flow */}
         <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
           <div 
-            className="h-full bg-primary transition-all duration-100 ease-out"
+            className="h-full bg-primary"
             style={{ width: `${progress * 100}%` }}
           />
         </div>

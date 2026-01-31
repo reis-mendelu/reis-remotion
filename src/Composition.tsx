@@ -5,6 +5,9 @@ import { MendeluEnvironment } from "./Environment";
 import { SoundEffect } from "./components/SoundEffect";
 import { VideoOutlookSyncToggle } from "./components/OutlookSync/Toggle";
 import { SyncVisualization } from "./components/OutlookSync/Visualization";
+import { zBackground } from "./components/Background/schema";
+import { Background } from "./components/Background";
+
 
 export const MyCompositionSchema = z.object({
   title: z.string(),
@@ -42,6 +45,8 @@ export const OutlookSyncSchema = z.object({
   eventCount: z.number().default(3),
   // 4K Scaling Support
   scale: z.number().default(1),
+  // Background
+  background: zBackground.optional(),
 });
 
 
@@ -60,6 +65,7 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   syncStatus = "pending",
   eventCount = 3,
   scale = 1,
+  background,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, fps } = useVideoConfig();
@@ -100,7 +106,7 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   
   const audioTrack = animate ? (
     <>
-      <Sequence from={0}>
+      <Sequence>
          <SoundEffect type="SWOOSH" volume={0.6} />
       </Sequence>
       <Sequence from={SYNC_START}>
@@ -112,8 +118,15 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
     </>
   ) : null;
 
+
+
   return (
-    <AbsoluteFill className="bg-[#0f1113] items-center justify-center" style={{ perspective: "1200px" }}>
+    <AbsoluteFill style={{ perspective: "1200px" }}>
+      <Background 
+        {...(background ?? {
+          preset: "mendelu-dark"
+        })}
+      />
       {audioTrack}
       <MendeluEnvironment className="w-full h-full flex items-center justify-center">
         <div 

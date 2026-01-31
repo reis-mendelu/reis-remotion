@@ -49,6 +49,10 @@ export const RemotionRoot: React.FC = () => {
             syncStatus: "pending",
             eventCount: 3,
             scale: 1,
+            background: {
+              type: "stars",
+              starsCount: 150,
+            },
           }}
         />
         <Composition
@@ -71,6 +75,10 @@ export const RemotionRoot: React.FC = () => {
             syncStatus: "syncing",
             eventCount: 3,
             scale: 1,
+            background: {
+              type: "stars",
+              starsCount: 300,
+            },
           }}
         />
         <Composition
@@ -93,6 +101,10 @@ export const RemotionRoot: React.FC = () => {
             syncStatus: "syncing",
             eventCount: 3,
             scale: 4, // 4K Upscaling
+            background: {
+              type: "stars",
+              starsCount: 600,
+            },
           }}
         />
       </Folder>

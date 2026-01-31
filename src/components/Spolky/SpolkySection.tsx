@@ -46,7 +46,7 @@ export const SpolkySection: React.FC<SpolkySectionProps> = ({ expanded, isSub, h
       {/* Header */}
       <div className="w-full flex items-center justify-between px-1 py-3 group cursor-pointer relative">
         {/* Hover effect simulation */}
-        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity" />
+        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 rounded-lg" />
         
         <div className="flex items-center gap-2 relative z-10">
           <Users size={16} className="text-white/50 group-hover:text-primary" />
@@ -85,7 +85,7 @@ export const SpolkySection: React.FC<SpolkySectionProps> = ({ expanded, isSub, h
              return (
                <div 
                  key={p.id} 
-                 className={`flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-white/5 transition-colors ${isHighlighted ? 'bg-primary/30 ring-1 ring-primary' : ''}`}
+                 className={`flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-white/5 ${isHighlighted ? 'bg-primary/30 ring-1 ring-primary' : ''}`}
                  style={{ 
                    opacity: itemOpacity,
                    transform: `translateX(${itemX}px)`
