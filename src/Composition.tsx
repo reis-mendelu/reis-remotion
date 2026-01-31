@@ -36,6 +36,9 @@ export const OutlookSyncSchema = z.object({
   rotationX: z.number().default(0),
   rotationY: z.number().default(0),
   depth: z.number().default(0),
+  // Sync Status Props
+  syncStatus: z.enum(["pending", "syncing", "completed"]).default("pending"),
+  eventCount: z.number().default(3),
 });
 
 const VideoOutlookSyncToggle: React.FC<{
@@ -135,6 +138,129 @@ const VideoOutlookSyncToggle: React.FC<{
   );
 };
 
+const EventCard: React.FC<{
+  title: string;
+  time: string;
+  progress: number;
+  index: number;
+  type: "lecture" | "exam" | "exercise";
+}> = ({ title, time, progress, index, type }) => {
+  const { fps } = useVideoConfig();
+  
+  const isExam = type === "exam";
+  
+  // Stagger start: each card starts 10 frames after the previous one
+  const staggerStart = index * 10;
+  const cardSpring = spring({
+    frame: progress * 60 - staggerStart,
+    fps,
+    config: { damping: 15 },
+  });
+
+  const opacity = interpolate(cardSpring, [0, 1], [0, 1]);
+  const translateX = interpolate(cardSpring, [0, 1], [20, 0]);
+  const scale = interpolate(cardSpring, [0, 1], [0.95, 1]);
+
+  if (cardSpring <= 0) return null;
+
+  return (
+    <div 
+      className="flex items-center gap-3 p-2.5 bg-[#161b22] rounded-lg border border-white/5 mb-2 last:mb-0"
+      style={{
+        opacity,
+        transform: `translateX(${translateX}px) scale(${scale})`,
+        transformStyle: "preserve-3d",
+      }}
+    >
+      {/* Professional left accent bar for all items */}
+      <div 
+        className={`w-1 self-stretch rounded-full ${isExam ? "bg-[#f85149]" : "bg-primary"}`} 
+        style={{ transform: "translateZ(1px)" }} 
+      />
+      
+      <div className="flex flex-col gap-0.5 flex-1 items-start text-left">
+        <div className="text-[11px] font-semibold text-[#f0f6fc] line-clamp-1">{title}</div>
+        <div className="text-[10px] text-[#8b949e] font-medium uppercase tracking-tight">{time}</div>
+      </div>
+    </div>
+  );
+};
+
+const SyncVisualization: React.FC<{
+  syncStatus: "pending" | "syncing" | "completed";
+  progress: number;
+  eventCount: number;
+}> = ({ syncStatus, progress, eventCount }) => {
+  const { fps } = useVideoConfig();
+  const frame = useCurrentFrame();
+
+  const isSyncing = syncStatus === "syncing" || syncStatus === "completed";
+  
+  const visSpring = spring({
+    frame: isSyncing ? progress * 60 : 0,
+    fps,
+    config: { damping: 20 },
+  });
+
+  const height = interpolate(visSpring, [0, 1], [0, 180], { extrapolateRight: "clamp" });
+  const opacity = interpolate(visSpring, [0, 0.4], [0, 1], { extrapolateRight: "clamp" });
+
+  // Syncing Text Pulse
+  const textPulse = interpolate(Math.sin((frame / fps) * Math.PI * 3), [-1, 1], [0.6, 1]);
+
+  const mockEvents: Array<{ title: string; time: string; type: "lecture" | "exam" | "exercise" }> = [
+    { title: "Přednáška: Algoritmizace", time: "Po 09:00 - 10:50", type: "lecture" },
+    { title: "Zkouška: Matematika I", time: "St 10:00 - 12:00", type: "exam" },
+    { title: "Cvičení: Programování", time: "Pá 14:00 - 15:40", type: "exercise" },
+  ];
+
+  return (
+    <div 
+      className="overflow-hidden mt-4"
+      style={{ 
+        height, 
+        opacity,
+        transformStyle: "preserve-3d",
+        transform: "translateZ(5px)"
+      }}
+    >
+      <div className="flex flex-col gap-3 pt-2 border-t border-white/10">
+        <div className="flex items-center justify-between">
+          <span 
+            className="text-[10px] font-bold uppercase tracking-wider text-primary"
+            style={{ opacity: syncStatus === "syncing" ? textPulse : 1 }}
+          >
+            {syncStatus === "syncing" ? "Synchronizace..." : "Synchronizace dokončena"}
+          </span>
+          <span className="text-[10px] text-white/40">{Math.round(progress * 100)}%</span>
+        </div>
+
+        {/* Progress Bar - Left to Right flow */}
+        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-primary transition-all duration-100 ease-out"
+            style={{ width: `${progress * 100}%` }}
+          />
+        </div>
+
+        {/* Event List */}
+        <div className="flex flex-col">
+          {mockEvents.slice(0, eventCount).map((event, i) => (
+            <EventCard 
+              key={i}
+              index={i}
+              title={event.title}
+              time={event.time}
+              progress={progress}
+              type={event.type}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>> = ({
   enabled,
   loading,
@@ -144,6 +270,8 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   rotationX: staticRotX = 0,
   rotationY: staticRotY = 0,
   depth: staticDepth = 0,
+  syncStatus = "pending",
+  eventCount = 3,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, fps } = useVideoConfig();
@@ -203,6 +331,12 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
             loading={loading}
             showInfo={showInfo}
             progress={progress}
+          />
+
+          <SyncVisualization 
+            syncStatus={syncStatus}
+            progress={progress}
+            eventCount={eventCount}
           />
         </div>
       </MendeluEnvironment>

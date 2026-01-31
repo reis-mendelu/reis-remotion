@@ -45,6 +45,8 @@ export const RemotionRoot: React.FC = () => {
             rotationX: 0,
             rotationY: 0,
             depth: 0,
+            syncStatus: "pending",
+            eventCount: 3,
           }}
         />
         <Composition
@@ -61,9 +63,11 @@ export const RemotionRoot: React.FC = () => {
             showInfo: false,
             progress: 1,
             animate: true,
-            rotationX: -1,
-            rotationY: 15,
+            rotationX: 0,
+            rotationY: 0,
             depth: 0,
+            syncStatus: "syncing",
+            eventCount: 3,
           }}
         />
         <Composition
@@ -83,6 +87,8 @@ export const RemotionRoot: React.FC = () => {
             rotationX: 25,
             rotationY: -15,
             depth: 50,
+            syncStatus: "syncing",
+            eventCount: 3,
           }}
         />
       </Folder>

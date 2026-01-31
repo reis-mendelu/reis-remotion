@@ -45,7 +45,12 @@ test('OutlookSyncComposition frame-accuracy protocol', async () => {
                 loading: true, // Test loading pulse too
                 showInfo: false,
                 progress: 0.5,
-                animate: false
+                animate: false,
+                rotationX: 0,
+                rotationY: 0,
+                depth: 0,
+                syncStatus: "syncing",
+                eventCount: 3,
             }}
         />
     );
