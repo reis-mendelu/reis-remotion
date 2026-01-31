@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { zColor } from "@remotion/zod-types";
-import { AbsoluteFill, interpolate, interpolateColors, spring, useCurrentFrame, useVideoConfig, staticFile } from "remotion";
+import { AbsoluteFill, interpolate, interpolateColors, spring, useCurrentFrame, useVideoConfig, staticFile, Sequence } from "remotion";
 import { Audio } from "@remotion/media";
 import { Calendar, Clock } from "lucide-react";
 import { MendeluEnvironment } from "./Environment";
