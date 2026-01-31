@@ -31,7 +31,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSyncToggle"
           component={OutlookSyncComposition}
-          durationInFrames={60}
+          durationInFrames={40} // Accelerated from 60
           fps={30}
           width={600}
           height={200}
@@ -52,7 +52,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSyncPremium"
           component={OutlookSyncComposition}
-          durationInFrames={120}
+          durationInFrames={80} // Accelerated from 120
           fps={30}
           width={600}
           height={300}
@@ -73,7 +73,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSync3D"
           component={OutlookSyncComposition}
-          durationInFrames={240}
+          durationInFrames={150} // Accelerated from 240
           fps={30}
           width={800}
           height={600}
