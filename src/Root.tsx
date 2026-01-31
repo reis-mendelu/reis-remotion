@@ -1,5 +1,10 @@
 import { Composition, Folder } from "remotion";
-import { MyComposition, MyCompositionSchema, OutlookSyncComposition, OutlookSyncSchema } from "./Composition";
+import {
+  MyComposition,
+  MyCompositionSchema,
+  OutlookSyncComposition,
+  OutlookSyncSchema,
+} from "./Composition";
 import { loadFont } from "@remotion/google-fonts/Inter";
 
 loadFont();
@@ -26,7 +31,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSyncToggle"
           component={OutlookSyncComposition}
-          durationInFrames={30}
+          durationInFrames={60}
           fps={30}
           width={600}
           height={200}
@@ -37,12 +42,15 @@ export const RemotionRoot: React.FC = () => {
             showInfo: false,
             progress: 1,
             animate: false,
+            rotationX: 0,
+            rotationY: 0,
+            depth: 0,
           }}
         />
         <Composition
           id="OutlookSyncPremium"
           component={OutlookSyncComposition}
-          durationInFrames={60}
+          durationInFrames={120}
           fps={30}
           width={600}
           height={300}
@@ -50,9 +58,31 @@ export const RemotionRoot: React.FC = () => {
           defaultProps={{
             enabled: true,
             loading: true,
-            showInfo: true,
+            showInfo: false,
             progress: 1,
             animate: true,
+            rotationX: -1,
+            rotationY: 15,
+            depth: 0,
+          }}
+        />
+        <Composition
+          id="OutlookSync3D"
+          component={OutlookSyncComposition}
+          durationInFrames={240}
+          fps={30}
+          width={800}
+          height={600}
+          schema={OutlookSyncSchema}
+          defaultProps={{
+            enabled: true,
+            loading: false,
+            showInfo: false,
+            progress: 1,
+            animate: true,
+            rotationX: 25,
+            rotationY: -15,
+            depth: 50,
           }}
         />
       </Folder>

@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { zColor } from "@remotion/zod-types";
-import { AbsoluteFill, interpolate, interpolateColors, spring, useCurrentFrame, useVideoConfig, Sequence, staticFile } from "remotion";
+import { AbsoluteFill, interpolate, interpolateColors, spring, useCurrentFrame, useVideoConfig, staticFile } from "remotion";
 import { Audio } from "@remotion/media";
-import { Calendar, Info } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { MendeluEnvironment } from "./Environment";
 
 export const MyCompositionSchema = z.object({
@@ -32,6 +32,10 @@ export const OutlookSyncSchema = z.object({
   showInfo: z.boolean().default(false),
   progress: z.number().min(0).max(1).default(1),
   animate: z.boolean().default(false),
+  // 3D Specific Props
+  rotationX: z.number().default(0),
+  rotationY: z.number().default(0),
+  depth: z.number().default(0),
 });
 
 const VideoOutlookSyncToggle: React.FC<{
@@ -43,13 +47,13 @@ const VideoOutlookSyncToggle: React.FC<{
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
   
-  // Munger-style High-Reliability Spring for toggle
+  // Munger-style Softer Spring for slower, more deliberate motion
   const springProgress = spring({
-    frame: progress * 30, 
+    frame: progress * 60, 
     fps,
     config: {
-      damping: 20,
-      stiffness: 200,
+      damping: 25,
+      stiffness: 80, // Reduced from 200 for "slowly" requirement
     },
   });
 
@@ -70,35 +74,28 @@ const VideoOutlookSyncToggle: React.FC<{
   // Glow intensity driven by spring progress
   const glowOpacity = interpolate(springProgress, [0.8, 1], [0, 0.4], { extrapolateLeft: "clamp" });
 
-  // Info Popup Animation
-  const infoSpring = spring({
-    frame: showInfo ? frame % 30 : 0, // Simplified for demo, usually driven by a prop
-    fps,
-    config: { damping: 15 },
-  });
-
   return (
-    <div className="flex items-center justify-between gap-3 px-1 py-2 rounded-lg hover:bg-base-200 w-full relative">
-        {/* 
-          PREMIUM SFX: Audio is vital for immersion. 
-          Place 'click.mp3' and 'whoosh.mp3' in /public and use <Audio> components here.
-        */}
-
-        <div className="flex items-center gap-2 flex-1">
+    <div 
+      className="flex items-center justify-between gap-3 px-1 py-2 rounded-lg hover:bg-base-200 w-full relative"
+      style={{ transformStyle: "preserve-3d" }}
+    >
+        <div className="flex items-center gap-2 flex-1" style={{ transform: "translateZ(10px)" }}>
           <Calendar 
             size={16} 
             strokeWidth={1.5} 
             className="text-[#9ca3af]"
             style={{ 
               opacity: interpolate(springProgress, [0, 1], [0.4, 0.8]),
-              transform: `scale(${interpolate(springProgress, [0, 1], [1, 1.1])})`
+              transform: `scale(${interpolate(springProgress, [0, 1], [1, 1.1])})`,
             }} 
           />
           <span className="text-xs text-[#f3f4f6]" style={{ opacity: interpolate(springProgress, [0, 1], [0.5, 0.8]) }}>
             Synchronizace rozvrhu
           </span>
         </div>
-        <div className="relative flex items-center gap-3">
+        <div className="relative flex items-center gap-3" style={{ transform: "translateZ(15px)" }}>
+          {/* Info section disabled/hidden as per request */}
+          {/* 
           <div className="relative">
             <Info 
               size={14} 
@@ -106,40 +103,30 @@ const VideoOutlookSyncToggle: React.FC<{
               className="text-[#9ca3af]"
               style={{ opacity: showInfo ? 1 : 0.5 }}
             />
-            
-            {showInfo && (
-              <div 
-                className="absolute bottom-full right-0 mb-2 w-64 bg-base-200/90 backdrop-blur-md rounded-lg shadow-lg border border-base-300 p-3 z-[100]"
-                style={{
-                  opacity: interpolate(infoSpring, [0, 1], [0, 0.95]),
-                  transform: `scale(${interpolate(infoSpring, [0, 1], [0.95, 1])}) translateY(${interpolate(infoSpring, [0, 1], [5, 0])}px)`,
-                }}
-              >
-                <p className="text-xs leading-relaxed text-[#9ca3af]">
-                  Synchronizuje rozvrhu a termíny zkoušek do Outlooku.
-                </p>
-              </div>
-            )}
+            ...
           </div>
+          */}
           
           <div 
             className="w-8 h-5 rounded-full relative overflow-visible border border-base-content/10 shadow-inner"
             style={{
               backgroundColor: enabled ? background : "#374151", // base-300 dark
               opacity: loading ? 0.7 : 1,
+              transformStyle: "preserve-3d",
             }}
           >
             {/* Bloom/Glow effect */}
             <div 
               className="absolute inset-0 rounded-full bg-primary blur-md pointer-events-none"
-              style={{ opacity: glowOpacity }}
+              style={{ opacity: glowOpacity, transform: "translateZ(-1px)" }}
             />
 
             <div 
               className="absolute top-[2px] w-3.5 h-3.5 rounded-full bg-white shadow-sm z-10"
+              data-testid="toggle-handle"
               style={{
                 left: `${toggleX}px`,
-                transform: `scale(${loadingPulse})`,
+                transform: `scale(${loadingPulse}) translateZ(5px)`,
               }}
             />
           </div>
@@ -154,13 +141,24 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   showInfo,
   progress: staticProgress,
   animate,
+  rotationX: staticRotX = 0,
+  rotationY: staticRotY = 0,
+  depth: staticDepth = 0,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, fps } = useVideoConfig();
   
   const progress = animate 
-    ? interpolate(frame, [0, durationInFrames - 1], [0, 1], { extrapolateRight: "clamp" })
+    ? interpolate(frame, [15, durationInFrames - 1], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" })
     : staticProgress;
+
+  const rotX = animate
+    ? interpolate(frame, [0, durationInFrames], [15, staticRotX])
+    : staticRotX;
+
+  const rotY = animate
+    ? interpolate(frame, [0, durationInFrames], [-10, staticRotY])
+    : staticRotY;
 
   const entrance = spring({
     frame,
@@ -170,19 +168,36 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
 
   const entranceOpacity = interpolate(entrance, [0, 0.5], [0, 1]);
   const entranceY = interpolate(entrance, [0, 1], [20, 0]);
-  const entranceRotateX = interpolate(entrance, [0, 1], [15, 0]); // Subtle tilt back
+  
+  // Lollapalooza Shadowing: Multi-layered shadow to simulate depth
+  const shadowDepth = interpolate(rotX, [-45, 45], [20, -20]);
+  const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 10;
 
   return (
-    <AbsoluteFill className="bg-[#0f1113] items-center justify-center" style={{ perspective: "1000px" }}>
+    <AbsoluteFill className="bg-[#0f1113] items-center justify-center" style={{ perspective: "1200px" }}>
       <MendeluEnvironment className="w-full h-full flex items-center justify-center">
         <div 
-          className="w-72 bg-base-100 p-4 rounded-xl shadow-2xl border border-base-300"
+          className="w-80 bg-[#1e2329] p-4 rounded-xl border border-white/5"
           style={{
             opacity: entranceOpacity,
-            transform: `translateY(${entranceY}px) rotateX(${entranceRotateX}deg)`,
-            transformOrigin: "bottom",
+            transformStyle: "preserve-3d",
+            transform: `translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
+            boxShadow: `
+              ${-rotY / 2}px ${shadowDepth}px ${shadowBlur}px rgba(0,0,0,0.5),
+              0 0 40px rgba(0,0,0,0.2)
+            `,
           }}
         >
+          {/* Faux "Thickness" - Layered borders to simulate a 3D side */}
+          <div 
+            className="absolute inset-0 rounded-xl bg-[#1e2329] border border-white/10"
+            style={{ transform: "translateZ(-2px)" }}
+          />
+          <div 
+            className="absolute inset-0 rounded-xl bg-black/40"
+            style={{ transform: "translateZ(-4px)" }}
+          />
+
           <VideoOutlookSyncToggle
             enabled={enabled}
             loading={loading}

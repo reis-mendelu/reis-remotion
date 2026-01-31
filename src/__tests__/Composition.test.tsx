@@ -51,10 +51,7 @@ test('OutlookSyncComposition frame-accuracy protocol', async () => {
     );
 
     // The toggle handle is specifically the white circle div
-    const handleElement = document.querySelector('div.bg-white.shadow-sm');
-    if (!handleElement) {
-        console.log('DOM fallback:', document.body.innerHTML);
-    }
+    const handleElement = await screen.findByTestId('toggle-handle');
     expect(handleElement).toBeTruthy();
     
     const leftValue = (handleElement as HTMLElement).style.left;
