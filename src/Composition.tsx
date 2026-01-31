@@ -235,6 +235,7 @@ const SyncVisualization: React.FC<{
     { title: "Cvičení: Programování", time: "Pá 14:00 - 15:40", type: "exercise" },
   ];
 
+
   return (
     <div 
       className="overflow-hidden mt-4"
@@ -321,9 +322,21 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   // Lollapalooza Shadowing: Multi-layered shadow to simulate depth
   const shadowDepth = interpolate(rotX, [-45, 45], [20, -20]);
   const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 10;
+  
+  // Audio Feedback: Click sound synced with toggle start (frame 15)
+  // Wrapped in Sequence to ensure the file plays from the beginning (startFrom crops the source!)
+  const audioTrack = animate ? (
+    <Sequence from={15}>
+      <Audio 
+        src={staticFile("kenney_ui-audio/Audio/click1.ogg")} 
+        volume={1.0} // Robust volume
+      />
+    </Sequence>
+  ) : null;
 
   return (
     <AbsoluteFill className="bg-[#0f1113] items-center justify-center" style={{ perspective: "1200px" }}>
+      {audioTrack}
       <MendeluEnvironment className="w-full h-full flex items-center justify-center">
         <div 
           className="w-80 bg-[#1e2329] p-4 rounded-xl border border-white/5"
