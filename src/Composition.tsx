@@ -7,6 +7,7 @@ import { VideoOutlookSyncToggle } from "./components/OutlookSync/Toggle";
 import { SyncVisualization } from "./components/OutlookSync/Visualization";
 import { zBackground } from "./components/Background/schema";
 import { Background } from "./components/Background";
+import { ProfessionalText } from "./components/ProfessionalText";
 
 
 export const MyCompositionSchema = z.object({
@@ -68,26 +69,34 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   background,
 }) => {
   const frame = useCurrentFrame();
-  const { durationInFrames, fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   
+  // Scene Timing (Frames)
+  const HOOK_DURATION = 45;
+  const CONTEXT_DURATION = 45;
+  const DEMO_START = HOOK_DURATION + CONTEXT_DURATION;
+  const DEMO_DURATION = 120;
+  const CTA_START = DEMO_START + DEMO_DURATION;
+  
+  // Internal Demo Timing
   const SYNC_START = 15;
-  const SYNC_DURATION = 50; // Accelerated sync (approx 1.6s)
+  const SYNC_DURATION = 50;
   const SYNC_END = SYNC_START + SYNC_DURATION;
 
   const progress = animate 
-    ? interpolate(frame, [SYNC_START, SYNC_END], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" })
+    ? interpolate(frame - DEMO_START, [SYNC_START, SYNC_END], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" })
     : staticProgress;
 
   const rotX = animate
-    ? interpolate(frame, [0, durationInFrames], [15, staticRotX])
+    ? interpolate(frame - DEMO_START, [0, DEMO_DURATION], [15, staticRotX])
     : staticRotX;
 
   const rotY = animate
-    ? interpolate(frame, [0, durationInFrames], [-10, staticRotY])
+    ? interpolate(frame - DEMO_START, [0, DEMO_DURATION], [-10, staticRotY])
     : staticRotY;
 
   const entrance = spring({
-    frame,
+    frame: frame - DEMO_START,
     fps,
     config: { damping: 20 },
   });
@@ -95,76 +104,111 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   const entranceOpacity = interpolate(entrance, [0, 0.5], [0, 1]);
   const entranceY = interpolate(entrance, [0, 1], [20, 0]);
   
-  // Lollapalooza Shadowing: Multi-layered shadow to simulate depth
   const shadowDepth = interpolate(rotX, [-45, 45], [20, -20]);
   const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 10;
   
-  // Audio Feedback: 
-  // 1. Swoosh on entrance (frame 0)
-  // 2. Click on Toggle (frame 15)
-  // 3. Success Chime when sync visually completes
-  
   const audioTrack = animate ? (
     <>
-      <Sequence>
+      <Sequence from={0} durationInFrames={HOOK_DURATION}>
+         <SoundEffect type="INTRO_SWOOSH" volume={0.6} />
+      </Sequence>
+      <Sequence from={DEMO_START}>
          <SoundEffect type="SWOOSH" volume={0.6} />
       </Sequence>
-      <Sequence from={SYNC_START}>
+      <Sequence from={DEMO_START + SYNC_START}>
          <SoundEffect type="TOGGLE_ON" volume={0.8} />
       </Sequence>
-      <Sequence from={SYNC_END}>
+      <Sequence from={DEMO_START + SYNC_END}>
          <SoundEffect type="SUCCESS" volume={0.6} />
+      </Sequence>
+      <Sequence from={CTA_START}>
+         <SoundEffect type="OUTRO_CHIME" volume={0.7} />
       </Sequence>
     </>
   ) : null;
 
-
+  const cinematicZoom = animate
+    ? interpolate(frame, [0, durationInFrames], [1, 1.05])
+    : 1;
 
   return (
-    <AbsoluteFill style={{ perspective: "1200px" }}>
+    <AbsoluteFill style={{ perspective: "1200px", transform: `scale(${cinematicZoom})` }}>
       <Background 
         {...(background ?? {
           preset: "mendelu-dark"
         })}
       />
       {audioTrack}
-      <MendeluEnvironment className="w-full h-full flex items-center justify-center">
-        <div 
-          className="w-80 bg-[#1e2329] p-4 rounded-xl border border-white/5"
-          style={{
-            opacity: entranceOpacity,
-            transformStyle: "preserve-3d",
-            transform: `scale(${scale}) translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
-            boxShadow: `
-              ${-rotY / 2}px ${shadowDepth}px ${shadowBlur}px rgba(0,0,0,0.5),
-              0 0 40px rgba(0,0,0,0.2)
-            `,
-          }}
-        >
-          {/* Faux "Thickness" - Layered borders to simulate a 3D side */}
-          <div 
-            className="absolute inset-0 rounded-xl bg-[#1e2329] border border-white/10"
-            style={{ transform: "translateZ(-2px)" }}
-          />
-          <div 
-            className="absolute inset-0 rounded-xl bg-black/40"
-            style={{ transform: "translateZ(-4px)" }}
-          />
 
-          <VideoOutlookSyncToggle
-            enabled={enabled}
-            loading={loading}
-            showInfo={showInfo}
-            progress={progress}
+      {/* Scene 1: Hook */}
+      <Sequence from={0} durationInFrames={HOOK_DURATION}>
+        <AbsoluteFill className="items-center justify-center">
+          <ProfessionalText 
+            text="REIS - Univerzitní systém modernizovaný" 
+            type="hook" 
           />
+        </AbsoluteFill>
+      </Sequence>
 
-          <SyncVisualization 
-            syncStatus={syncStatus}
-            progress={progress}
-            eventCount={eventCount}
+      {/* Scene 2: Context */}
+      <Sequence from={HOOK_DURATION} durationInFrames={CONTEXT_DURATION}>
+        <AbsoluteFill className="items-center justify-center">
+          <ProfessionalText 
+            text="Vše pod kontrolou. Synchronizováno na všech zařízeních." 
+            type="context" 
           />
-        </div>
-      </MendeluEnvironment>
+        </AbsoluteFill>
+      </Sequence>
+
+      {/* Scene 3: Demo */}
+      <Sequence from={DEMO_START} durationInFrames={DEMO_DURATION}>
+        <MendeluEnvironment className="w-full h-full flex items-center justify-center">
+          <div 
+            className="w-80 bg-[#1e2329] p-4 rounded-xl border border-white/5"
+            style={{
+              opacity: entranceOpacity,
+              transformStyle: "preserve-3d",
+              transform: `scale(${scale}) translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
+              boxShadow: `
+                ${-rotY / 2}px ${shadowDepth}px ${shadowBlur}px rgba(0,0,0,0.5),
+                0 0 40px rgba(0,0,0,0.2)
+              `,
+            }}
+          >
+            <div 
+              className="absolute inset-0 rounded-xl bg-[#1e2329] border border-white/10"
+              style={{ transform: "translateZ(-2px)" }}
+            />
+            <div 
+              className="absolute inset-0 rounded-xl bg-black/40"
+              style={{ transform: "translateZ(-4px)" }}
+            />
+
+            <VideoOutlookSyncToggle
+              enabled={enabled}
+              loading={loading}
+              showInfo={showInfo}
+              progress={progress}
+            />
+
+            <SyncVisualization 
+              syncStatus={syncStatus}
+              progress={progress}
+              eventCount={eventCount}
+            />
+          </div>
+        </MendeluEnvironment>
+      </Sequence>
+
+      {/* Scene 4: CTA */}
+      <Sequence from={CTA_START}>
+        <AbsoluteFill className="items-center justify-center">
+          <ProfessionalText 
+            text="Vyzkoušejte nový REIS." 
+            type="headline" 
+          />
+        </AbsoluteFill>
+      </Sequence>
     </AbsoluteFill>
   );
 };

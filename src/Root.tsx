@@ -6,9 +6,6 @@ import {
   OutlookSyncSchema,
 } from "./Composition";
 import { SpolkyComposition, SpolkyCompositionSchema } from "./components/Spolky/SpolkyComposition";
-import { loadFont } from "@remotion/google-fonts/Inter";
-
-loadFont();
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -58,7 +55,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSyncPremium"
           component={OutlookSyncComposition}
-          durationInFrames={80} // Accelerated from 120
+          durationInFrames={250} 
           fps={30}
           width={600}
           height={300}
@@ -84,7 +81,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSync3D"
           component={OutlookSyncComposition}
-          durationInFrames={150} // Accelerated from 240
+          durationInFrames={250} 
           fps={30}
           width={3840}
           height={2160}
