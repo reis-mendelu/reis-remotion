@@ -7,11 +7,13 @@
   "private": true,
   "dependencies": {
     "@remotion/cli": "4.0.414",
+    "@remotion/google-fonts": "^4.0.414",
     "@remotion/tailwind-v4": "4.0.414",
     "@remotion/zod-types": "4.0.414",
     "clsx": "^2.1.1",
     "daisyui": "^5.5.14",
     "lucide-react": "^0.563.0",
+    "motion": "^12.29.2",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.414",

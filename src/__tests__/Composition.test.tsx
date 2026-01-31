@@ -1,7 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Thumbnail } from '@remotion/player';
+import { test, expect } from 'vitest';
 import { MyComposition } from '../Composition';
-import React from 'react';
 
 // Mock specific remotion functionality if needed, or rely on Thumbnail context
 // Thumbnail provides frame context.
