@@ -1,7 +1,7 @@
 import { staticFile } from "remotion";
 import { z } from "zod";
 
-export const AudioKeySchema = z.enum(["TOGGLE_ON", "TOGGLE_OFF", "HOVER", "SWOOSH", "SUCCESS", "TICK", "INTRO_SWOOSH", "OUTRO_CHIME"]);
+export const AudioKeySchema = z.enum(["TOGGLE_ON", "TOGGLE_OFF", "HOVER", "SWOOSH", "SUCCESS", "TICK", "INTRO_SWOOSH", "OUTRO_CHIME", "KEYBOARD_CLICK"]);
 
 export type AudioKey = z.infer<typeof AudioKeySchema>;
 
@@ -14,6 +14,7 @@ export const AUDIO_ASSETS: Record<AudioKey, string> = {
   TICK: staticFile("kenney_ui-audio/Audio/click1.ogg"),
   INTRO_SWOOSH: staticFile("kenney_ui-audio/Audio/switch1.ogg"),
   OUTRO_CHIME: staticFile("kenney_ui-audio/Audio/switch10.ogg"),
+  KEYBOARD_CLICK: staticFile("kenney_ui-audio/Audio/switch12.ogg"),
 };
 
 export const getAudioSrc = (key: AudioKey): string => {

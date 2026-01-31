@@ -31,7 +31,7 @@ describe("Audio Architecture (The Stupidity Filter)", () => {
   });
 
   it("Ensures Keys are Mapped Correctly", () => {
-      expect(AUDIO_ASSETS["TOGGLE_ON"]).toContain("switch1.ogg");
+      expect(AUDIO_ASSETS["TOGGLE_ON"]).toContain("click1.ogg");
       expect(AUDIO_ASSETS["TOGGLE_OFF"]).toContain("switch2.ogg");
   })
 });

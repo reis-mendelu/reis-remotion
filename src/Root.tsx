@@ -1,11 +1,11 @@
-import { Composition, Folder } from "remotion";
+import { Composition, Folder, AbsoluteFill, Sequence } from "remotion";
+import { WelcomeComposition, WelcomeSchema } from "./compositions/Welcome";
 import {
-  MyComposition,
-  MyCompositionSchema,
   OutlookSyncComposition,
   OutlookSyncSchema,
-} from "./Composition";
+} from "./compositions/OutlookSync";
 import { SpolkyComposition, SpolkyCompositionSchema } from "./components/Spolky/SpolkyComposition";
+import { ProfessionalText } from "./components/ProfessionalText";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -13,12 +13,12 @@ export const RemotionRoot: React.FC = () => {
       <Folder name="Styleguide">
         <Composition
           id="MyComp"
-          component={MyComposition}
+          component={WelcomeComposition}
           durationInFrames={60}
           fps={30}
           width={1280}
           height={720}
-          schema={MyCompositionSchema}
+          schema={WelcomeSchema}
           defaultProps={{
             title: "Welcome to Remotion",
             logoColor: "#0b84f3",
@@ -118,6 +118,69 @@ export const RemotionRoot: React.FC = () => {
             spolkyExpanded: true,
             subscribedIds: ["supef", "esn"],
           }}
+        />
+      </Folder>
+      <Folder name="Showcase">
+        <Composition
+          id="KineticShowcase"
+          component={OutlookSyncComposition}
+          durationInFrames={300}
+          fps={30}
+          width={1920}
+          height={1080}
+          schema={OutlookSyncSchema}
+          defaultProps={{
+            enabled: true,
+            loading: true,
+            showInfo: false,
+            progress: 1,
+            animate: true,
+            rotationX: 0,
+            rotationY: 0,
+            depth: 0,
+            syncStatus: "syncing",
+            eventCount: 5,
+            scale: 2,
+            background: {
+              type: "stars",
+              starsCount: 400,
+            },
+          }}
+        />
+        <Composition
+          id="ProfessionalTextPresets"
+          component={() => (
+            <AbsoluteFill style={{ backgroundColor: "black", gap: "2em", padding: "4em" }}>
+              <ProfessionalText text="*REIS* Isolated Hook" type="hook" />
+              <ProfessionalText text="HEADLINE: *Cinematic* Motion" type="headline" />
+              <ProfessionalText text="CONTEXT: High-energy SaaS demos" type="context" />
+              <ProfessionalText text="BODY: Rapid rhythm prevents misery." type="body" />
+            </AbsoluteFill>
+          )}
+          durationInFrames={150}
+          fps={30}
+          width={1920}
+          height={1080}
+        />
+        <Composition
+          id="CinematicRapidRhythm"
+          component={() => (
+            <AbsoluteFill style={{ backgroundColor: "black" }}>
+              <Sequence from={0} durationInFrames={40}>
+                <ProfessionalText text="re*IS*" type="hook" mode="typewriter" />
+              </Sequence>
+              <Sequence from={45} durationInFrames={60}>
+                <ProfessionalText text="What is an *Artifact*?" type="headline" mode="typewriter" />
+              </Sequence>
+              <Sequence from={110}>
+                <ProfessionalText text="Built-in animations." type="headline" mode="typewriter" />
+              </Sequence>
+            </AbsoluteFill>
+          )}
+          durationInFrames={200}
+          fps={30}
+          width={1920}
+          height={1080}
         />
       </Folder>
     </>

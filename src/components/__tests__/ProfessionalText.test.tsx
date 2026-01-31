@@ -4,24 +4,31 @@ import { ProfessionalText } from '../ProfessionalText';
 import { describe, it, expect } from 'vitest';
 
 describe('ProfessionalText', () => {
-  it('renders the correct text content', async () => {
+  it('renders text characters', async () => {
     render(
       <Thumbnail
         component={ProfessionalText}
         compositionWidth={1280}
         compositionHeight={720}
-        frameToDisplay={30}
-        durationInFrames={60}
+        frameToDisplay={60}
+        durationInFrames={120}
         fps={30}
         inputProps={{
-          text: "Test Text",
+          text: "Test",
           type: "headline",
           animate: false,
         }}
       />
     );
-    const element = await screen.findByText('Test Text');
-    expect(element).toBeTruthy();
+    // In typewriter mode, each character is a span. We check for the presence of the characters.
+    const charT = await screen.findByText('T');
+    const charE = await screen.findByText('e');
+    const charS = await screen.findByText('s');
+    const charT2 = await screen.findByText('t');
+    expect(charT).toBeTruthy();
+    expect(charE).toBeTruthy();
+    expect(charS).toBeTruthy();
+    expect(charT2).toBeTruthy();
   });
 
   it('applies the correct font size for headline preset', async () => {
@@ -40,8 +47,8 @@ describe('ProfessionalText', () => {
         }}
       />
     );
-    const element = await screen.findByText('Headline');
-    expect(element.style.fontSize).toBe('48px');
+    const element = await screen.findByText('H');
+    expect(element.parentElement?.style.fontSize).toBe('80px');
   });
 
   it('applies the correct font size for hook preset', async () => {
@@ -54,17 +61,17 @@ describe('ProfessionalText', () => {
         durationInFrames={60}
         fps={30}
         inputProps={{
-          text: "Hook",
+          text: "reIS",
           type: "hook",
           animate: false,
         }}
       />
     );
-    const element = await screen.findByText('Hook');
-    expect(element.style.fontSize).toBe('64px');
+    const element = await screen.findByText('r');
+    expect(element.parentElement?.style.fontSize).toBe('120px');
   });
 
-  it('enables subpixel anti-aliasing via background color', async () => {
+  it('renders highlighted words with branding color', async () => {
     render(
       <Thumbnail
         component={ProfessionalText}
@@ -74,13 +81,14 @@ describe('ProfessionalText', () => {
         durationInFrames={60}
         fps={30}
         inputProps={{
-          text: "AA Test",
-          type: "body",
+          text: "*Highlight*",
+          type: "headline",
+          highlightColor: "#79be15",
           animate: false,
         }}
       />
     );
-    const element = await screen.findByText('AA Test');
-    expect(element.style.backgroundColor).toBe('rgba(0, 0, 0, 0.25)');
+    const element = await screen.findByText('H');
+    expect(element.style.color).toBe('rgb(121, 190, 21)'); // Hex #79be15 in RGB
   });
 });

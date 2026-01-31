@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { Thumbnail } from '@remotion/player';
 import { test, expect } from 'vitest';
-import { MyComposition, OutlookSyncComposition } from '../Composition';
+import { WelcomeComposition } from '../compositions/Welcome';
+import { OutlookSyncComposition } from '../compositions/OutlookSync';
 
 // Mock specific remotion functionality if needed, or rely on Thumbnail context
 // Thumbnail provides frame context.
@@ -11,7 +12,7 @@ test('OutlookSyncComposition renders title efficiently', async () => {
     
     render(
         <Thumbnail
-            component={MyComposition}
+            component={WelcomeComposition}
             compositionWidth={1280}
             compositionHeight={720}
             frameToDisplay={30}
@@ -37,8 +38,8 @@ test('OutlookSyncComposition frame-accuracy protocol', async () => {
             component={OutlookSyncComposition}
             compositionWidth={600}
             compositionHeight={200}
-            frameToDisplay={15}
-            durationInFrames={30}
+            frameToDisplay={165} // Scene 3 (Demo) starts at 150 (45+45+60)
+            durationInFrames={300}
             fps={30}
             inputProps={{
                 enabled: true,
