@@ -47,6 +47,7 @@ export const RemotionRoot: React.FC = () => {
             depth: 0,
             syncStatus: "pending",
             eventCount: 3,
+            scale: 1,
           }}
         />
         <Composition
@@ -68,6 +69,7 @@ export const RemotionRoot: React.FC = () => {
             depth: 0,
             syncStatus: "syncing",
             eventCount: 3,
+            scale: 1,
           }}
         />
         <Composition

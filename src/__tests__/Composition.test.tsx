@@ -51,6 +51,7 @@ test('OutlookSyncComposition frame-accuracy protocol', async () => {
                 depth: 0,
                 syncStatus: "syncing",
                 eventCount: 3,
+                scale: 1,
             }}
         />
     );
