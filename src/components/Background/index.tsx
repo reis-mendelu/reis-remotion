@@ -12,9 +12,6 @@ export const Background: React.FC<BackgroundProps> = (props) => {
     if (preset === "mendelu-green") {
       return { type: "gradient", gradientType: "linear", gradientColors: ["#79be15", "#A0D25A"], gradientAngle: 135 };
     }
-    if (preset === "mendelu-dark") {
-      return { type: "mesh", meshColors: ["#0f1113", "#1e2329", "#79be15", "#0a5028"] };
-    }
     if (preset === "pef-blue") {
       return { type: "mesh", meshColors: ["#0046a0", "#002a60", "#00aab4", "#0a5028"] };
     }

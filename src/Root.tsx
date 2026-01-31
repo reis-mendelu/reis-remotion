@@ -6,10 +6,21 @@ import {
 } from "./compositions/OutlookSync";
 import { SpolkyComposition, SpolkyCompositionSchema } from "./components/Spolky/SpolkyComposition";
 import { ProfessionalText } from "./components/ProfessionalText";
+import { ReISIntroduction } from "./compositions/ReISIntroduction";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Folder name="Official-Sequences">
+        <Composition
+          id="ReIS-Intro"
+          component={ReISIntroduction}
+          durationInFrames={150} // 5 seconds
+          fps={30}
+          width={1920}
+          height={1080}
+        />
+      </Folder>
       <Folder name="Styleguide">
         <Composition
           id="MyComp"

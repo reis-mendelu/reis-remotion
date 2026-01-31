@@ -8,12 +8,13 @@ import { clsx } from "clsx";
 export const MendeluEnvironment: React.FC<{
   children: React.ReactNode;
   className?: string;
-}> = ({ children, className }) => {
+  style?: React.CSSProperties;
+}> = ({ children, className, style }) => {
   return (
     <div
       data-theme="mendelu-dark"
       className={clsx("font-inter text-base-content antialiased", className)}
-      style={{ fontFamily: "Inter, sans-serif" }}
+      style={{ fontFamily: "Inter, sans-serif", ...style }}
     >
       {children}
     </div>

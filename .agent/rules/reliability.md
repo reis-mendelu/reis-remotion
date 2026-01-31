@@ -68,3 +68,11 @@ Wall-clock time is the enemy of deterministic video.
 1.  **Define the Interface (The Contract)**: Write the Zod schema first.
 2.  **Invert the Logic**: Write a test for the failure state.
 3.  **Implement**: Write the component to satisfy the schema and pass the test.
+## 9. Brutal Simplification (The Signal-to-Noise Lollapalooza)
+Prevent the "Stupidity of Addition" in professional SaaS communication. High complexity in aesthetics signals low authority.
+- **Fail Mode**: Over-designing with glows, gradients, and slow typewriter animations. This leaks viewer attention and creates "Visual Entropy."
+- **Solution (The Munger Protocol)**:
+    - **Monochrome Authority**: Use stark **WHITE ALL-CAPS** for core signals. It is the "Standard Model" of high-authority technical branding.
+    - **Heavy Signal**: Prefer **Extra Bold (700/800)** weights. Substantial weight communicates industrial reliability.
+    - **Assertive Reveal**: Use simultaneous **Spring-based reveals** instead of character-level crawling. Deliver the full signal immediately to maximize cognitive efficiency.
+    - **Inversion Check**: "What makes this look like a student project?" (Slow reveals, neon colors, lack of contrast). Systematically remove those elements.

@@ -2,7 +2,9 @@ import React from "react";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 
 const { fontFamily: interFont } = loadInter("normal", {
-  weights: ["400", "500", "700"],
+  weights: ["400", "500", "700", "800"],
+  subsets: ["latin"],
+  ignoreTooManyRequestsWarning: true,
 });
 
 export type TextType = "hook" | "context" | "headline" | "body";

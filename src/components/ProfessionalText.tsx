@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useCurrentFrame, Sequence } from "remotion";
+import { useCurrentFrame, Sequence, spring, useVideoConfig, interpolate } from "remotion";
 import { SoundEffect } from "./SoundEffect";
 import { PRESETS } from "./ProfessionalText/presets";
 import { ProfessionalTextProps } from "./ProfessionalText/schema";
@@ -10,21 +10,26 @@ import { ProfessionalTextProps } from "./ProfessionalText/schema";
 export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
   text,
   type,
-  mode = "typewriter", // Enforced universal mode
+  mode = "typewriter", 
   color,
-  highlightColor = "#79be15", // Mendelu Green
+  highlightColor = "#79be15", 
   animate = true,
   stagger = 3,
 }) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const preset = PRESETS[type];
   
+  const isMinimalist = mode === "minimalist";
+
   // Advanced character-level highlight parsing
   const parsedCharacters = useMemo(() => {
     const result: { char: string; highlight: boolean }[] = [];
     let isHighlighted = false;
-    for (let i = 0; i < text.length; i++) {
-        const char = text[i];
+    const processingText = isMinimalist ? text.toUpperCase() : text;
+    
+    for (let i = 0; i < processingText.length; i++) {
+        const char = processingText[i];
         if (char === "*") {
             isHighlighted = !isHighlighted;
             continue;
@@ -32,7 +37,7 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
         result.push({ char, highlight: isHighlighted });
     }
     return result;
-  }, [text]);
+  }, [text, isMinimalist]);
 
   const baseFontSize = preset.fontSize;
   const responsiveFontSize = type === "hook" && text.length > 10 
@@ -40,25 +45,44 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
     : baseFontSize;
 
 
-  const charStagger = Math.max(1, Math.floor(stagger / 2));
+  const charStagger = isMinimalist ? 0 : Math.max(1, Math.floor(stagger / 2));
 
-  // Visual Engineering: Luminous Mendelu Style (Refined for Inter)
-  const luminousStyle: React.CSSProperties = useMemo(() => ({
-    color: highlightColor,
-    backgroundImage: `linear-gradient(to bottom, #a3e635 0%, #79be15 100%)`,
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    filter: "drop-shadow(0 0 10px rgba(121, 190, 21, 0.4))",
-    textShadow: "0 0 15px rgba(121, 190, 21, 0.2)",
-    fontWeight: 600, 
-  }), [highlightColor]);
+  // Spring for minimalist simultaneous reveal
+  const introSpring = spring({
+    frame,
+    fps,
+    config: {
+      damping: 12,
+      stiffness: 100,
+    },
+  });
 
-  // Base styles (non-highlighted)
-  const baseCharStyle: React.CSSProperties = useMemo(() => ({
-    backgroundImage: `linear-gradient(to bottom, #FFFFFF 0%, #D0D0D0 100%)`,
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-  }), []);
+  const springOpacity = interpolate(introSpring, [0, 0.5], [0, 1]);
+  const springScale = interpolate(introSpring, [0, 1], [0.95, 1]);
+
+  // Visual Engineering: Titanium & Emerald (Professional Finish)
+  const luminousStyle: React.CSSProperties = useMemo(() => {
+    if (isMinimalist) return { color: "white", fontWeight: 800 };
+    return {
+      color: highlightColor,
+      backgroundImage: `linear-gradient(to bottom, #52cc7a 0%, #166534 100%)`,
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      filter: "drop-shadow(0 0 6px rgba(18, 101, 52, 0.4))",
+      textShadow: "0 0 8px rgba(18, 101, 52, 0.2)",
+      fontWeight: 600, 
+    };
+  }, [highlightColor, isMinimalist]);
+
+  // Titanium Slate Style (non-highlighted)
+  const baseCharStyle: React.CSSProperties = useMemo(() => {
+    if (isMinimalist) return { color: "white", fontWeight: 800 };
+    return {
+      backgroundImage: `linear-gradient(to bottom, #F8FAFC 0%, #CBD5E1 100%)`,
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    };
+  }, [isMinimalist]);
 
   const containerStyle: React.CSSProperties = useMemo(() => ({
     display: "flex",
@@ -70,9 +94,13 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
     fontFamily: preset.fontFamily,
     ...preset,
     fontSize: responsiveFontSize,
-    color: color ?? preset.color,
+    color: isMinimalist ? "white" : (color ?? preset.color),
     flexWrap: "wrap",
-  }), [preset, responsiveFontSize, color]);
+    textTransform: isMinimalist ? "uppercase" : "none",
+    letterSpacing: isMinimalist ? "4px" : preset.letterSpacing,
+    opacity: isMinimalist ? springOpacity : 1,
+    transform: isMinimalist ? `scale(${springScale})` : "none",
+  }), [preset, responsiveFontSize, color, isMinimalist, springOpacity, springScale]);
 
   return (
     <div style={containerStyle}>
@@ -80,12 +108,12 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
         const startFrame = i * charStagger;
         const isVisible = frame >= startFrame;
         
-        // Universal Throttled Audio Rhythm
-        const shouldClick = i % 2 === 0 && item.char !== " ";
+        // Universal Throttled Audio Rhythm - only for non-minimalist typewriter
+        const shouldClick = !isMinimalist && i % 2 === 0 && item.char !== " ";
 
         return (
           <React.Fragment key={i}>
-            {isVisible && (
+            {!isMinimalist && isVisible && (
               <Sequence from={startFrame} durationInFrames={1} premountFor={0}>
                 {shouldClick && <SoundEffect type="KEYBOARD_CLICK" volume={0.3} />}
               </Sequence>
