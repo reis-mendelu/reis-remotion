@@ -34,6 +34,7 @@ export const RemotionRoot: React.FC = () => {
           defaultProps={{
             enabled: true,
             loading: false,
+            showInfo: false,
             progress: 1,
             animate: false,
           }}
