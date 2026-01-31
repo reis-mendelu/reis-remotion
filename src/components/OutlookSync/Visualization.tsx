@@ -46,12 +46,12 @@ export const SyncVisualization: React.FC<VisualizationProps> = ({ syncStatus, pr
       <div className="flex flex-col gap-3 pt-2 border-t border-white/10">
         <div className="flex items-center justify-between">
           <span 
-            className="text-[10px] font-bold uppercase tracking-wider text-primary"
+            className="text-[10px] font-bold text-primary"
             style={{ opacity: syncStatus === "syncing" ? textPulse : 1 }}
           >
             {syncStatus === "syncing" ? "Synchronizace..." : "Synchronizace dokončena"}
           </span>
-          <span className="text-[10px] font-bold font-mono text-[#8b949e]">{Math.round(progress * 100)}%</span>
+          <span className="text-[10px] font-bold font-mono text-base-content/40">{Math.round(progress * 100)}%</span>
         </div>
 
         {/* Progress Bar - Left to Right flow */}
