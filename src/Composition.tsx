@@ -253,7 +253,7 @@ const SyncVisualization: React.FC<{
           >
             {syncStatus === "syncing" ? "Synchronizace..." : "Synchronizace dokončena"}
           </span>
-          <span className="text-[10px] text-white/40">{Math.round(progress * 100)}%</span>
+          <span className="text-[10px] font-bold font-mono text-[#8b949e]">{Math.round(progress * 100)}%</span>
         </div>
 
         {/* Progress Bar - Left to Right flow */}
