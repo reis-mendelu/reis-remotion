@@ -111,7 +111,7 @@ export const ReISIntroduction: React.FC = () => {
             logoScale={1.5}
             theme="dark"
             animate={true}
-            ctaText="Link v biu"
+            ctaText="" // No message - logo only
           />
         </Sequence>
       </AbsoluteFill>

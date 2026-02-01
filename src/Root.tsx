@@ -59,7 +59,7 @@ export const RemotionRoot: React.FC = () => {
             logoScale: 1.5,
             theme: "dark",
             animate: true,
-            ctaText: "Link v biu",
+            ctaText: "", // No message
           }}
         />
       </Folder>

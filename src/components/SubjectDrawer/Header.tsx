@@ -44,8 +44,8 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
         </div>
 
         {/* Title Area */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-white font-bold text-xl leading-none flex-1 truncate">
+        <div className="flex items-center justify-between pb-1"> {/* Added padding-bottom for descenders */}
+          <h1 className="text-white font-bold text-xl leading-tight flex-1 overflow-hidden" style={{ lineHeight: '1.3' }}>
             {subject.name}
           </h1>
           
