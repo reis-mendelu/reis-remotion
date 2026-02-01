@@ -73,7 +73,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
         {ctaText && (
           <div style={{
             position: "absolute",
-            bottom: "38%", // Integrated with logo - right below it
+            bottom: "28%", // Further below logo for clear separation
             width: "100%",
             display: "flex",
             justifyContent: "center",
