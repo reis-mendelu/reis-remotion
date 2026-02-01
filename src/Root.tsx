@@ -131,8 +131,8 @@ export const RemotionRoot: React.FC = () => {
           component={SubjectDrawerComposition}
           durationInFrames={120}
           fps={30}
-          width={1280}
-          height={1000}
+          width={3840}
+          height={2160}
           schema={SubjectDrawerSchema}
           defaultProps={{
             subject: {
@@ -169,10 +169,14 @@ export const RemotionRoot: React.FC = () => {
             activeTab: "files",
             background: { type: "stars", starsCount: 200 },
             progress: 1,
-            animate: false,
-            scale: 1,
-            selectedIds: [],
-            downloadedIds: [],
+            animate: true,
+            rotationX: 12,
+            rotationY: -8,
+            depth: 50,
+            scale: 4,
+            scriptedSelection: true,
+            selectedIds: ["l1", "l2"],
+            downloadedIds: ["l1"],
           }}
         />
         <Composition
@@ -207,7 +211,10 @@ export const RemotionRoot: React.FC = () => {
             background: { type: "stars", starsCount: 200 },
             groups: [],
             progress: 1,
-            animate: false,
+            animate: true,
+            rotationX: 20,
+            rotationY: -15,
+            depth: 50,
             scale: 1,
             selectedIds: [],
             downloadedIds: [],
@@ -257,7 +264,10 @@ export const RemotionRoot: React.FC = () => {
             background: { type: "stars", starsCount: 200 },
             groups: [],
             progress: 1,
-            animate: false,
+            animate: true,
+            rotationX: 20,
+            rotationY: -15,
+            depth: 50,
             scale: 1,
             selectedIds: [],
             downloadedIds: [],

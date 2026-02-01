@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { zColor } from "@remotion/zod-types";
 import { zBackground } from "../../components/Background/schema";
 
 export const FileSchema = z.object({
@@ -67,7 +66,11 @@ export const SubjectDrawerSchema = z.object({
   scale: z.number().default(1),
   selectedIds: z.array(z.string()).default([]),
   downloadedIds: z.array(z.string()).default([]),
-  downloadingIds: z.array(z.string()).default([]),
+  rotationX: z.number().default(0),
+  rotationY: z.number().default(0),
+  depth: z.number().default(0),
+  scriptedSelection: z.boolean().optional(),
+  isDone: z.boolean().optional(),
 });
 
 export type File = z.infer<typeof FileSchema>;

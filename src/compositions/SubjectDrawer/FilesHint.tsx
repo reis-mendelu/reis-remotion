@@ -1,12 +1,12 @@
 import React from "react";
-import { useVideoConfig } from "remotion";
+import { useCurrentFrame, interpolate, Sequence } from "remotion";
 import { SubjectDrawerComposition } from "./index";
-import { BrandedCursor } from "../../components/SubjectDrawer/BrandedCursor";
+import { SoundEffect } from "../../components/SoundEffect";
 
 export const FilesHint: React.FC = () => {
-  const { width, height } = useVideoConfig();
+  const frame = useCurrentFrame();
 
-  // Subject Data for Algoritmizace (The "Heavy Signal")
+  // Subject Data for Algoritmizace
   const subject = {
     name: "Algoritmizace",
     code: "ALG",
@@ -31,12 +31,18 @@ export const FilesHint: React.FC = () => {
 
   const groups = [{ name: "ostatni", displayName: "OSTATNÍ", files }];
 
-  // Static Selection: Precisely 3 files selected as directed
-  const selectedIds = ["c3", "c4", "h1"];
+  // --- ORCHESTRATION ---
+  // Frame 30: Selection Trigger
+  const selectedIds = frame >= 30 ? ["c3", "c4", "h1"] : [];
 
-  // Idle Cursor Position (Bottom Right, out of the way but visible for branding)
-  const cursorX = width * 0.9;
-  const cursorY = height * 0.9;
+  // Downloaded State (Completion rhythm: Frame 50, 70, 90)
+  const downloadedIds: string[] = [];
+  if (frame >= 50) downloadedIds.push("c3");
+  if (frame >= 70) downloadedIds.push("c4");
+  if (frame >= 90) downloadedIds.push("h1");
+
+  // Done State
+  const isDone = frame >= 100;
 
   return (
     <SubjectDrawerComposition
@@ -44,17 +50,26 @@ export const FilesHint: React.FC = () => {
       groups={groups}
       activeTab="files"
       selectedIds={selectedIds}
-      downloadedIds={[]}
-      downloadingIds={[]}
+      downloadedIds={downloadedIds}
+      isDone={isDone}
       background={{ type: "stars", starsCount: 300 }}
+      animate
     >
-      {/* Branded Cursor in authoritative idle state */}
-      <BrandedCursor 
-        x={cursorX} 
-        y={cursorY} 
-        isDragging={false}
-        isClicking={false}
-      />
+      {/* Audio Tracks */}
+      <Sequence from={30}>
+          <SoundEffect type="TOGGLE_ON" volume={0.4} />
+      </Sequence>
+      
+      {/* Rhythmic Success Pings */}
+      <Sequence from={80}>
+          <SoundEffect type="SUCCESS" volume={0.3} />
+      </Sequence>
+      <Sequence from={100}>
+          <SoundEffect type="SUCCESS" volume={0.3} />
+      </Sequence>
+      <Sequence from={120}>
+          <SoundEffect type="SUCCESS" volume={0.3} />
+      </Sequence>
     </SubjectDrawerComposition>
   );
 };

@@ -68,11 +68,13 @@ Wall-clock time is the enemy of deterministic video.
 1.  **Define the Interface (The Contract)**: Write the Zod schema first.
 2.  **Invert the Logic**: Write a test for the failure state.
 3.  **Implement**: Write the component to satisfy the schema and pass the test.
-## 9. Brutal Simplification (The Signal-to-Noise Lollapalooza)
-Prevent the "Stupidity of Addition" in professional SaaS communication. High complexity in aesthetics signals low authority.
-- **Fail Mode**: Over-designing with glows, gradients, and slow typewriter animations. This leaks viewer attention and creates "Visual Entropy."
-- **Solution (The Munger Protocol)**:
-    - **Monochrome Authority**: Use stark **WHITE ALL-CAPS** for core signals. It is the "Standard Model" of high-authority technical branding.
-    - **Heavy Signal**: Prefer **Extra Bold (700/800)** weights. Substantial weight communicates industrial reliability.
-    - **Assertive Reveal**: Use simultaneous **Spring-based reveals** instead of character-level crawling. Deliver the full signal immediately to maximize cognitive efficiency.
-    - **Inversion Check**: "What makes this look like a student project?" (Slow reveals, neon colors, lack of contrast). Systematically remove those elements.
+## 9. Refined Professionalism (The OutlookSync Standard)
+Avoid the "Stupidity of Addition" but also avoid the "Industrial Aggression" of extra-heavy weights.
+- **Fail Mode**: 
+    1. Over-designing with glows/gradients (Visual Entropy).
+    2. Using "Industrial" aesthetics (Extra Black, All Caps) which feels alienating and non-native.
+- **Solution (The OutlookSync Protocol)**:
+    - **Soft Authority**: Use **Bold (700)** instead of Extra Bold/Black.
+    - **Native Case**: Use **Mixed Case** (Sentence/Title case) instead of All Caps. This feels more app-like and user-friendly.
+    - **Contextual Colors**: Use muted grays (`text-white/80`, `#9ca3af`) for secondary text to create hierarchy without harsh contrast.
+    - **Inversion Check**: "Does this look like a warning label?" (All Caps, Black Weight). If yes, soften it to look like a modern dashboard component.

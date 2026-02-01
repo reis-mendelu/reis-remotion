@@ -12,6 +12,20 @@ const mockSubject = {
   completion: "Zkouška",
 };
 
+// Mock useVideoConfig to prevent NaN errors in tests
+vi.mock("remotion", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("remotion")>();
+  return {
+    ...actual,
+    useVideoConfig: () => ({
+      width: 1920,
+      height: 1080,
+      fps: 30,
+      durationInFrames: 60,
+    }),
+  };
+});
+
 describe('SubjectDrawer', () => {
     test('It throws error when provided with invalid subject data (Munger Stupidity Filter)', () => {
         const invalidProps = {
