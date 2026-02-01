@@ -8,6 +8,8 @@ import { ReISIntroduction } from "./compositions/ReISIntroduction";
 import { SubjectDrawerComposition } from "./compositions/SubjectDrawer";
 import { FilesHint } from "./compositions/SubjectDrawer/FilesHint";
 import { SubjectDrawerSchema } from "./compositions/SubjectDrawer/schema";
+import { BrandedEndSlide } from "./compositions/BrandedEndSlide";
+import { BrandedEndSlideSchema } from "./compositions/BrandedEndSlide/schema";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -16,7 +18,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="ReIS-Intro"
           component={ReISIntroduction}
-          durationInFrames={360} // 12 seconds
+          durationInFrames={510} // 17 seconds (increased for end slide)
           fps={30}
           width={1920}
           height={1080}
@@ -43,6 +45,20 @@ export const RemotionRoot: React.FC = () => {
             rotationY: -15,
             depth: 50,
             scale: 2,
+          }}
+        />
+        <Composition
+          id="End-Slide"
+          component={BrandedEndSlide}
+          durationInFrames={150}
+          fps={30}
+          width={1920}
+          height={1080}
+          schema={BrandedEndSlideSchema}
+          defaultProps={{
+            logoScale: 1.5,
+            theme: "dark",
+            animate: true,
           }}
         />
       </Folder>

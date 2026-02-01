@@ -5,6 +5,7 @@ import { OutlookSyncComposition } from "./OutlookSync";
 import { Background } from "../components/Background";
 import { SoundEffect } from "../components/SoundEffect";
 import { FilesHint } from "./SubjectDrawer/FilesHint";
+import { BrandedEndSlide } from "./BrandedEndSlide";
 
 export const ReISIntroduction: React.FC = () => {
   const frame = useCurrentFrame();
@@ -21,7 +22,10 @@ export const ReISIntroduction: React.FC = () => {
   const ACT3_DURATION = 60; // 2s
 
   const ACT4_START = ACT3_START + ACT3_DURATION;
-  // ACT4 goes until the end (360)
+  const ACT4_DURATION = 120; // 4s
+
+  const ACT5_START = ACT4_START + ACT4_DURATION;
+  // ACT5 goes until the end
   
   // Aggressive cinematic zoom across the whole sequence
   const cinematicZoom = interpolate(frame, [0, durationInFrames], [1, 1.25], {
@@ -67,13 +71,29 @@ export const ReISIntroduction: React.FC = () => {
         </Sequence>
 
         {/* Act IV: Subject Drawer / Files Interaction */}
-        <Sequence from={ACT4_START}>
+        <Sequence from={ACT4_START} durationInFrames={ACT4_DURATION}>
           <FilesHint 
+            subject={{
+              name: "Algoritmizace",
+              code: "ALG",
+              credits: "6 KREDITŮ",
+              status: "POVINNÝ",
+              completion: "Zkouška",
+            }}
             animate={true}
             rotationX={25}
             rotationY={-15}
             depth={50}
             scale={2}
+          />
+        </Sequence>
+
+        {/* Act V: Branded End Slide */}
+        <Sequence from={ACT5_START}>
+          <BrandedEndSlide 
+            logoScale={1.5}
+            theme="dark"
+            animate={true}
           />
         </Sequence>
       </AbsoluteFill>
