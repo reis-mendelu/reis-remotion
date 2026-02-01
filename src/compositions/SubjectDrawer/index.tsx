@@ -19,9 +19,6 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
     scale = 1,
     selectedIds = [],
     downloadedIds = [],
-    rotationX: staticRotX = 0,
-    rotationY: staticRotY = 0,
-    depth: staticDepth = 0,
     scriptedSelection = false,
     isDone = false,
     children,
@@ -46,22 +43,12 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
     config: { damping: 20 },
   });
 
-  const rotX = props.animate
-    ? interpolate(frame, [0, 60], [15, staticRotX], { extrapolateRight: "clamp" })
-    : staticRotX;
-
-  const rotY = props.animate
-    ? interpolate(frame, [0, 60], [-10, staticRotY], { extrapolateRight: "clamp" })
-    : staticRotY;
-
+  // Apple-style: Simple 2D entrance only
   const entranceOpacity = interpolate(entrance, [0, 0.5], [0, 1]);
   const entranceY = interpolate(entrance, [0, 1], [20, 0]);
 
-  const shadowDepth = interpolate(rotX, [-45, 45], [20, -20]);
-  const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 10;
-
   return (
-    <AbsoluteFill className="overflow-hidden" style={{ perspective: "1200px" }}>
+    <AbsoluteFill className="overflow-hidden">
       {background && <Background {...background} />}
       
       {/* Audio for scripted selection / entrance */}
@@ -79,23 +66,11 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
           className="w-[600px] h-[450px] bg-[#1a1f26] rounded-3xl border border-white/5 flex flex-col relative"
           style={{
             opacity: entranceOpacity,
-            transformStyle: "preserve-3d",
-            transform: `scale(${scale}) translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
-            boxShadow: `
-              ${-rotY / 2}px ${shadowDepth}px ${shadowBlur}px rgba(0,0,0,0.5),
-              0 0 40px rgba(0,0,0,0.2)
-            `,
+            transform: `scale(${scale}) translateY(${entranceY}px)`, // Apple-style: Simple 2D only
+            boxShadow: `0 20px 60px rgba(0,0,0,0.3)`, // Subtle depth, no dynamic shadows
           }}
         >
-          {/* 3D Extrusion Layers - Aligned with Truth */}
-          <div 
-            className="absolute inset-0 rounded-3xl bg-black border border-white/5"
-            style={{ transform: "translateZ(-2px)" }}
-          />
-          <div 
-            className="absolute inset-0 rounded-3xl bg-black/60"
-            style={{ transform: "translateZ(-4px)" }}
-          />
+          {/* No 3D extrusion layers - clean and simple */}
 
           <SubjectDrawerHeader 
             subject={subject} 
