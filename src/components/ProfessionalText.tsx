@@ -62,7 +62,7 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
 
   // Visual Engineering: Titanium & Emerald (Professional Finish)
   const luminousStyle: React.CSSProperties = useMemo(() => {
-    if (isMinimalist) return { color: "white", fontWeight: 800 };
+    if (isMinimalist) return { color: "white", fontWeight: 900 };
     return {
       color: highlightColor,
       backgroundImage: `linear-gradient(to bottom, #52cc7a 0%, #166534 100%)`,
@@ -76,7 +76,7 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
 
   // Titanium Slate Style (non-highlighted)
   const baseCharStyle: React.CSSProperties = useMemo(() => {
-    if (isMinimalist) return { color: "white", fontWeight: 800 };
+    if (isMinimalist) return { color: "white", fontWeight: 900 };
     return {
       backgroundImage: `linear-gradient(to bottom, #F8FAFC 0%, #CBD5E1 100%)`,
       WebkitBackgroundClip: "text",

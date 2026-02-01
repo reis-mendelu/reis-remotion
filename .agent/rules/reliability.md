@@ -68,13 +68,16 @@ Wall-clock time is the enemy of deterministic video.
 1.  **Define the Interface (The Contract)**: Write the Zod schema first.
 2.  **Invert the Logic**: Write a test for the failure state.
 3.  **Implement**: Write the component to satisfy the schema and pass the test.
-## 9. Refined Professionalism (The OutlookSync Standard)
-Avoid the "Stupidity of Addition" but also avoid the "Industrial Aggression" of extra-heavy weights.
-- **Fail Mode**: 
-    1. Over-designing with glows/gradients (Visual Entropy).
-    2. Using "Industrial" aesthetics (Extra Black, All Caps) which feels alienating and non-native.
-- **Solution (The OutlookSync Protocol)**:
-    - **Soft Authority**: Use **Bold (700)** instead of Extra Bold/Black.
-    - **Native Case**: Use **Mixed Case** (Sentence/Title case) instead of All Caps. This feels more app-like and user-friendly.
-    - **Contextual Colors**: Use muted grays (`text-white/80`, `#9ca3af`) for secondary text to create hierarchy without harsh contrast.
-    - **Inversion Check**: "Does this look like a warning label?" (All Caps, Black Weight). If yes, soften it to look like a modern dashboard component.
+## 9. Contextual Authority (The Professional Standard)
+Avoid one-size-fits-all styling. Authority must be calibrated to the context to prevent "Industrial Aggression."
+
+- **Layer 1: Hero / Landing Hooks** (e.g., "moderní reIS", isolated introductory slides).
+  - **Dumb Text Authority**: Use **Extra Black / Heavy (900)** weights and **All Caps**.
+  - **Rationale**: These are high-impact marketing/hook moments where "Industrial Command" is desired.
+- **Layer 2: App / Component UI** (e.g., Subject Drawer, Outlook Sync, Sidebar).
+  - **Refinement**: Use **Bold (700)** weights and **Mixed Case** (Sentence/Title case).
+  - **Rationale**: Information-dense UI must feel native and accessible. All-caps in a drawer feels like a "warning label" and reduces readability.
+
+- **Checklist for Inversion**: "Is this a landing slide or a functional component?"
+  - Landing Slide -> Heavy Authority.
+  - Component UI -> Refined Professionalism.
