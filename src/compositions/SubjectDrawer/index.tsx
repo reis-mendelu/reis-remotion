@@ -1,11 +1,12 @@
-
 import React from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Audio, staticFile } from "remotion";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Sequence } from "remotion";
 
 import { Background } from "../../components/Background";
 import { SubjectDrawerHeader } from "../../components/SubjectDrawer/Header";
 import { SubjectDrawerFileList } from "../../components/SubjectDrawer/Tabs/FileList";
 import { SubjectDrawerSuccessRate } from "../../components/SubjectDrawer/Tabs/SuccessRate";
+import { MendeluEnvironment } from "../../Environment";
+import { SoundEffect } from "../../components/SoundEffect";
 import { type SubjectDrawerProps } from "./schema";
 
 export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?: React.ReactNode }> = (props) => {
@@ -54,22 +55,23 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
     : staticRotY;
 
   const entranceOpacity = interpolate(entrance, [0, 0.5], [0, 1]);
-  const entranceY = interpolate(entrance, [0, 1], [40, 0]);
-  const entranceScale = interpolate(entrance, [0, 1], [0.95, 1]);
+  const entranceY = interpolate(entrance, [0, 1], [20, 0]);
 
   const shadowDepth = interpolate(rotX, [-45, 45], [20, -20]);
-  const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 30;
+  const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 10;
 
   return (
     <AbsoluteFill className="overflow-hidden" style={{ perspective: "1200px" }}>
       {background && <Background {...background} />}
       
-      {/* Audio for scripted selection */}
-      {scriptedSelection && (
-        <Audio src={staticFile("kenney_ui-audio/Audio/click1.ogg")} startFrom={30} volume={0.5} />
+      {/* Audio for scripted selection / entrance */}
+      {props.animate && (
+        <Sequence from={0}>
+          <SoundEffect type="SWOOSH" volume={0.6} />
+        </Sequence>
       )}
 
-      <div 
+      <MendeluEnvironment 
         className="w-full h-full flex items-center justify-center p-12"
         style={{ backgroundColor: "transparent" }}
       >
@@ -78,21 +80,21 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
           style={{
             opacity: entranceOpacity,
             transformStyle: "preserve-3d",
-            transform: `scale(${scale * entranceScale}) translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
+            transform: `scale(${scale}) translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
             boxShadow: `
               ${-rotY / 2}px ${shadowDepth}px ${shadowBlur}px rgba(0,0,0,0.5),
-              0 0 60px rgba(0,0,0,0.2)
+              0 0 40px rgba(0,0,0,0.2)
             `,
           }}
         >
-          {/* 3D Extrusion Layers */}
+          {/* 3D Extrusion Layers - Aligned with Truth */}
           <div 
             className="absolute inset-0 rounded-3xl bg-black border border-white/5"
-            style={{ transform: "translateZ(-6px)" }}
+            style={{ transform: "translateZ(-2px)" }}
           />
           <div 
             className="absolute inset-0 rounded-3xl bg-black/60"
-            style={{ transform: "translateZ(-12px)" }}
+            style={{ transform: "translateZ(-4px)" }}
           />
 
           <SubjectDrawerHeader 
@@ -115,7 +117,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
           </div>
         </div>
         {children}
-      </div>
+      </MendeluEnvironment>
     </AbsoluteFill>
   );
 };

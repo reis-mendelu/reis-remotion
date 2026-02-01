@@ -1,9 +1,10 @@
 import React from "react";
-import { useCurrentFrame, interpolate, Sequence } from "remotion";
+import { useCurrentFrame, Sequence } from "remotion";
 import { SubjectDrawerComposition } from "./index";
 import { SoundEffect } from "../../components/SoundEffect";
+import { type SubjectDrawerProps } from "./schema";
 
-export const FilesHint: React.FC = () => {
+export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   const frame = useCurrentFrame();
 
   // Subject Data for Algoritmizace
@@ -46,14 +47,13 @@ export const FilesHint: React.FC = () => {
 
   return (
     <SubjectDrawerComposition
+      {...props}
       subject={subject}
       groups={groups}
       activeTab="files"
       selectedIds={selectedIds}
       downloadedIds={downloadedIds}
       isDone={isDone}
-      background={{ type: "stars", starsCount: 300 }}
-      animate
     >
       {/* Audio Tracks */}
       <Sequence from={30}>
