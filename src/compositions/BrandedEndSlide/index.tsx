@@ -57,6 +57,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
           position: "relative",
           opacity,
           transform: `scale(${scale * logoScale})`,
+          zIndex: 10, // Logo layer
         }}>
           <img 
             src={logoSrc} 
@@ -73,12 +74,13 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
         {ctaText && (
           <div style={{
             position: "absolute",
-            bottom: "28%", // Further below logo for clear separation
+            bottom: "28%",
             width: "100%",
             display: "flex",
             justifyContent: "center",
             opacity: interpolate(frame, [30, 50], [0, 1], { extrapolateRight: "clamp" }),
-            transform: `scale(${interpolate(frame, [50, 100, 150], [1, 1.02, 1], { extrapolateRight: "clamp" })})`, // Subtle pulse
+            transform: `scale(${interpolate(frame, [50, 100, 150], [1, 1.02, 1], { extrapolateRight: "clamp" })})`,
+            zIndex: 20, // CTA on top
           }}>
             <ProfessionalText 
               text={ctaText}
