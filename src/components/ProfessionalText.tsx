@@ -21,12 +21,17 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
   const preset = PRESETS[type];
   
   const isMinimalist = mode === "minimalist";
+  const isRefined = mode === "refined";
+  const isWhisper = mode === "whisper";
+  
+  // Determine text transform based on mode
+  const shouldTransformText = isMinimalist;
 
   // Advanced character-level highlight parsing
   const parsedCharacters = useMemo(() => {
     const result: { char: string; highlight: boolean }[] = [];
     let isHighlighted = false;
-    const processingText = isMinimalist ? text.toUpperCase() : text;
+    const processingText = shouldTransformText ? text.toUpperCase() : text;
     
     for (let i = 0; i < processingText.length; i++) {
         const char = processingText[i];
@@ -63,6 +68,8 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
   // Visual Engineering: Titanium & Emerald (Professional Finish)
   const luminousStyle: React.CSSProperties = useMemo(() => {
     if (isMinimalist) return { color: "white", fontWeight: 900 };
+    if (isRefined) return { color: highlightColor, fontWeight: 600 };
+    if (isWhisper) return { color: highlightColor, fontWeight: 400 };
     return {
       color: highlightColor,
       backgroundImage: `linear-gradient(to bottom, #52cc7a 0%, #166534 100%)`,
@@ -72,35 +79,40 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
       textShadow: "0 0 8px rgba(18, 101, 52, 0.2)",
       fontWeight: 600, 
     };
-  }, [highlightColor, isMinimalist]);
+  }, [highlightColor, isMinimalist, isRefined, isWhisper]);
 
   // Titanium Slate Style (non-highlighted)
   const baseCharStyle: React.CSSProperties = useMemo(() => {
     if (isMinimalist) return { color: "white", fontWeight: 900 };
+    if (isRefined) return { color: "white", fontWeight: 600 };
+    if (isWhisper) return { color: "#CBD5E1", fontWeight: 400 };
     return {
       backgroundImage: `linear-gradient(to bottom, #F8FAFC 0%, #CBD5E1 100%)`,
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
     };
-  }, [isMinimalist]);
+  }, [isMinimalist, isRefined, isWhisper]);
 
-  const containerStyle: React.CSSProperties = useMemo(() => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: "0 10%",
-    boxSizing: "border-box",
-    fontFamily: preset.fontFamily,
-    ...preset,
-    fontSize: responsiveFontSize,
-    color: isMinimalist ? "white" : (color ?? preset.color),
-    flexWrap: "wrap",
-    textTransform: isMinimalist ? "uppercase" : "none",
-    letterSpacing: isMinimalist ? "4px" : preset.letterSpacing,
-    opacity: isMinimalist ? springOpacity : 1,
-    transform: isMinimalist ? `scale(${springScale})` : "none",
-  }), [preset, responsiveFontSize, color, isMinimalist, springOpacity, springScale]);
+  const containerStyle: React.CSSProperties = useMemo(() => {
+    const shouldAnimate = isMinimalist;
+    return {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+      padding: "0 10%",
+      boxSizing: "border-box",
+      fontFamily: preset.fontFamily,
+      ...preset,
+      fontSize: responsiveFontSize,
+      color: isMinimalist ? "white" : (color ?? preset.color),
+      flexWrap: "wrap",
+      textTransform: isMinimalist ? "uppercase" : "none",
+      letterSpacing: isMinimalist ? "4px" : preset.letterSpacing,
+      opacity: shouldAnimate ? springOpacity : 1,
+      transform: shouldAnimate ? `scale(${springScale})` : "none",
+    };
+  }, [preset, responsiveFontSize, color, isMinimalist, springOpacity, springScale]);
 
   return (
     <div style={containerStyle}>

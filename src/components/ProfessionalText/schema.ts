@@ -3,8 +3,8 @@ import { zColor } from "@remotion/zod-types";
 
 export const professionalTextSchema = z.object({
   text: z.string(),
-  type: z.enum(["hook", "context", "headline", "body"]),
-  mode: z.enum(["word", "typewriter", "reveal", "minimalist"]).optional(),
+  type: z.enum(["hook", "context", "headline", "body", "problem", "question", "cta", "subtext"]),
+  mode: z.enum(["word", "typewriter", "reveal", "minimalist", "refined", "whisper"]).optional(),
   color: zColor().optional(),
   highlightColor: zColor().optional(),
   animate: z.boolean().optional(),

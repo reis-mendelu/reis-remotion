@@ -15,6 +15,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
   logoScale = 1,
   theme = "dark",
   animate = true,
+  ctaText,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -134,6 +135,25 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
             }} />
           </div>
         </div>
+        
+        {/* Call-to-Action Text */}
+        {ctaText && (
+          <div style={{
+            position: "absolute",
+            bottom: "20%",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            opacity: interpolate(frame, [30, 50], [0, 1], { extrapolateRight: "clamp" }),
+          }}>
+            <ProfessionalText 
+              text={ctaText}
+              type="cta"
+              mode="refined"
+              animate={false}
+            />
+          </div>
+        )}
       </AbsoluteFill>
     </AbsoluteFill>
   );
