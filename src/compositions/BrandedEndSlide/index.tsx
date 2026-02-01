@@ -9,7 +9,6 @@ import {
 } from "remotion";
 import { BrandedEndSlideProps } from "./schema";
 import { Background } from "../../components/Background";
-import { ProfessionalText } from "../../components/ProfessionalText";
 
 export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
   logoScale = 1,
@@ -80,14 +79,17 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
             justifyContent: "center",
             opacity: interpolate(frame, [30, 50], [0, 1], { extrapolateRight: "clamp" }),
             transform: `scale(${interpolate(frame, [50, 100, 150], [1, 1.02, 1], { extrapolateRight: "clamp" })})`,
-            zIndex: 20, // CTA on top
+            zIndex: 20,
           }}>
-            <ProfessionalText 
-              text={ctaText}
-              type="cta"
-              mode="refined"
-              animate={false}
-            />
+            <div style={{ 
+              color: "#79be15", 
+              fontSize: "60px", 
+              fontWeight: 700,
+              fontFamily: "Inter, sans-serif",
+              letterSpacing: "0.01em",
+            }}>
+              {ctaText}
+            </div>
           </div>
         )}
       </AbsoluteFill>
