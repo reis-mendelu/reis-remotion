@@ -55,20 +55,14 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
       downloadedIds={downloadedIds}
       isDone={isDone}
     >
-      {/* Audio Tracks */}
+      {/* Audio Tracks - Cleaned per Munger Protocol */}
       <Sequence from={30}>
           <SoundEffect type="TOGGLE_ON" volume={0.4} />
       </Sequence>
       
-      {/* Rhythmic Success Pings */}
-      <Sequence from={80}>
-          <SoundEffect type="SUCCESS" volume={0.3} />
-      </Sequence>
-      <Sequence from={100}>
-          <SoundEffect type="SUCCESS" volume={0.3} />
-      </Sequence>
-      <Sequence from={120}>
-          <SoundEffect type="SUCCESS" volume={0.3} />
+      {/* Final Success Ping (synchronized with completion at frame 90) */}
+      <Sequence from={90}>
+          <SoundEffect type="SUCCESS" volume={0.4} />
       </Sequence>
     </SubjectDrawerComposition>
   );

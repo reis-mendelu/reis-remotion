@@ -14,28 +14,28 @@ import { BrandedEndSlide } from "./BrandedEndSlide";
  */
 export const ReISIntroduction: React.FC = () => {
   // ============================================================================
-  // TIMELINE: 24 seconds @ 30fps = 720 frames
+  // TIMELINE: 14.5 seconds @ 30fps = 435 frames (adjusted per user feedback)
   // ============================================================================
   
-  // ACT 0: Problem Setup (4s)
+  // ACT 0: Problem Setup (2.5s) - shortened by 1.5s
   const ACT0_START = 0;
-  const ACT0_DURATION = 120; // 4s - Let the problem land emotionally
+  const ACT0_DURATION = 75; // 2.5s
   
-  // ACT 1: Question Hook (3s)
+  // ACT 1: Question Hook (1.5s) - shortened by 1.5s
   const ACT1_START = ACT0_START + ACT0_DURATION;
-  const ACT1_DURATION = 90; // 3s - Rhetorical question, pause for thought
+  const ACT1_DURATION = 45; // 1.5s
   
-  // ACT 2: Hero Feature - SubjectDrawer (10s)
+  // ACT 2: Hero Feature - SubjectDrawer (5.5s) - shortened by 4.5s (was 10s, then 3s, now 5.5s)
   const ACT2_START = ACT1_START + ACT1_DURATION;
-  const ACT2_DURATION = 300; // 10s - The centerpiece, full "three clicks" demo
+  const ACT2_DURATION = 165; // 5.5s (added 2.5s back per user request)
   
-  // ACT 3: Payoff Statement (4s)
+  // ACT 3: Payoff Statement (2s) - shortened by 2s
   const ACT3_START = ACT2_START + ACT2_DURATION;
-  const ACT3_DURATION = 120; // 4s - "MODERNIZOVANÝ reIS" as the payoff
+  const ACT3_DURATION = 60; // 2s
   
-  // ACT 4: Brand + CTA (3s)
+  // ACT 4: Brand + CTA (3s) - unchanged
   const ACT4_START = ACT3_START + ACT3_DURATION;
-  const ACT4_DURATION = 90; // 3s - Logo + call to action
+  const ACT4_DURATION = 90; // 3s
 
   return (
     <AbsoluteFill className="bg-[#0a0c10]">
@@ -111,7 +111,7 @@ export const ReISIntroduction: React.FC = () => {
             logoScale={1.5}
             theme="dark"
             animate={true}
-            ctaText="Začněte používat reIS dnes"
+            ctaText="Link v biu"
           />
         </Sequence>
       </AbsoluteFill>

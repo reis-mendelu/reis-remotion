@@ -18,7 +18,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="ReIS-Intro"
           component={ReISIntroduction}
-          durationInFrames={720} // 24 seconds (Apple best practice for 1-feature intro)
+          durationInFrames={435} // 14.5 seconds (adjusted per user feedback)
           fps={30}
           width={1920}
           height={1080}
@@ -59,7 +59,7 @@ export const RemotionRoot: React.FC = () => {
             logoScale: 1.5,
             theme: "dark",
             animate: true,
-            ctaText: "Začněte používat reIS dnes",
+            ctaText: "Link v biu",
           }}
         />
       </Folder>

@@ -3,7 +3,7 @@ import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 
 const { fontFamily: interFont } = loadInter("normal", {
   weights: ["400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"], // latin-ext includes Czech diacritics
   ignoreTooManyRequestsWarning: true,
 });
 
@@ -63,7 +63,7 @@ export const PRESETS: Record<TextType, PresetStyle> = {
     fontFamily: interFont,
   },
   cta: {
-    fontSize: 40,
+    fontSize: 60, // Instagram-optimized (was 52px, originally 40px)
     fontWeight: 700,
     lineHeight: 1.3,
     color: "#79be15",
