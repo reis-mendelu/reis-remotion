@@ -16,7 +16,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="ReIS-Intro"
           component={ReISIntroduction}
-          durationInFrames={150} // 5 seconds
+          durationInFrames={360} // 12 seconds
           fps={30}
           width={1920}
           height={1080}
