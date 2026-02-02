@@ -18,7 +18,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="ReIS-Intro"
           component={ReISIntroduction}
-          durationInFrames={435} // 14.5 seconds (adjusted per user feedback)
+          durationInFrames={570} // 19 seconds (extended for full FilesHint)
           fps={30}
           width={1920}
           height={1080}
@@ -26,7 +26,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="SubjectDrawer-FilesHint"
           component={FilesHint}
-          durationInFrames={200}
+          durationInFrames={300}
           fps={30}
           width={1920}
           height={1080}

@@ -14,26 +14,26 @@ import { BrandedEndSlide } from "./BrandedEndSlide";
  */
 export const ReISIntroduction: React.FC = () => {
   // ============================================================================
-  // TIMELINE: 14.5 seconds @ 30fps = 435 frames (adjusted per user feedback)
+  // TIMELINE: 19 seconds @ 30fps = 570 frames (extended for full FilesHint)
   // ============================================================================
   
-  // ACT 0: Problem Setup (2.5s) - shortened by 1.5s
+  // ACT 0: Problem Setup (2.5s)
   const ACT0_START = 0;
   const ACT0_DURATION = 75; // 2.5s
   
-  // ACT 1: Question Hook (1.5s) - shortened by 1.5s
+  // ACT 1: Question Hook (1.5s)
   const ACT1_START = ACT0_START + ACT0_DURATION;
   const ACT1_DURATION = 45; // 1.5s
   
-  // ACT 2: Hero Feature - SubjectDrawer (5.5s) - shortened by 4.5s (was 10s, then 3s, now 5.5s)
+  // ACT 2: Hero Feature - SubjectDrawer (10s) - Full FilesHint animation
   const ACT2_START = ACT1_START + ACT1_DURATION;
-  const ACT2_DURATION = 165; // 5.5s (added 2.5s back per user request)
+  const ACT2_DURATION = 300; // 10s (full FilesHint animation)
   
-  // ACT 3: Payoff Statement (2s) - shortened by 2s
+  // ACT 3: Payoff Statement (2s)
   const ACT3_START = ACT2_START + ACT2_DURATION;
   const ACT3_DURATION = 60; // 2s
   
-  // ACT 4: Brand + CTA (3s) - unchanged
+  // ACT 4: Brand + CTA (3s)
   const ACT4_START = ACT3_START + ACT3_DURATION;
   const ACT4_DURATION = 90; // 3s
 
@@ -70,8 +70,8 @@ export const ReISIntroduction: React.FC = () => {
         </Sequence>
 
         {/* ===================================================================
-            ACT 2: Hero Feature - SubjectDrawer Interaction (THE SOLUTION)
-            10 seconds to demonstrate the "three clicks" promise
+            ACT 2: Hero Feature - SubjectDrawer FilesHint (THE SOLUTION)
+            10 seconds to demonstrate file download flow with professional animation
             =================================================================== */}
         <Sequence from={ACT2_START} durationInFrames={ACT2_DURATION}>
           <FilesHint 

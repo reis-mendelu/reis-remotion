@@ -66,6 +66,8 @@ export const SubjectDrawerSchema = z.object({
   scale: z.number().default(1),
   selectedIds: z.array(z.string()).default([]),
   downloadedIds: z.array(z.string()).default([]),
+  downloadProgress: z.record(z.string(), z.number().min(0).max(1)).optional(),
+  buttonState: z.enum(['hidden', 'ready', 'clicking', 'downloading', 'complete']).optional(),
   rotationX: z.number().default(0),
   rotationY: z.number().default(0),
   depth: z.number().default(0),

@@ -19,6 +19,8 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
     scale = 1,
     selectedIds = [],
     downloadedIds = [],
+    downloadProgress,
+    buttonState,
     scriptedSelection = false,
     isDone = false,
     children,
@@ -76,6 +78,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
             subject={subject} 
             selectedCount={effectiveSelectedIds.length} 
             isDone={isDone}
+            buttonState={buttonState}
           />
 
           <div className="flex-1 overflow-hidden bg-black/10 rounded-b-3xl">
@@ -84,6 +87,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
                     groups={groups}
                     selectedIds={effectiveSelectedIds}
                     downloadedIds={downloadedIds}
+                    downloadProgress={downloadProgress}
                 />
             )}
             {activeTab === "stats" && (

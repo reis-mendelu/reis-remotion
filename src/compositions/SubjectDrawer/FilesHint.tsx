@@ -32,18 +32,55 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
 
   const groups = [{ name: "ostatni", displayName: "OSTATNÍ", files }];
 
-  // --- ORCHESTRATION ---
-  // Frame 30: Selection Trigger
-  const selectedIds = frame >= 30 ? ["c3", "c4", "h1"] : [];
+  // --- ORCHESTRATION: 4-PHASE ANIMATION (300 frames @ 30fps = 10 seconds) ---
+  
+  // PHASE 1: SELECTION (0-100 frames, 0-3.3s)
+  // Sequential checkbox selection with 15-frame delays
+  const selectedIds: string[] = [];
+  if (frame >= 20) selectedIds.push("c3");   // Frame 20 (0.67s)
+  if (frame >= 35) selectedIds.push("c4");   // Frame 35 (1.17s)
+  if (frame >= 50) selectedIds.push("h1");   // Frame 50 (1.67s)
 
-  // Downloaded State (Completion rhythm: Frame 50, 70, 90)
+  // PHASE 2: BUTTON (56-106 frames, 1.9-3.5s)
+  let buttonState: 'hidden' | 'ready' | 'clicking' | 'downloading' | 'complete' = 'hidden';
+  if (frame >= 56 && frame < 96) buttonState = 'ready';       // Button appears (40 frames to comprehend)
+  if (frame >= 96 && frame < 106) buttonState = 'clicking';    // Click animation
+  if (frame >= 106 && frame < 226) buttonState = 'downloading'; // Downloading state
+  if (frame >= 226) buttonState = 'complete';                   // Success state
+
+  // PHASE 3: PROGRESS (106-226 frames, 3.5-7.5s)
+  // Sequential downloads: 40 frames per file (1.33 seconds each)
+  const downloadProgress: Record<string, number> = {};
+  
+  // File 1: Frames 106-146 (3.5-4.9s)
+  if (frame >= 106 && frame < 146) {
+    downloadProgress["c3"] = Math.min((frame - 106) / 40, 1);
+  } else if (frame >= 146) {
+    downloadProgress["c3"] = 1;
+  }
+  
+  // File 2: Frames 146-186 (4.9-6.2s)
+  if (frame >= 146 && frame < 186) {
+    downloadProgress["c4"] = Math.min((frame - 146) / 40, 1);
+  } else if (frame >= 186) {
+    downloadProgress["c4"] = 1;
+  }
+  
+  // File 3: Frames 186-226 (6.2-7.5s)
+  if (frame >= 186 && frame < 226) {
+    downloadProgress["h1"] = Math.min((frame - 186) / 40, 1);
+  } else if (frame >= 226) {
+    downloadProgress["h1"] = 1;
+  }
+
+  // PHASE 4: COMPLETION (226-300 frames, 7.5-10s)
+  // Downloaded state triggers celebration animations in FileList
   const downloadedIds: string[] = [];
-  if (frame >= 50) downloadedIds.push("c3");
-  if (frame >= 70) downloadedIds.push("c4");
-  if (frame >= 90) downloadedIds.push("h1");
+  if (frame >= 226) downloadedIds.push("c3"); // Frame 226
+  if (frame >= 236) downloadedIds.push("c4"); // Frame 236 (+10 frame stagger)
+  if (frame >= 246) downloadedIds.push("h1"); // Frame 246 (+10 frame stagger)
 
-  // Done State
-  const isDone = frame >= 100;
+  const isDone = frame >= 246;
 
   return (
     <SubjectDrawerComposition
@@ -53,16 +90,35 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
       activeTab="files"
       selectedIds={selectedIds}
       downloadedIds={downloadedIds}
+      downloadProgress={downloadProgress}
+      buttonState={buttonState}
       isDone={isDone}
     >
-      {/* Audio Tracks - Cleaned per Munger Protocol */}
-      <Sequence from={30}>
+      {/* Audio Tracks - Sequential Selection */}
+      <Sequence from={20}>
+          <SoundEffect type="TOGGLE_ON" volume={0.3} />
+      </Sequence>
+      <Sequence from={35}>
+          <SoundEffect type="TOGGLE_ON" volume={0.3} />
+      </Sequence>
+      <Sequence from={50}>
+          <SoundEffect type="TOGGLE_ON" volume={0.3} />
+      </Sequence>
+      
+      {/* Button Click */}
+      <Sequence from={96}>
           <SoundEffect type="TOGGLE_ON" volume={0.4} />
       </Sequence>
       
-      {/* Final Success Ping (synchronized with completion at frame 90) */}
-      <Sequence from={90}>
+      {/* Completion Celebrations (staggered) */}
+      <Sequence from={226}>
           <SoundEffect type="SUCCESS" volume={0.4} />
+      </Sequence>
+      <Sequence from={236}>
+          <SoundEffect type="SUCCESS" volume={0.3} />
+      </Sequence>
+      <Sequence from={246}>
+          <SoundEffect type="SUCCESS" volume={0.5} />
       </Sequence>
     </SubjectDrawerComposition>
   );
