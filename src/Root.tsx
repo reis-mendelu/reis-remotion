@@ -1,4 +1,4 @@
-import { Composition, Folder } from "remotion";
+import { Composition, Folder, Still } from "remotion";
 import {
   OutlookSyncComposition,
   OutlookSyncSchema,
@@ -10,6 +10,9 @@ import { FilesHint } from "./compositions/SubjectDrawer/FilesHint";
 import { SubjectDrawerSchema } from "./compositions/SubjectDrawer/schema";
 import { BrandedEndSlide } from "./compositions/BrandedEndSlide";
 import { BrandedEndSlideSchema } from "./compositions/BrandedEndSlide/schema";
+import { IntroPoster } from "./compositions/IntroPoster";
+import { PRINT_SIZES } from "./constants/print";
+import { z } from "zod";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -18,7 +21,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="ReIS-Intro"
           component={ReISIntroduction}
-          durationInFrames={570} // 19 seconds (extended for full FilesHint)
+          durationInFrames={495} // 16.5 seconds (streamlined, quickened downloads)
           fps={30}
           width={1920}
           height={1080}
@@ -26,7 +29,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="SubjectDrawer-FilesHint"
           component={FilesHint}
-          durationInFrames={300}
+          durationInFrames={270}
           fps={30}
           width={1920}
           height={1080}
@@ -183,6 +186,41 @@ export const RemotionRoot: React.FC = () => {
           defaultProps={{
             spolkyExpanded: true,
             subscribedIds: ["supef", "esn"],
+          }}
+        />
+      </Folder>
+
+      <Folder name="Posters">
+        <Still
+          id="Intro-Poster-A4"
+          component={IntroPoster}
+          width={PRINT_SIZES.A4.width}
+          height={PRINT_SIZES.A4.height}
+          schema={z.object({
+            title: z.string(),
+            subtitle: z.string(),
+            showGuides: z.boolean().default(true),
+          })}
+          defaultProps={{
+            title: "*MODERNÍ* *RE*IS",
+            subtitle: "Všechny studijní materiály na dosah ruky.",
+            showGuides: true,
+          }}
+        />
+        <Still
+          id="Intro-Poster-A6"
+          component={IntroPoster}
+          width={PRINT_SIZES.A6.width}
+          height={PRINT_SIZES.A6.height}
+          schema={z.object({
+            title: z.string(),
+            subtitle: z.string(),
+            showGuides: z.boolean().default(true),
+          })}
+          defaultProps={{
+            title: "*MODERNÍ* *RE*IS",
+            subtitle: "Všechny studijní materiály na dosah ruky.",
+            showGuides: true,
           }}
         />
       </Folder>

@@ -9,6 +9,7 @@ export const professionalTextSchema = z.object({
   highlightColor: zColor().optional(),
   animate: z.boolean().optional(),
   stagger: z.number().optional(),
+  padding: z.string().optional(),
 });
 
 export type ProfessionalTextProps = z.infer<typeof professionalTextSchema>;

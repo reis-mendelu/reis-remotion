@@ -15,6 +15,7 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
   highlightColor = "#79be15", 
   animate = true,
   stagger = 3,
+  padding = "0 10%",
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -94,13 +95,13 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
   }, [isMinimalist, isRefined, isWhisper]);
 
   const containerStyle: React.CSSProperties = useMemo(() => {
-    const shouldAnimate = isMinimalist;
+    const shouldAnimate = isMinimalist && animate;
     return {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
-      padding: "0 10%",
+      padding: padding,
       boxSizing: "border-box",
       fontFamily: preset.fontFamily,
       ...preset,
@@ -112,13 +113,13 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
       opacity: shouldAnimate ? springOpacity : 1,
       transform: shouldAnimate ? `scale(${springScale})` : "none",
     };
-  }, [preset, responsiveFontSize, color, isMinimalist, springOpacity, springScale]);
+  }, [preset, responsiveFontSize, color, isMinimalist, springOpacity, springScale, animate]);
 
   return (
     <div style={containerStyle}>
       {parsedCharacters.map((item, i) => {
         const startFrame = i * charStagger;
-        const isVisible = frame >= startFrame;
+        const isVisible = !animate || frame >= startFrame;
         
         // Universal Throttled Audio Rhythm - only for non-minimalist typewriter
         const shouldClick = !isMinimalist && i % 2 === 0 && item.char !== " ";

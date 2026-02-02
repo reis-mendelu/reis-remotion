@@ -14,7 +14,7 @@ import { BrandedEndSlide } from "./BrandedEndSlide";
  */
 export const ReISIntroduction: React.FC = () => {
   // ============================================================================
-  // TIMELINE: 19 seconds @ 30fps = 570 frames (extended for full FilesHint)
+  // TIMELINE: 16.5 seconds @ 30fps = 495 frames (streamlined, no payoff slide)
   // ============================================================================
   
   // ACT 0: Problem Setup (2.5s)
@@ -25,17 +25,13 @@ export const ReISIntroduction: React.FC = () => {
   const ACT1_START = ACT0_START + ACT0_DURATION;
   const ACT1_DURATION = 45; // 1.5s
   
-  // ACT 2: Hero Feature - SubjectDrawer (10s) - Full FilesHint animation
+  // ACT 2: Hero Feature - SubjectDrawer (9s) - FilesHint with quick downloads
   const ACT2_START = ACT1_START + ACT1_DURATION;
-  const ACT2_DURATION = 300; // 10s (full FilesHint animation)
+  const ACT2_DURATION = 270; // 9s (FilesHint with quickened downloads + linger)
   
-  // ACT 3: Payoff Statement (2s)
+  // ACT 3: Brand + CTA (3s) - No payoff slide, direct to CTA
   const ACT3_START = ACT2_START + ACT2_DURATION;
-  const ACT3_DURATION = 60; // 2s
-  
-  // ACT 4: Brand + CTA (3s)
-  const ACT4_START = ACT3_START + ACT3_DURATION;
-  const ACT4_DURATION = 90; // 3s
+  const ACT3_DURATION = 90; // 3s
 
   return (
     <AbsoluteFill className="bg-[#0a0c10]">
@@ -91,22 +87,9 @@ export const ReISIntroduction: React.FC = () => {
         </Sequence>
 
         {/* ===================================================================
-            ACT 3: Payoff - "MODERNIZOVANÝ reIS" (The Aha! Moment)
+            ACT 3: Brand + Call-to-Action (Direct from hero)
             =================================================================== */}
         <Sequence from={ACT3_START} durationInFrames={ACT3_DURATION}>
-          <AbsoluteFill className="items-center justify-center">
-            <ProfessionalText 
-              text="MODERNIZOVANÝ reIS"
-              type="headline"
-              mode="minimalist"
-            />
-          </AbsoluteFill>
-        </Sequence>
-
-        {/* ===================================================================
-            ACT 4: Brand + Call-to-Action
-            =================================================================== */}
-        <Sequence from={ACT4_START} durationInFrames={ACT4_DURATION}>
           <BrandedEndSlide 
             logoScale={1.5}
             theme="dark"
