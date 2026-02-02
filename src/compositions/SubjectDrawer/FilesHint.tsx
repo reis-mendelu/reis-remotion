@@ -32,7 +32,7 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
 
   const groups = [{ name: "ostatni", displayName: "OSTATNÍ", files }];
 
-  // --- ORCHESTRATION: 4-PHASE ANIMATION (270 frames @ 30fps = 9 seconds) ---
+  // --- ORCHESTRATION: 4-PHASE ANIMATION (240 frames @ 30fps = 8 seconds) ---
   
   // PHASE 1: SELECTION (0-100 frames, 0-3.3s)
   // Sequential checkbox selection with 15-frame delays
@@ -73,14 +73,14 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
     downloadProgress["h1"] = 1;
   }
 
-  // PHASE 4: COMPLETION (166-240 frames, 5.5-8s)
-  // Downloaded state triggers celebration animations in FileList
+  // PHASE 4: COMPLETION (126-216 frames)
+  // Files fly to folder immediately when they finish downloading
   const downloadedIds: string[] = [];
-  if (frame >= 166) downloadedIds.push("c3"); // Frame 166
-  if (frame >= 176) downloadedIds.push("c4"); // Frame 176 (+10 frame stagger)
-  if (frame >= 186) downloadedIds.push("h1"); // Frame 186 (+10 frame stagger)
+  if (frame >= 126) downloadedIds.push("c3"); // Frame 126 (right after download completes)
+  if (frame >= 146) downloadedIds.push("c4"); // Frame 146 (right after download completes)
+  if (frame >= 166) downloadedIds.push("h1"); // Frame 166 (right after download completes)
 
-  const isDone = frame >= 186;
+  const isDone = frame >= 166;
 
   return (
     <SubjectDrawerComposition
@@ -110,14 +110,14 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
           <SoundEffect type="TOGGLE_ON" volume={0.4} />
       </Sequence>
       
-      {/* Completion Celebrations (staggered) */}
-      <Sequence from={166}>
+      {/* Completion Celebrations - synchronized with file fly-outs */}
+      <Sequence from={126}>
           <SoundEffect type="SUCCESS" volume={0.4} />
       </Sequence>
-      <Sequence from={176}>
+      <Sequence from={146}>
           <SoundEffect type="SUCCESS" volume={0.3} />
       </Sequence>
-      <Sequence from={186}>
+      <Sequence from={166}>
           <SoundEffect type="SUCCESS" volume={0.5} />
       </Sequence>
     </SubjectDrawerComposition>

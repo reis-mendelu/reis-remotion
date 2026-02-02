@@ -14,7 +14,7 @@ import { BrandedEndSlide } from "./BrandedEndSlide";
  */
 export const ReISIntroduction: React.FC = () => {
   // ============================================================================
-  // TIMELINE: 16.5 seconds @ 30fps = 495 frames (streamlined, no payoff slide)
+  // TIMELINE: 15.5 seconds @ 30fps = 465 frames (streamlined, quick demo)
   // ============================================================================
   
   // ACT 0: Problem Setup (2.5s)
@@ -25,9 +25,9 @@ export const ReISIntroduction: React.FC = () => {
   const ACT1_START = ACT0_START + ACT0_DURATION;
   const ACT1_DURATION = 45; // 1.5s
   
-  // ACT 2: Hero Feature - SubjectDrawer (9s) - FilesHint with quick downloads
+  // ACT 2: Hero Feature - SubjectDrawer (8s) - FilesHint with folder destination
   const ACT2_START = ACT1_START + ACT1_DURATION;
-  const ACT2_DURATION = 270; // 9s (FilesHint with quickened downloads + linger)
+  const ACT2_DURATION = 240; // 8s (quick demo with 1s folder linger)
   
   // ACT 3: Brand + CTA (3s) - No payoff slide, direct to CTA
   const ACT3_START = ACT2_START + ACT2_DURATION;

@@ -21,7 +21,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="ReIS-Intro"
           component={ReISIntroduction}
-          durationInFrames={495} // 16.5 seconds (streamlined, quickened downloads)
+          durationInFrames={465} // 15.5 seconds (streamlined)
           fps={30}
           width={1920}
           height={1080}
@@ -29,7 +29,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="SubjectDrawer-FilesHint"
           component={FilesHint}
-          durationInFrames={270}
+          durationInFrames={240}
           fps={30}
           width={1920}
           height={1080}
@@ -42,6 +42,17 @@ export const RemotionRoot: React.FC = () => {
               status: "POVINNÝ",
               completion: "Zkouška",
             },
+            groups: [
+              {
+                name: "ostatni",
+                displayName: "OSTATNÍ",
+                files: [
+                  { file_name: "Cvičení 3 Programování sekvence a větvení", link: "c3" },
+                  { file_name: "Cvičení 4 -- cykly elementární algoritmy", link: "c4" },
+                  { file_name: "Harmonogram výuky a podmínky ukončení", link: "h1" },
+                ],
+              },
+            ],
             animate: true,
             background: { type: "stars", starsCount: 500 },
             rotationX: 25,

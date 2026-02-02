@@ -34,27 +34,24 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
     extrapolateRight: "clamp",
   });
 
-  const buttonScale = buttonState === 'hidden' 
-    ? 0 
-    : buttonState === 'clicking'
+  // Button opacity with fade-out when complete (approved UX improvement)
+  const buttonOpacity = buttonState === 'hidden'
+    ? 0
+    : buttonState === 'complete'
+    ? interpolate(frame - 166, [0, 30], [1, 0], { extrapolateRight: "clamp" })  // Fade out over 1s after completion at frame 166
+    : 1;
+
+  const buttonScale = buttonState === 'clicking'
     ? 0.95  // Click down animation
     : interpolate(buttonEntrance, [0, 1], [0, 1], {
         extrapolateRight: "clamp",
       });
 
-  // Downloading spinner rotation
-  const spinnerRotation = buttonState === 'downloading' 
-    ? interpolate(frame % 60, [0, 60], [0, 360])
-    : 0;
 
-  // Button colors based on state
-  const backgroundColor = buttonState === 'complete' 
-    ? '#10b981'  // Success green
-    : '#79be15';  // Brand color
+  // Button colors - unified brand green for all states
+  const backgroundColor = '#79be15';  // Brand color for all states
 
-  const shadowColor = buttonState === 'complete'
-    ? 'rgba(16, 185, 129, 0.5)'
-    : 'rgba(121, 190, 21, 0.3)';
+  const shadowColor = 'rgba(121, 190, 21, 0.3)';  // Brand shadow
 
   return (
     <div className="px-8 py-6 bg-[#1a1f26] z-20 font-inter flex flex-col gap-6">
@@ -82,8 +79,7 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
               <Loader2 
                 size={14} 
                 strokeWidth={3} 
-                className="text-white" 
-                style={{ transform: `rotate(${spinnerRotation}deg)` }}
+                className="text-white animate-pulse"
               />
             ) : (
               <Download size={14} strokeWidth={3} className="text-white" />
@@ -109,7 +105,7 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
             <div 
                 key={tab.id}
                 className={`
-                    pb-3 text-[10px] font-bold border-b-2 transition-colors cursor-pointer
+                    pb-3 text-[13px] font-bold border-b-2 transition-colors cursor-pointer
                     ${activeTab === tab.id 
                         ? "text-white border-[#79be15]" 
                         : "text-white/20 border-transparent hover:text-white/40"

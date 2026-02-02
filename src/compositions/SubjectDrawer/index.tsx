@@ -5,6 +5,7 @@ import { Background } from "../../components/Background";
 import { SubjectDrawerHeader } from "../../components/SubjectDrawer/Header";
 import { SubjectDrawerFileList } from "../../components/SubjectDrawer/Tabs/FileList";
 import { SubjectDrawerSuccessRate } from "../../components/SubjectDrawer/Tabs/SuccessRate";
+import { DownloadFolder } from "../../components/SubjectDrawer/DownloadFolder";
 import { MendeluEnvironment } from "../../Environment";
 import { SoundEffect } from "../../components/SoundEffect";
 import { type SubjectDrawerProps } from "./schema";
@@ -81,7 +82,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
             buttonState={buttonState}
           />
 
-          <div className="flex-1 overflow-hidden bg-black/10 rounded-b-3xl">
+          <div className="flex-1 overflow-hidden bg-[#1a1f26] rounded-b-3xl">
             {activeTab === "files" && (
                 <SubjectDrawerFileList 
                     groups={groups}
@@ -94,6 +95,14 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
                 <SubjectDrawerSuccessRate successRate={successRate} />
             )}
           </div>
+          
+          {/* Download Folder - Bottom-right indicator */}
+          <DownloadFolder 
+            downloadedCount={downloadedIds.length}
+            totalCount={selectedIds.length}
+            isVisible={buttonState === 'downloading' || buttonState === 'complete'}
+            isComplete={isDone}
+          />
         </div>
         {children}
       </MendeluEnvironment>

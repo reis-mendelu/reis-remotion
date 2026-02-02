@@ -51,20 +51,27 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
       )}
       
       <AbsoluteFill className="items-center justify-center">
-        {/* Pure Apple Minimalism - Zero Effects */}
         <div style={{ 
           position: "relative",
           opacity,
           transform: `scale(${scale * logoScale})`,
           zIndex: 10, // Logo layer
+          borderRadius: "50%", // Circular clipping
+          overflow: "hidden", // Clip content to circle
+          width: "120px",
+          height: "120px",
+          border: "2px solid rgba(255, 255, 255, 0.1)", // Smooth subtle border
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)", // Subtle depth
+          backgroundColor: "#ffffff", // Solid white background
         }}>
           <img 
             src={logoSrc} 
             style={{ 
-              width: "200px", 
-              height: "200px", 
+              width: "100%", 
+              height: "100%", 
               objectFit: "contain",
               display: "block",
+              padding: "10px", // Minimal padding - border at edge of M
             }} 
             alt="Mendelova Univerzita Logo" 
           />
@@ -73,7 +80,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
         {ctaText && (
           <div style={{
             position: "absolute",
-            bottom: "28%",
+            bottom: "26%",
             width: "100%",
             display: "flex",
             justifyContent: "center",
@@ -82,7 +89,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
             zIndex: 20,
           }}>
             <div style={{ 
-              color: "#79be15", 
+              color: "#ffffff", 
               fontSize: "60px", 
               fontWeight: 700,
               fontFamily: "Inter, sans-serif",

@@ -28,7 +28,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
   );
 
   return (
-    <div className="p-3 bg-transparent min-h-full font-inter relative overflow-hidden">
+    <div className="px-3 pb-3 bg-transparent min-h-full font-inter relative overflow-hidden">
       <div className="flex flex-col gap-0.5">
         {allFiles.map((file, index) => {
           const isSelected = selectedIds.includes(file.link);
@@ -58,13 +58,53 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
                 config: { damping: 10, mass: 0.3 },
               });
               
-              celebrationScale = interpolate(celebrationProgress, [0, 1], [1, 1.05], {
+              // Celebration removed to reduce cognitive load (folder celebration provides clear success)
+              // celebrationScale = interpolate(celebrationProgress, [0, 1], [1, 1.05], { extrapolateRight: "clamp" });
+              // celebrationGlow = interpolate(celebrationProgress, [0, 0.5, 1], [0, 1, 0.3], { extrapolateRight: "clamp" });
+            }
+          }
+
+          // Fly-out animation when file is downloaded (flies to folder in bottom-right)
+          let flyOutTransform = "";
+          let flyOutOpacity = 1;
+          let flyStartFrame = 0;
+          let flyDuration = 15;
+          
+          if (isDownloaded) {
+            const downloadedIndex = downloadedIds.indexOf(file.link);
+            // Files fly immediately when download completes: 126, 146, 166
+            const completionFrames = [126, 146, 166];
+            flyStartFrame = completionFrames[downloadedIndex];
+            flyDuration = 15; // 0.5 seconds
+            
+            if (frame >= flyStartFrame && frame < flyStartFrame + flyDuration) {
+              // During flight - stay visible, move towards folder
+              const flyProgress = spring({
+                frame: frame - flyStartFrame,
+                fps,
+                config: { damping: 10, mass: 0.2 },
+              });
+              
+              const translateX = interpolate(flyProgress, [0, 1], [0, 400], {
                 extrapolateRight: "clamp",
               });
               
-              celebrationGlow = interpolate(celebrationProgress, [0, 0.5, 1], [0, 1, 0.3], {
+              const translateY = interpolate(flyProgress, [0, 1], [0, 200], {
                 extrapolateRight: "clamp",
               });
+              
+              flyOutTransform = `translate(${translateX}px, ${translateY}px)`;
+              
+              // Fade out only in final 5 frames
+              const fadeStartFrame = flyStartFrame + flyDuration - 5;
+              if (frame >= fadeStartFrame) {
+                flyOutOpacity = interpolate(frame, [fadeStartFrame, flyStartFrame + flyDuration], [1, 0], {
+                  extrapolateRight: "clamp",
+                });
+              }
+            } else if (frame >= flyStartFrame + flyDuration) {
+              // After fly-out - invisible (but will be back at normal position for celebration)
+              flyOutOpacity = 0;
             }
           }
 
@@ -73,18 +113,23 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
           const circumference = 2 * Math.PI * radius;
           const progressOffset = circumference * (1 - progress);
 
+          // Skip rendering completely after fly-out
+          if (isDownloaded && frame >= flyStartFrame + flyDuration) {
+            return null;
+          }
+
           return (
             <div
               key={file.link}
               style={{ 
-                opacity: entranceOpacity,
-                transform: `scale(${celebrationScale})`,
+                opacity: entranceOpacity * flyOutOpacity,
+                transform: `scale(${celebrationScale}) ${flyOutTransform}`,
               }}
               className={`
                     flex items-center gap-3 p-2 rounded-lg border border-transparent relative overflow-hidden group
                     ${
                       isDownloaded
-                        ? "bg-[#10b981]/5 border-[#10b981]/10"
+                        ? "bg-[#79be15]/5 border-[#79be15]/10"
                         : isDownloading || isSelected
                         ? "bg-[#79be15]/5 border-[#79be15]/10"
                         : "hover:bg-white/[0.02]"
@@ -125,7 +170,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
                         w-4 h-4 rounded border flex items-center justify-center
                         ${
                           isDownloaded
-                            ? "bg-[#10b981] border-[#10b981]"
+                            ? "bg-[#79be15] border-[#79be15]"
                             : isSelected
                             ? "bg-[#79be15] border-[#79be15]"
                             : "border-white/10"
@@ -134,7 +179,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
                     style={
                       isDownloaded
                         ? {
-                            boxShadow: `0 0 ${20 * celebrationGlow}px rgba(16, 185, 129, ${celebrationGlow})`,
+                            boxShadow: `0 0 ${20 * celebrationGlow}px rgba(121, 190, 21, ${celebrationGlow})`,
                           }
                         : {}
                     }
@@ -150,7 +195,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
                 <div
                   className={`text-[11px] font-bold tracking-tight truncate ${
                     isDownloaded
-                      ? "text-[#10b981]"
+                      ? "text-[#79be15]"
                       : isDownloading || isSelected
                       ? "text-[#79be15]"
                       : "text-white/80"
@@ -170,7 +215,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
                   size={12}
                   className={
                     isDownloaded
-                      ? "text-[#10b981]/50"
+                      ? "text-[#79be15]/50"
                       : isDownloading || isSelected
                       ? "text-[#79be15]/50"
                       : "text-white/10"
@@ -179,9 +224,9 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
                 
                 {isDownloaded && (
                   <div 
-                    className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-[#10b981] rounded-full border border-[#1a1f26]"
+                    className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-[#79be15] rounded-full border border-[#1a1f26]"
                     style={{
-                      boxShadow: `0 0 ${12 * celebrationGlow}px rgba(16, 185, 129, ${celebrationGlow})`,
+                      boxShadow: `0 0 ${12 * celebrationGlow}px rgba(121, 190, 21, ${celebrationGlow})`,
                     }}
                   />
                 )}
