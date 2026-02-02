@@ -81,3 +81,34 @@ Avoid one-size-fits-all styling. Authority must be calibrated to the context to 
 - **Checklist for Inversion**: "Is this a landing slide or a functional component?"
   - Landing Slide -> Heavy Authority.
   - Component UI -> Refined Professionalism.
+
+## 10. The "Product Demo" Standard (Apple/Google Approach)
+Demos are for comprehension, not for speed. Apply these rules specifically for feature "Hints" or scripted sequences.
+
+### A. Sequential Orchestration (The Narrative Path)
+- **Fail Mode**: Simultaneous downloads or state changes that create visual noise.
+- **Solution**: **Sequence items one-at-a-time**. Establish a visual story: Select A → Select B → Action → Result A → Result B.
+
+### B. The "Demo Speed" Buffer
+- **Fail Mode**: Production-speed transitions (200ms) which are too fast for viewers to process.
+- **Solution**: Slow down by ~2-3x. 
+    - **Comprehension Buffer**: Add a 1-1.5s pause (30-45 frames) after an action is available (e.g., button appearance) before it is triggered.
+    - **Linger**: Let success states linger for 2s before transitioning away.
+
+### C. The "Celebration" Spring Configuration
+- **Fail Mode**: Mechanical linear animations or excessive "cartoony" bounces.
+- **Solution**: Use specific organic spring settings.
+    - **Recommended Config**: `{ damping: 10, mass: 0.3 }`.
+    - **Scale Limit**: Max `1.05` to `1.1`. Never exceed `1.2` as it feels unprofessional.
+    - **Color Transition**: Brand (#79be15) to Success (#10b981).
+
+### D. Layout Containment
+- **Fail Mode**: Elements expanding beyond their box during celebration/scale animations.
+- **Solution**: **Absolute Containment**. Parents must have `overflow-hidden` if they contain scaling children.
+
+### E. The 4-Phase Timeline
+Always structure scripted interactions into four distinct phases:
+1. **Setup/Selection**: User intent (20% duration)
+2. **Trigger**: The action click (10% duration)
+3. **Process**: Value demonstration/progress (40% duration)
+4. **Completion**: Satisfaction/Celebration (30% duration)
