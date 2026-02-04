@@ -52,15 +52,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
             const celebrationStartFrame = 226 + (downloadedIndex * 10);
             
             if (frame >= celebrationStartFrame) {
-              const celebrationProgress = spring({
-                frame: frame - celebrationStartFrame,
-                fps,
-                config: { damping: 10, mass: 0.3 },
-              });
-              
               // Celebration removed to reduce cognitive load (folder celebration provides clear success)
-              // celebrationScale = interpolate(celebrationProgress, [0, 1], [1, 1.05], { extrapolateRight: "clamp" });
-              // celebrationGlow = interpolate(celebrationProgress, [0, 0.5, 1], [0, 1, 0.3], { extrapolateRight: "clamp" });
             }
           }
 

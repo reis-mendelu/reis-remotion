@@ -7,10 +7,10 @@ import { type SubjectDrawerProps } from "./schema";
 export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   const frame = useCurrentFrame();
 
-  // Subject Data for Algoritmizace
+  // Subject Data for Statistika
   const subject = {
-    name: "Algoritmizace",
-    code: "ALG",
+    name: "Statistika",
+    code: "STA",
     credits: "6 KREDITŮ",
     status: "POVINNÝ",
     completion: "Zkouška",
@@ -23,11 +23,11 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   };
 
   const files = [
-    { file_name: "Cvičení 3 Programování sekvence a větvení", link: "c3" },
-    { file_name: "Cvičení 4 -- cykly elementární algoritmy", link: "c4" },
-    { file_name: "Harmonogram výuky a podmínky ukončení", link: "h1" },
-    { file_name: "Pracovní listy 1 a 2 -- Vývojové diagramy (1)", link: "p1", file_comment: "Inspirace pro první cvičení" },
-    { file_name: "Pracovní listy 1 a 2 -- Vývojové diagramy (2)", link: "p2" }
+    { file_name: "Cvičení 1", link: "c1" },
+    { file_name: "Cvičení 2", link: "c2" },
+    { file_name: "Harmonogram", link: "h1" },
+    { file_name: "Přednáška 1", link: "p1" },
+    { file_name: "Přednáška 2", link: "p2" }
   ];
 
   const groups = [{ name: "ostatni", displayName: "OSTATNÍ", files }];
@@ -37,8 +37,8 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   // PHASE 1: SELECTION (0-100 frames, 0-3.3s)
   // Sequential checkbox selection with 15-frame delays
   const selectedIds: string[] = [];
-  if (frame >= 20) selectedIds.push("c3");   // Frame 20 (0.67s)
-  if (frame >= 35) selectedIds.push("c4");   // Frame 35 (1.17s)
+  if (frame >= 20) selectedIds.push("c1");   // Frame 20 (0.67s)
+  if (frame >= 35) selectedIds.push("c2");   // Frame 35 (1.17s)
   if (frame >= 50) selectedIds.push("h1");   // Frame 50 (1.67s)
 
   // PHASE 2: BUTTON (56-106 frames, 1.9-3.5s)
@@ -54,16 +54,16 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   
   // File 1: Frames 106-126 (3.5-4.2s)
   if (frame >= 106 && frame < 126) {
-    downloadProgress["c3"] = Math.min((frame - 106) / 20, 1);
+    downloadProgress["c1"] = Math.min((frame - 106) / 20, 1);
   } else if (frame >= 126) {
-    downloadProgress["c3"] = 1;
+    downloadProgress["c1"] = 1;
   }
   
   // File 2: Frames 126-146 (4.2-4.9s)
   if (frame >= 126 && frame < 146) {
-    downloadProgress["c4"] = Math.min((frame - 126) / 20, 1);
+    downloadProgress["c2"] = Math.min((frame - 126) / 20, 1);
   } else if (frame >= 146) {
-    downloadProgress["c4"] = 1;
+    downloadProgress["c2"] = 1;
   }
   
   // File 3: Frames 146-166 (4.9-5.5s)
@@ -76,8 +76,8 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   // PHASE 4: COMPLETION (126-216 frames)
   // Files fly to folder immediately when they finish downloading
   const downloadedIds: string[] = [];
-  if (frame >= 126) downloadedIds.push("c3"); // Frame 126 (right after download completes)
-  if (frame >= 146) downloadedIds.push("c4"); // Frame 146 (right after download completes)
+  if (frame >= 126) downloadedIds.push("c1"); // Frame 126 (right after download completes)
+  if (frame >= 146) downloadedIds.push("c2"); // Frame 146 (right after download completes)
   if (frame >= 166) downloadedIds.push("h1"); // Frame 166 (right after download completes)
 
   const isDone = frame >= 166;

@@ -30,16 +30,14 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
       })
     : 0;
 
-  const buttonOpacity = buttonState === 'hidden' ? 0 : interpolate(buttonEntrance, [0, 1], [0, 1], {
+  const entranceOpacity = buttonState === 'hidden' ? 0 : interpolate(buttonEntrance, [0, 1], [0, 1], {
     extrapolateRight: "clamp",
   });
 
-  // Button opacity with fade-out when complete (approved UX improvement)
-  const buttonOpacity = buttonState === 'hidden'
-    ? 0
-    : buttonState === 'complete'
-    ? interpolate(frame - 166, [0, 30], [1, 0], { extrapolateRight: "clamp" })  // Fade out over 1s after completion at frame 166
-    : 1;
+  // Combined button opacity with entrance and fade-out when complete
+  const buttonOpacity = buttonState === 'complete'
+    ? interpolate(frame - 166, [0, 30], [1, 0], { extrapolateRight: "clamp" })
+    : entranceOpacity;
 
   const buttonScale = buttonState === 'clicking'
     ? 0.95  // Click down animation

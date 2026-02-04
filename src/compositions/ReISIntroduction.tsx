@@ -72,8 +72,8 @@ export const ReISIntroduction: React.FC = () => {
         <Sequence from={ACT2_START} durationInFrames={ACT2_DURATION}>
           <FilesHint 
             subject={{
-              name: "Algoritmizace",
-              code: "ALG",
+              name: "Statistika",
+              code: "STA",
               credits: "6 KREDITŮ",
               status: "POVINNÝ",
               completion: "Zkouška",

@@ -36,8 +36,8 @@ export const RemotionRoot: React.FC = () => {
           schema={SubjectDrawerSchema}
           defaultProps={{
             subject: {
-              name: "Algoritmizace",
-              code: "ALG",
+              name: "Statistika",
+              code: "STA",
               credits: "6 KREDITŮ",
               status: "POVINNÝ",
               completion: "Zkouška",
@@ -47,9 +47,9 @@ export const RemotionRoot: React.FC = () => {
                 name: "ostatni",
                 displayName: "OSTATNÍ",
                 files: [
-                  { file_name: "Cvičení 3 Programování sekvence a větvení", link: "c3" },
-                  { file_name: "Cvičení 4 -- cykly elementární algoritmy", link: "c4" },
-                  { file_name: "Harmonogram výuky a podmínky ukončení", link: "h1" },
+                  { file_name: "Cvičení 1", link: "c1" },
+                  { file_name: "Cvičení 2", link: "c2" },
+                  { file_name: "Harmonogram", link: "h1" },
                 ],
               },
             ],
@@ -141,15 +141,17 @@ export const RemotionRoot: React.FC = () => {
           schema={SubjectDrawerSchema}
           defaultProps={{
             subject: {
-              name: "Algoritmy a datové struktury",
-              code: "ADS",
+            // Subject Data for Statistika
+              name: "Statistika",
+              code: "STA",
               credits: "6 KREDITŮ",
               status: "POVINNÝ",
               completion: "Zkouška",
-              garant: "doc. Ing. Jan Novák, Ph.D.",
+              garant: "doc. Ing. Oldřich Trenz, Ph.D.",
               vyucujici: [
-                { name: "Ing. Petr Svoboda", roles: "Přednášející" },
-                { name: "Mgr. Eva Černá", roles: "Cvičící" }
+                { name: "doc. Dr. Ing. Jiří Rybička", roles: "přednášející" },
+                { name: "doc. Ing. Oldřich Trenz, Ph.D.", roles: "garant" },
+                { name: "Ing. Pavel Turčínek, Ph.D.", roles: "cvičící" }
               ]
             },
             groups: [
@@ -157,17 +159,17 @@ export const RemotionRoot: React.FC = () => {
                 name: "lektury",
                 displayName: "Přednášky",
                 files: [
-                  { file_name: "01_Uvod_ADS.pdf", link: "l1", file_comment: "Základní pojmy a složitost" },
-                  { file_name: "02_Trideni.pdf", link: "l2", file_comment: "QuickSort, MergeSort" },
-                  { file_name: "03_Grafy.pdf", link: "l3", file_comment: "DFS, BFS, Dijkstra" }
+                  { file_name: "Přednáška 1", link: "l1" },
+                  { file_name: "Přednáška 2", link: "l2" },
+                  { file_name: "Přednáška 3", link: "l3" }
                 ]
               },
               {
                 name: "cviceni",
                 displayName: "Cvičení",
                 files: [
-                  { file_name: "Cviceni_01.zip", link: "c1", file_comment: "Implementace v C++" },
-                  { file_name: "Cviceni_02.zip", link: "c2" }
+                  { file_name: "Cvičení 1", link: "c1" },
+                  { file_name: "Cvičení 2", link: "c2" }
                 ]
               }
             ],

@@ -60,9 +60,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
           overflow: "hidden", // Clip content to circle
           width: "120px",
           height: "120px",
-          border: "2px solid rgba(255, 255, 255, 0.1)", // Smooth subtle border
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)", // Subtle depth
-          backgroundColor: "#ffffff", // Solid white background
+          backgroundColor: "#ffffff", // White background to blend with logo square
         }}>
           <img 
             src={logoSrc} 
@@ -70,8 +68,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
               width: "100%", 
               height: "100%", 
               objectFit: "contain",
-              display: "block",
-              padding: "10px", // Minimal padding - border at edge of M
+              padding: "15px", // Extra padding to keep 'M' safely inside the green ring
             }} 
             alt="Mendelova Univerzita Logo" 
           />
