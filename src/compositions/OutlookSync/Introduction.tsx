@@ -101,9 +101,9 @@ export const OutlookSyncIntroduction: React.FC = () => {
         </Sequence>
 
         {/* ===================================================================
-            ACT 2.5: Weekly Calendar (4s)
+            ACT 2.5: Weekly Calendar (4.5s)
             =================================================================== */}
-        <Sequence from={ACT2_START + ACT2_DURATION} durationInFrames={120}>
+        <Sequence from={ACT2_START + ACT2_DURATION} durationInFrames={135}>
            <TransitionWrapper />
         </Sequence>
 
@@ -111,7 +111,7 @@ export const OutlookSyncIntroduction: React.FC = () => {
         {/* ===================================================================
             ACT 3: Brand + Call-to-Action
             =================================================================== */}
-        <Sequence from={ACT3_START + 120} durationInFrames={ACT3_DURATION}>
+        <Sequence from={ACT3_START + 135} durationInFrames={ACT3_DURATION}>
           <BrandedEndSlide 
             logoScale={1.5}
             theme="dark"

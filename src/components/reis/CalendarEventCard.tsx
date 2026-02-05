@@ -65,11 +65,7 @@ export const CalendarEventCard: React.FC<CalendarEventCardProps> = ({ lesson, on
                     {courseTitle}
                 </div>
 
-                {isLongEnough && lesson.isExam && (
-                    <div className="text-[#dc2626] font-medium text-xs flex-shrink-0">
-                        {lesson.courseName.split(' - ')[0]}
-                    </div>
-                )}
+
 
                 {isLongEnough && (
                     <div className="text-gray-600 text-sm mt-auto flex-shrink-0 flex items-center justify-between gap-2">
