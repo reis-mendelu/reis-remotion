@@ -1,12 +1,6 @@
 import { Composition, Folder, Still } from "remotion";
-import {
-  OutlookSyncComposition,
-  OutlookSyncSchema,
-} from "./compositions/OutlookSync";
-import { SpolkyComposition, SpolkyCompositionSchema } from "./components/Spolky/SpolkyComposition";
-import { SubjectDrawerIntroduction } from "./compositions/SubjectDrawerIntroduction";
-import { OutlookSyncIntroduction } from "./compositions/OutlookSyncIntroduction";
-import { SubjectDrawerComposition } from "./compositions/SubjectDrawer";
+import { SubjectDrawerIntroduction } from "./compositions/SubjectDrawer/Introduction";
+import { OutlookSyncIntroduction } from "./compositions/OutlookSync/Introduction";
 import { FilesHint } from "./compositions/SubjectDrawer/FilesHint";
 import { SubjectDrawerSchema } from "./compositions/SubjectDrawer/schema";
 import { BrandedEndSlide } from "./compositions/BrandedEndSlide";
@@ -37,6 +31,9 @@ export const RemotionRoot: React.FC = () => {
           width={1920}
           height={1080}
         />
+      </Folder>
+
+      <Folder name="Building-Blocks">
         <Composition
           id="SubjectDrawer-FilesHint"
           component={FilesHint}
@@ -84,6 +81,14 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
         <Composition
+          id="WeeklyCalendar"
+          component={WeeklyCalendar}
+          durationInFrames={150}
+          fps={30}
+          width={1920}
+          height={1080}
+        />
+        <Composition
           id="End-Slide"
           component={BrandedEndSlide}
           durationInFrames={150}
@@ -96,145 +101,6 @@ export const RemotionRoot: React.FC = () => {
             theme: "dark",
             animate: true,
             ctaText: "Link v biu",
-          }}
-        />
-      </Folder>
-
-      <Folder name="Component-Mocks">
-        <Composition
-          id="OutlookSyncPremium"
-          component={OutlookSyncComposition}
-          durationInFrames={250} 
-          fps={30}
-          width={600}
-          height={300}
-          schema={OutlookSyncSchema}
-          defaultProps={{
-            enabled: true,
-            loading: true,
-            showInfo: false,
-            progress: 1,
-            animate: true,
-            rotationX: 0,
-            rotationY: 0,
-            depth: 0,
-            syncStatus: "syncing",
-            eventCount: 3,
-            scale: 1,
-            background: {
-              type: "stars",
-              starsCount: 300,
-            },
-            isDone: false,
-            showVisualization: true,
-            toggleProgress: 1,
-          }}
-        />
-        <Composition
-          id="OutlookSync3D"
-          component={OutlookSyncComposition}
-          durationInFrames={250} 
-          fps={30}
-          width={3840}
-          height={2160}
-          schema={OutlookSyncSchema}
-          defaultProps={{
-            enabled: true,
-            loading: false,
-            showInfo: false,
-            progress: 1,
-            animate: true,
-            rotationX: 25,
-            rotationY: -15,
-            depth: 50,
-            syncStatus: "syncing",
-            eventCount: 3,
-            scale: 4, // 4K Upscaling
-            background: {
-              type: "stars",
-              starsCount: 600,
-            },
-            isDone: false,
-            showVisualization: true,
-            toggleProgress: 1,
-          }}
-        />
-        <Composition
-          id="SubjectDrawerFiles"
-          component={SubjectDrawerComposition}
-          durationInFrames={120}
-          fps={30}
-          width={3840}
-          height={2160}
-          schema={SubjectDrawerSchema}
-          defaultProps={{
-            subject: {
-            // Subject Data for Statistika
-              name: "Statistika",
-              code: "STA",
-              credits: "6 KREDITŮ",
-              status: "POVINNÝ",
-              completion: "Zkouška",
-              garant: "doc. Ing. Oldřich Trenz, Ph.D.",
-              vyucujici: [
-                { name: "doc. Dr. Ing. Jiří Rybička", roles: "přednášející" },
-                { name: "doc. Ing. Oldřich Trenz, Ph.D.", roles: "garant" },
-                { name: "Ing. Pavel Turčínek, Ph.D.", roles: "cvičící" }
-              ]
-            },
-            groups: [
-              {
-                name: "lektury",
-                displayName: "Přednášky",
-                files: [
-                  { file_name: "Přednáška 1", link: "l1" },
-                  { file_name: "Přednáška 2", link: "l2" },
-                  { file_name: "Přednáška 3", link: "l3" }
-                ]
-              },
-              {
-                name: "cviceni",
-                displayName: "Cvičení",
-                files: [
-                  { file_name: "Cvičení 1", link: "c1" },
-                  { file_name: "Cvičení 2", link: "c2" }
-                ]
-              }
-            ],
-            activeTab: "files",
-            background: { type: "stars", starsCount: 200 },
-            animate: true,
-            rotationX: 25,
-            rotationY: -15,
-            depth: 50,
-            scale: 4,
-            scriptedSelection: true,
-            selectedIds: ["l1", "l2"],
-            downloadedIds: ["l1"],
-          }}
-        />
-        <Composition
-          id="WeeklyCalendar"
-          component={WeeklyCalendar}
-          durationInFrames={150}
-          fps={30}
-          width={1920}
-          height={1080}
-        />
-      </Folder>
-
-      <Folder name="Spolky-Animations">
-        <Composition
-          id="SpolkyExpanded"
-          component={SpolkyComposition}
-          durationInFrames={180}
-          fps={30}
-          width={1280}
-          height={720}
-          schema={SpolkyCompositionSchema}
-          defaultProps={{
-            spolkyExpanded: true,
-            subscribedIds: ["supef", "esn"],
           }}
         />
       </Folder>

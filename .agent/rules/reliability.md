@@ -112,3 +112,15 @@ Always structure scripted interactions into four distinct phases:
 2. **Trigger**: The action click (10% duration)
 3. **Process**: Value demonstration/progress (40% duration)
 4. **Completion**: Satisfaction/Celebration (30% duration)
+
+## 11. Studio Structure Discipline
+Maintain a clean, categorized studio environment to prevent cognitive load drift.
+
+### A. Categorization Strategy
+- **Official Sequences**: Final deliverables (e.g., `SubjectDrawer-Intro`).
+- **Building Blocks**: Reusable internal components or hints (e.g., `FilesHint`, `WeeklyCalendar`).
+- **Posters**: Static print assets (e.g., `Intro-Poster-A4`).
+
+### B. Zero-Mocks Policy
+- **Rule**: Do not commit "test" or "mock" compositions to `Root.tsx`.
+- **Rationale**: If a component needs testing, create a dedicated "Hint" or "Building Block" composition that documents its usage, or rely on Unit Tests (Rule #3). Mocks decay and clutter the workspace.
