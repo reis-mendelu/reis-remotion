@@ -43,9 +43,8 @@ export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading
   return (
     <div 
       className="flex items-center justify-between gap-3 px-1 py-2 rounded-lg hover:bg-base-200 w-full relative"
-      style={{ transformStyle: "preserve-3d" }}
     >
-        <div className="flex items-center gap-2 flex-1" style={{ transform: "translateZ(10px)" }}>
+        <div className="flex items-center gap-2 flex-1">
           <Calendar 
             size={16} 
             strokeWidth={1.5} 
@@ -59,7 +58,7 @@ export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading
             Synchronizace rozvrhu
           </span>
         </div>
-        <div className="relative flex items-center gap-3" style={{ transform: "translateZ(15px)" }}>
+        <div className="relative flex items-center gap-3">
           {/* Info section disabled/hidden as per request */}
           
           <div 
@@ -67,13 +66,12 @@ export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading
             style={{
               backgroundColor: enabled ? background : "#374151", // base-300 dark
               opacity: loading ? 0.7 : 1,
-              transformStyle: "preserve-3d",
             }}
           >
             {/* Bloom/Glow effect */}
             <div 
               className="absolute inset-0 rounded-full bg-primary blur-md pointer-events-none"
-              style={{ opacity: glowOpacity, transform: "translateZ(-1px)" }}
+              style={{ opacity: glowOpacity }}
             />
 
             <div 
@@ -81,7 +79,7 @@ export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading
               data-testid="toggle-handle"
               style={{
                 left: `${toggleX}px`,
-                transform: `scale(${loadingPulse}) translateZ(5px)`,
+                transform: `scale(${loadingPulse})`,
               }}
             />
           </div>

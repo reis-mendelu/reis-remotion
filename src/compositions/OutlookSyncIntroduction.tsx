@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
 import { ProfessionalText } from "../components/ProfessionalText";
 import { Background } from "../components/Background";
+import { OutlookSyncHint } from "./OutlookSync/OutlookSyncHint";
 import { BrandedEndSlide } from "./BrandedEndSlide";
 
 /**
@@ -20,7 +21,7 @@ export const OutlookSyncIntroduction: React.FC = () => {
   const ACT1_START = ACT0_START + ACT0_DURATION;
   const ACT1_DURATION = 45; // 1.5s
   
-  // ACT 2: Hero Feature - Outlook Sync (8s) - (Reserved for calendar transition)
+  // ACT 2: Hero Feature - Outlook Sync (8s)
   const ACT2_START = ACT1_START + ACT1_DURATION;
   const ACT2_DURATION = 240; // 8s
   
@@ -61,10 +62,11 @@ export const OutlookSyncIntroduction: React.FC = () => {
 
         {/* ===================================================================
             ACT 2: Hero Feature - Outlook Sync Transition
-            (Empty for now, waiting for implementation)
             =================================================================== */}
         <Sequence from={ACT2_START} durationInFrames={ACT2_DURATION}>
-           {/* Placeholder for future calendar sync animation */}
+           <OutlookSyncHint 
+             scale={2}
+           />
         </Sequence>
 
         {/* ===================================================================

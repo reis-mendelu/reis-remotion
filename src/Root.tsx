@@ -12,6 +12,7 @@ import { SubjectDrawerSchema } from "./compositions/SubjectDrawer/schema";
 import { BrandedEndSlide } from "./compositions/BrandedEndSlide";
 import { BrandedEndSlideSchema } from "./compositions/BrandedEndSlide/schema";
 import { IntroPoster } from "./compositions/IntroPoster";
+import { OutlookSyncHint } from "./compositions/OutlookSync/OutlookSyncHint";
 import { PRINT_SIZES } from "./constants/print";
 import { z } from "zod";
 
@@ -67,6 +68,17 @@ export const RemotionRoot: React.FC = () => {
             rotationX: 25,
             rotationY: -15,
             depth: 50,
+            scale: 2,
+          }}
+        />
+        <Composition
+          id="OutlookSync-Hint"
+          component={OutlookSyncHint}
+          durationInFrames={240}
+          fps={30}
+          width={1920}
+          height={1080}
+          defaultProps={{
             scale: 2,
           }}
         />

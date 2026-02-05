@@ -39,8 +39,6 @@ export const SyncVisualization: React.FC<VisualizationProps> = ({ syncStatus, pr
       style={{ 
         height, 
         opacity,
-        transformStyle: "preserve-3d",
-        transform: "translateZ(5px)"
       }}
     >
       <div className="flex flex-col gap-3 pt-2 border-t border-white/10">

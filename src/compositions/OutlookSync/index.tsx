@@ -21,9 +21,10 @@ export const OutlookSyncSchema = z.object({
   eventCount: z.number().default(3),
   scale: z.number().default(1),
   background: zBackground.optional(),
+  isDone: z.boolean().default(false),
 });
 
-export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>> = ({
+export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> & { children?: React.ReactNode }> = ({
   enabled,
   loading,
   showInfo,
@@ -36,6 +37,8 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   eventCount = 3,
   scale = 1,
   background,
+  children,
+  isDone = false,
 }) => {
   const { fps } = useVideoConfig();
   
@@ -47,14 +50,6 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
     ? interpolate(useCurrentFrame(), [SYNC_START, SYNC_END], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" })
     : staticProgress;
 
-  const rotX = animate
-    ? interpolate(useCurrentFrame(), [0, 60], [15, staticRotX], { extrapolateRight: "clamp" })
-    : staticRotX;
-
-  const rotY = animate
-    ? interpolate(useCurrentFrame(), [0, 60], [-10, staticRotY], { extrapolateRight: "clamp" })
-    : staticRotY;
-
   const entrance = spring({
     frame: useCurrentFrame(),
     fps,
@@ -63,9 +58,6 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
 
   const entranceOpacity = interpolate(entrance, [0, 0.5], [0, 1]);
   const entranceY = interpolate(entrance, [0, 1], [20, 0]);
-  
-  const shadowDepth = interpolate(rotX, [-45, 45], [20, -20]);
-  const shadowBlur = Math.abs(rotX) + Math.abs(rotY) + 10;
   
   const audioTrack = animate ? (
     <>
@@ -82,7 +74,7 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
   ) : null;
 
   return (
-    <AbsoluteFill style={{ perspective: "1200px" }}>
+    <AbsoluteFill>
       {background && <Background {...background} />}
       {audioTrack}
 
@@ -94,23 +86,10 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
           className="w-80 bg-[#1e2329] p-4 rounded-xl border border-white/5"
           style={{
             opacity: entranceOpacity,
-            transformStyle: "preserve-3d",
-            transform: `scale(${scale}) translateY(${entranceY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${staticDepth}px)`,
-            boxShadow: `
-              ${-rotY / 2}px ${shadowDepth}px ${shadowBlur}px rgba(0,0,0,0.5),
-              0 0 40px rgba(0,0,0,0.2)
-            `,
+            transform: `scale(${scale}) translateY(${entranceY}px)`,
+            boxShadow: `0 20px 60px rgba(0,0,0,0.3)`,
           }}
         >
-          <div 
-            className="absolute inset-0 rounded-xl bg-[#1e2329] border border-white/10"
-            style={{ transform: "translateZ(-2px)" }}
-          />
-          <div 
-            className="absolute inset-0 rounded-xl bg-black/40"
-            style={{ transform: "translateZ(-4px)" }}
-          />
-
           <VideoOutlookSyncToggle
             enabled={enabled}
             loading={loading}
@@ -124,6 +103,7 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema>>
             eventCount={eventCount}
           />
         </div>
+        {children}
       </MendeluEnvironment>
     </AbsoluteFill>
   );

@@ -35,24 +35,15 @@ export const EventCard: React.FC<EventCardProps> = ({ title, time, progress, ind
       style={{
         opacity,
         transform: `translateX(${translateX}px) scale(${scale})`,
-        transformStyle: "preserve-3d",
-        backgroundColor: "rgba(22, 27, 34, 0.4)", // Translucent base
-        backdropFilter: "blur(12px)", // Glassmorphism
+        backgroundColor: "#161b22", // Solid base matching SubjectDrawer style
       }}
     >
-      {/* Surface Elevation Highlight */}
-      <div 
-        className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" 
-        style={{ transform: "translateZ(1px)" }}
-      />
-
       {/* Category Accent */}
       <div 
         className={`w-1 h-8 rounded-full ${isExam ? "bg-[#f85149]" : "bg-primary"}`} 
-        style={{ transform: "translateZ(2px)" }} 
       />
       
-      <div className="flex flex-col gap-1 flex-1 items-start text-left" style={{ transform: "translateZ(3px)" }}>
+      <div className="flex flex-col gap-1 flex-1 items-start text-left">
         {/* Desaturated Event Type Tag - Czech Translation */}
         <span className={`text-[8px] font-bold uppercase tracking-[0.1em] px-1.5 py-0.5 rounded-md ${isExam ? "bg-[#f85149]/20 text-[#f85149]/90" : "bg-primary/20 text-primary/90"}`}>
           {type === "lecture" ? "přednáška" : type === "exam" ? "zkouška" : "cvičení"}
