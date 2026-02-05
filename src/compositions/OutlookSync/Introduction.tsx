@@ -47,17 +47,17 @@ export const OutlookSyncIntroduction: React.FC = () => {
   const ACT0_START = 0;
   const ACT0_DURATION = 75; // 2.5s
   
-  // ACT 1: Question Hook (2s)
+  // ACT 1: Question Hook (2.5s)
   const ACT1_START = ACT0_START + ACT0_DURATION;
-  const ACT1_DURATION = 60; // 2s
+  const ACT1_DURATION = 75; // 2.5s
   
   // ACT 2: Hero Feature - Outlook Sync (4s)
   const ACT2_START = ACT1_START + ACT1_DURATION;
   const ACT2_DURATION = 120; // 4s
   
-  // ACT 3: Brand + CTA (3s)
+  // ACT 3: Brand + CTA (3.5s)
   const ACT3_START = ACT2_START + ACT2_DURATION;
-  const ACT3_DURATION = 90; // 3s
+  const ACT3_DURATION = 105; // 3.5s
 
   return (
     <AbsoluteFill className="bg-[#0a0c10]">
