@@ -56,7 +56,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
       
       {/* Audio for scripted selection / entrance */}
       {props.animate && (
-        <Sequence from={0}>
+        <Sequence>
           <SoundEffect type="SWOOSH" volume={0.6} />
         </Sequence>
       )}

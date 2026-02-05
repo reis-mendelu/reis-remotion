@@ -1,44 +1,39 @@
 import React from "react";
-import { spring, interpolate, interpolateColors, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, interpolateColors, useCurrentFrame, useVideoConfig } from "remotion";
 import { Calendar } from "lucide-react";
 
-interface ToggleProps {
+interface SynchronizationButtonProps {
   enabled: boolean | null;
   loading: boolean;
   showInfo: boolean;
-  progress: number;
+  progress: number; // This is sync progress
+  toggleProgress: number; // This is 0-1 for the toggle switch position
 }
 
-export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading, progress }) => {
+export const SynchronizationButton: React.FC<SynchronizationButtonProps> = ({ 
+  enabled, 
+  loading, 
+  toggleProgress 
+}) => {
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
   
-  // Munger-style Softer Spring for slower, more deliberate motion
-  const springProgress = spring({
-    frame: progress * 60, 
-    fps,
-    config: {
-      damping: 25,
-      stiffness: 80, // Reduced from 200 for "slowly" requirement
-    },
-  });
-
   // Loading state pulse - perfectly deterministic
   const loadingPulse = loading 
     ? interpolate(Math.sin((frame / fps) * Math.PI * 2), [-1, 1], [0.8, 1])
     : 1;
 
-  const toggleX = interpolate(springProgress, [0, 1], [4, 14]);
+  const toggleX = interpolate(toggleProgress, [0, 1], [4, 14]);
   
   // Smooth color transition using interpolateColors
   const background = interpolateColors(
-    springProgress,
+    toggleProgress,
     [0, 1],
     ["#1f2937", "#79be15"] // base-100 dark to primary
   );
 
-  // Glow intensity driven by spring progress
-  const glowOpacity = interpolate(springProgress, [0.8, 1], [0, 0.4], { extrapolateLeft: "clamp" });
+  // Glow intensity driven by toggle progress
+  const glowOpacity = interpolate(toggleProgress, [0.8, 1], [0, 0.4], { extrapolateLeft: "clamp" });
 
   return (
     <div 
@@ -50,11 +45,11 @@ export const VideoOutlookSyncToggle: React.FC<ToggleProps> = ({ enabled, loading
             strokeWidth={1.5} 
             className="text-[#9ca3af]"
             style={{ 
-              opacity: interpolate(springProgress, [0, 1], [0.4, 0.8]),
-              transform: `scale(${interpolate(springProgress, [0, 1], [1, 1.1])})`,
+              opacity: interpolate(toggleProgress, [0, 1], [0.4, 0.8]),
+              transform: `scale(${interpolate(toggleProgress, [0, 1], [1, 1.1])})`,
             }} 
           />
-          <span className="text-xs font-bold text-[#f3f4f6]" style={{ opacity: interpolate(springProgress, [0, 1], [0.5, 0.8]) }}>
+          <span className="text-xs font-bold text-[#f3f4f6]" style={{ opacity: interpolate(toggleProgress, [0, 1], [0.5, 0.8]) }}>
             Synchronizace rozvrhu
           </span>
         </div>

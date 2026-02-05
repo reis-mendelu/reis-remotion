@@ -15,20 +15,20 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
   subject,
   selectedCount = 0,
   activeTab = "files",
-  isDone = false,
   buttonState = 'hidden',
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   // Button entrance animation (spring from frame 56)
-  const buttonEntrance = buttonState !== 'hidden' 
-    ? spring({
-        frame: frame - 56,
-        fps,
-        config: { damping: 15, mass: 0.5 },
-      })
-    : 0;
+  // Button entrance animation (spring from frame 56)
+  const buttonEntranceRaw = spring({
+    frame: frame - 56,
+    fps,
+    config: { damping: 15, mass: 0.5 },
+  });
+  
+  const buttonEntrance = buttonState !== 'hidden' ? buttonEntranceRaw : 0;
 
   const entranceOpacity = buttonState === 'hidden' ? 0 : interpolate(buttonEntrance, [0, 1], [0, 1], {
     extrapolateRight: "clamp",

@@ -1,35 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { Thumbnail } from '@remotion/player';
 import { test, expect } from 'vitest';
-import { WelcomeComposition } from '../compositions/Welcome';
 import { OutlookSyncComposition } from '../compositions/OutlookSync';
 
 // Mock specific remotion functionality if needed, or rely on Thumbnail context
 // Thumbnail provides frame context.
-
-test('OutlookSyncComposition renders title efficiently', async () => {
-    const testTitle = "Integration Test Title";
-    
-    render(
-        <Thumbnail
-            component={WelcomeComposition}
-            compositionWidth={1280}
-            compositionHeight={720}
-            frameToDisplay={30}
-            durationInFrames={60}
-            fps={30}
-            inputProps={{
-                title: testTitle,
-                logoColor: "#ff0000"
-            }}
-        />
-    );
-
-    // Using findByText as it's async and waits for potential suspension updates
-    const titleElement = await screen.findByText(testTitle);
-    expect(titleElement).toBeTruthy();
-    expect(titleElement.className).toContain('text-8xl');
-});
 
 test('OutlookSyncComposition frame-accuracy protocol', async () => {
     // We check if the toggle handle is at the correct position at frame 15 (middle of progress 0->1 transition)
@@ -53,6 +28,9 @@ test('OutlookSyncComposition frame-accuracy protocol', async () => {
                 syncStatus: "syncing",
                 eventCount: 3,
                 scale: 1,
+                toggleProgress: 1,
+                isDone: false,
+                showVisualization: true,
             }}
         />
     );

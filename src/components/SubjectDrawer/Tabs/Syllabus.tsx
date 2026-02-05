@@ -50,6 +50,7 @@ export const SubjectDrawerSyllabus: React.FC<SubjectDrawerSyllabusProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {syllabus.requirementsTable.map((row: any) => (
                   <tr key={row.id}>
                     <td className="px-4 py-3 text-[#79be15]">{row.id}</td>

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Sequence } from "remotion";
 import { MendeluEnvironment } from "../../Environment";
 import { SoundEffect } from "../../components/SoundEffect";
-import { VideoOutlookSyncToggle } from "../../components/OutlookSync/Toggle";
+import { SynchronizationButton } from "../../components/OutlookSync/SynchronizationButton";
 import { SyncVisualization } from "../../components/OutlookSync/Visualization";
 import { zBackground } from "../../components/Background/schema";
 import { Background } from "../../components/Background";
@@ -22,6 +22,8 @@ export const OutlookSyncSchema = z.object({
   scale: z.number().default(1),
   background: zBackground.optional(),
   isDone: z.boolean().default(false),
+  showVisualization: z.boolean().default(true),
+  toggleProgress: z.number().default(1),
 });
 
 export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> & { children?: React.ReactNode }> = ({
@@ -30,15 +32,15 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> 
   showInfo,
   progress: staticProgress,
   animate,
-  rotationX: staticRotX = 0,
-  rotationY: staticRotY = 0,
-  depth: staticDepth = 0,
+  // Unused props removed from destructuring to satisfy linter
+  // rotationX, rotationY, depth, isDone
   syncStatus = "pending",
   eventCount = 3,
   scale = 1,
   background,
   children,
-  isDone = false,
+  showVisualization = true,
+  toggleProgress = 1,
 }) => {
   const { fps } = useVideoConfig();
   
@@ -46,8 +48,9 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> 
   const SYNC_DURATION = 50;
   const SYNC_END = SYNC_START + SYNC_DURATION;
 
+  const frame = useCurrentFrame();
   const progress = animate 
-    ? interpolate(useCurrentFrame(), [SYNC_START, SYNC_END], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" })
+    ? interpolate(frame, [SYNC_START, SYNC_END], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" })
     : staticProgress;
 
   const entrance = spring({
@@ -61,9 +64,9 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> 
   
   const audioTrack = animate ? (
     <>
-      <Sequence from={0}>
-         <SoundEffect type="SWOOSH" volume={0.6} />
-      </Sequence>
+       <Sequence>
+          <SoundEffect type="SWOOSH" volume={0.6} />
+       </Sequence>
       <Sequence from={SYNC_START}>
          <SoundEffect type="TOGGLE_ON" volume={0.8} />
       </Sequence>
@@ -90,18 +93,21 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> 
             boxShadow: `0 20px 60px rgba(0,0,0,0.3)`,
           }}
         >
-          <VideoOutlookSyncToggle
+          <SynchronizationButton
             enabled={enabled}
             loading={loading}
             showInfo={showInfo}
             progress={progress}
+            toggleProgress={toggleProgress}
           />
 
-          <SyncVisualization 
-            syncStatus={syncStatus}
-            progress={progress}
-            eventCount={eventCount}
-          />
+          {showVisualization && (
+            <SyncVisualization 
+              syncStatus={syncStatus}
+              progress={progress}
+              eventCount={eventCount}
+            />
+          )}
         </div>
         {children}
       </MendeluEnvironment>

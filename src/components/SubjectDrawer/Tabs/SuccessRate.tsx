@@ -41,6 +41,7 @@ export const SubjectDrawerSuccessRate: React.FC<SubjectDrawerSuccessRateProps> =
 
   // Aggregate grades from terms
   const aggregatedGrades: Record<string, number> = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   current.terms.forEach((term: any) => {
     if (isCredit && term.creditGrades) {
         aggregatedGrades.zap = (aggregatedGrades.zap || 0) + term.creditGrades.zap;

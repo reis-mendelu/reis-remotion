@@ -1,7 +1,7 @@
 import { AbsoluteFill } from "remotion";
-import { WeeklyCalendarDay } from "../components/reis/WeeklyCalendarDay";
-import { BlockLesson } from "../components/reis/types";
-import { Background } from "../components/Background";
+import { WeeklyCalendarDay } from "./WeeklyCalendarDay";
+import { BlockLesson } from "./types";
+import { Background } from "../Background";
 
 const mockLessons: BlockLesson[] = [
   {
@@ -45,7 +45,7 @@ const mockLessons: BlockLesson[] = [
   }
 ];
 
-export const WeeklyCalendarTest: React.FC = () => {
+export const WeeklyCalendar: React.FC = () => {
   const START_HOUR = 8;
   const END_HOUR = 13; // Focus on a smaller part of the day as requested
   const TOTAL_HOURS = END_HOUR - START_HOUR;

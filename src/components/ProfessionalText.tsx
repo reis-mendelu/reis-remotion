@@ -43,7 +43,7 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
         result.push({ char, highlight: isHighlighted });
     }
     return result;
-  }, [text, isMinimalist]);
+  }, [text, shouldTransformText]);
 
   const baseFontSize = preset.fontSize;
   const responsiveFontSize = type === "hook" && text.length > 10 
@@ -113,7 +113,7 @@ export const ProfessionalText: React.FC<ProfessionalTextProps> = ({
       opacity: shouldAnimate ? springOpacity : 1,
       transform: shouldAnimate ? `scale(${springScale})` : "none",
     };
-  }, [preset, responsiveFontSize, color, isMinimalist, springOpacity, springScale, animate]);
+  }, [preset, responsiveFontSize, color, isMinimalist, springOpacity, springScale, animate, padding]);
 
   return (
     <div style={containerStyle}>

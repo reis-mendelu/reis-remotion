@@ -44,17 +44,9 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
           });
 
           // Celebration animation when file is downloaded (spring bounce)
-          let celebrationScale = 1;
-          let celebrationGlow = 0;
-          if (isDownloaded) {
-            // Find when this file was marked as downloaded (staggered at 226, 236, 246)
-            const downloadedIndex = downloadedIds.indexOf(file.link);
-            const celebrationStartFrame = 226 + (downloadedIndex * 10);
-            
-            if (frame >= celebrationStartFrame) {
-              // Celebration removed to reduce cognitive load (folder celebration provides clear success)
-            }
-          }
+          // Removed to reduce cognitive load
+          const celebrationScale = 1;
+          const celebrationGlow = 0;
 
           // Fly-out animation when file is downloaded (flies to folder in bottom-right)
           let flyOutTransform = "";

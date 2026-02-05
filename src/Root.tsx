@@ -12,8 +12,9 @@ import { SubjectDrawerSchema } from "./compositions/SubjectDrawer/schema";
 import { BrandedEndSlide } from "./compositions/BrandedEndSlide";
 import { BrandedEndSlideSchema } from "./compositions/BrandedEndSlide/schema";
 import { IntroPoster } from "./compositions/IntroPoster";
-import { OutlookSyncHint } from "./compositions/OutlookSync/OutlookSyncHint";
-import { WeeklyCalendarTest } from "./compositions/WeeklyCalendarTest";
+import { IntroPosterSchema } from "./compositions/IntroPoster/schema";
+import { OutlookSyncHint } from "./components/OutlookSync/Hint";
+import { WeeklyCalendar } from "./components/reis/WeeklyCalendar";
 import { PRINT_SIZES } from "./constants/print";
 
 export const RemotionRoot: React.FC = () => {
@@ -74,7 +75,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSync-Hint"
           component={OutlookSyncHint}
-          durationInFrames={240}
+          durationInFrames={120}
           fps={30}
           width={1920}
           height={1080}
@@ -125,6 +126,8 @@ export const RemotionRoot: React.FC = () => {
               starsCount: 300,
             },
             isDone: false,
+            showVisualization: true,
+            toggleProgress: 1,
           }}
         />
         <Composition
@@ -152,6 +155,8 @@ export const RemotionRoot: React.FC = () => {
               starsCount: 600,
             },
             isDone: false,
+            showVisualization: true,
+            toggleProgress: 1,
           }}
         />
         <Composition
@@ -209,8 +214,8 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
         <Composition
-          id="WeeklyCalendarTest"
-          component={WeeklyCalendarTest}
+          id="WeeklyCalendar"
+          component={WeeklyCalendar}
           durationInFrames={150}
           fps={30}
           width={1920}
@@ -240,6 +245,7 @@ export const RemotionRoot: React.FC = () => {
           component={IntroPoster}
           width={PRINT_SIZES.A4.width}
           height={PRINT_SIZES.A4.height}
+          schema={IntroPosterSchema}
           defaultProps={{
             title: "*MODERNÍ* *RE*IS",
             subtitle: "Všechny studijní materiály na dosah ruky.",
@@ -251,6 +257,7 @@ export const RemotionRoot: React.FC = () => {
           component={IntroPoster}
           width={PRINT_SIZES.A6.width}
           height={PRINT_SIZES.A6.height}
+          schema={IntroPosterSchema}
           defaultProps={{
             title: "*MODERNÍ* *RE*IS",
             subtitle: "Všechny studijní materiály na dosah ruky.",

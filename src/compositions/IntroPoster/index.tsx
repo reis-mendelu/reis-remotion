@@ -1,14 +1,10 @@
 import React from "react";
+import { z } from "zod";
 import { PrintWrapper } from "../../components/Print/PrintWrapper";
 import { PosterLayout } from "../../components/Print/PosterLayout";
+import { IntroPosterSchema } from "./schema";
 
-interface IntroPosterProps {
-  title: string;
-  subtitle?: string;
-  showGuides?: boolean;
-}
-
-export const IntroPoster: React.FC<IntroPosterProps> = ({
+export const IntroPoster: React.FC<z.infer<typeof IntroPosterSchema>> = ({
   title,
   subtitle,
   showGuides = false,

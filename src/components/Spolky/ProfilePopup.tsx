@@ -1,7 +1,7 @@
 import React from 'react';
 import { Moon, MessageSquarePlus } from 'lucide-react';
 import { SpolkySection } from './SpolkySection';
-import { VideoOutlookSyncToggle } from '../OutlookSync/Toggle';
+import { SynchronizationButton } from '../OutlookSync/SynchronizationButton';
 import { interpolate } from 'remotion';
 
 interface ProfilePopupProps {
@@ -58,11 +58,12 @@ export const ProfilePopup: React.FC<ProfilePopupProps> = ({
             className="opacity-50 mt-2 relative z-10"
             style={{ opacity: dimOpacity * 0.5 }}
         >
-             <VideoOutlookSyncToggle 
+             <SynchronizationButton 
                 enabled={false} 
                 loading={false} 
                 showInfo={false} 
                 progress={0} 
+                toggleProgress={0}
              />
         </div>
 

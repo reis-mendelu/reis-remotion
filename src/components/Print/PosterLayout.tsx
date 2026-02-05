@@ -23,7 +23,6 @@ export const PosterLayout: React.FC<PosterLayoutProps> = ({
   date,
   location,
   ctaText = "vše na tři kliky",
-  qrCodeUrl,
 }) => {
   // Use professional margins (Safe Zone)
   const margin = MM_TO_PX(15); 

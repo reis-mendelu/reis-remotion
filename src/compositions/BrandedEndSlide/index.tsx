@@ -6,6 +6,7 @@ import {
   useVideoConfig,
   staticFile,
   spring,
+  Img,
 } from "remotion";
 import { BrandedEndSlideProps } from "./schema";
 import { Background } from "../../components/Background";
@@ -13,7 +14,6 @@ import { Background } from "../../components/Background";
 export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
   logoScale = 1,
   theme = "dark",
-  animate = true,
   ctaText,
 }) => {
   const frame = useCurrentFrame();
@@ -62,7 +62,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
           height: "120px",
           backgroundColor: "#ffffff", // White background to blend with logo square
         }}>
-          <img 
+          <Img 
             src={logoSrc} 
             style={{ 
               width: "100%", 

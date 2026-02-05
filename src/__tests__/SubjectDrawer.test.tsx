@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Thumbnail } from '@remotion/player';
-import { expect, test, describe } from 'vitest';
+import { expect, test, describe, vi } from 'vitest';
 import { SubjectDrawerComposition } from '../compositions/SubjectDrawer';
 import { SubjectDrawerSchema } from '../compositions/SubjectDrawer/schema';
 
@@ -13,8 +13,10 @@ const mockSubject = {
 };
 
 // Mock useVideoConfig to prevent NaN errors in tests
+// Mock useVideoConfig to prevent NaN errors in tests
 vi.mock("remotion", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("remotion")>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const actual: any = await importOriginal();
   return {
     ...actual,
     useVideoConfig: () => ({
@@ -54,8 +56,8 @@ describe('SubjectDrawer', () => {
                 frameToDisplay={30}
                 durationInFrames={60}
                 fps={30}
-                width={600}
-                height={800}
+                compositionWidth={600}
+                compositionHeight={800}
                 inputProps={props}
             />
         );
@@ -82,8 +84,8 @@ describe('SubjectDrawer', () => {
                 frameToDisplay={30}
                 durationInFrames={60}
                 fps={30}
-                width={600}
-                height={800}
+                compositionWidth={600}
+                compositionHeight={800}
                 inputProps={props}
             />
         );
@@ -113,8 +115,8 @@ describe('SubjectDrawer', () => {
                 frameToDisplay={30}
                 durationInFrames={60}
                 fps={30}
-                width={600}
-                height={800}
+                compositionWidth={600}
+                compositionHeight={800}
                 inputProps={props}
             />
         );

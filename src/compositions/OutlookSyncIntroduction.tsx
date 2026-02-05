@@ -2,7 +2,8 @@ import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
 import { ProfessionalText } from "../components/ProfessionalText";
 import { Background } from "../components/Background";
-import { OutlookSyncHint } from "./OutlookSync/OutlookSyncHint";
+import { OutlookSyncHint } from "../components/OutlookSync/Hint";
+import { WeeklyCalendar } from "../components/reis/WeeklyCalendar";
 import { BrandedEndSlide } from "./BrandedEndSlide";
 
 /**
@@ -21,9 +22,9 @@ export const OutlookSyncIntroduction: React.FC = () => {
   const ACT1_START = ACT0_START + ACT0_DURATION;
   const ACT1_DURATION = 45; // 1.5s
   
-  // ACT 2: Hero Feature - Outlook Sync (8s)
+  // ACT 2: Hero Feature - Outlook Sync (4s)
   const ACT2_START = ACT1_START + ACT1_DURATION;
-  const ACT2_DURATION = 240; // 8s
+  const ACT2_DURATION = 120; // 4s
   
   // ACT 3: Brand + CTA (3s)
   const ACT3_START = ACT2_START + ACT2_DURATION;
@@ -60,8 +61,9 @@ export const OutlookSyncIntroduction: React.FC = () => {
           </AbsoluteFill>
         </Sequence>
 
+
         {/* ===================================================================
-            ACT 2: Hero Feature - Outlook Sync Transition
+            ACT 2: Hero Feature - Outlook Sync Transition (4s)
             =================================================================== */}
         <Sequence from={ACT2_START} durationInFrames={ACT2_DURATION}>
            <OutlookSyncHint 
@@ -70,9 +72,16 @@ export const OutlookSyncIntroduction: React.FC = () => {
         </Sequence>
 
         {/* ===================================================================
+            ACT 2.5: Weekly Calendar (4s)
+            =================================================================== */}
+        <Sequence from={ACT2_START + ACT2_DURATION} durationInFrames={120}>
+           <WeeklyCalendar />
+        </Sequence>
+
+        {/* ===================================================================
             ACT 3: Brand + Call-to-Action
             =================================================================== */}
-        <Sequence from={ACT3_START} durationInFrames={ACT3_DURATION}>
+        <Sequence from={ACT3_START + 120} durationInFrames={ACT3_DURATION}>
           <BrandedEndSlide 
             logoScale={1.5}
             theme="dark"
