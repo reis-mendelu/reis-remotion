@@ -13,8 +13,8 @@ import { BrandedEndSlide } from "./compositions/BrandedEndSlide";
 import { BrandedEndSlideSchema } from "./compositions/BrandedEndSlide/schema";
 import { IntroPoster } from "./compositions/IntroPoster";
 import { OutlookSyncHint } from "./compositions/OutlookSync/OutlookSyncHint";
+import { WeeklyCalendarTest } from "./compositions/WeeklyCalendarTest";
 import { PRINT_SIZES } from "./constants/print";
-import { z } from "zod";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -124,6 +124,7 @@ export const RemotionRoot: React.FC = () => {
               type: "stars",
               starsCount: 300,
             },
+            isDone: false,
           }}
         />
         <Composition
@@ -150,6 +151,7 @@ export const RemotionRoot: React.FC = () => {
               type: "stars",
               starsCount: 600,
             },
+            isDone: false,
           }}
         />
         <Composition
@@ -206,6 +208,14 @@ export const RemotionRoot: React.FC = () => {
             downloadedIds: ["l1"],
           }}
         />
+        <Composition
+          id="WeeklyCalendarTest"
+          component={WeeklyCalendarTest}
+          durationInFrames={150}
+          fps={30}
+          width={1920}
+          height={1080}
+        />
       </Folder>
 
       <Folder name="Spolky-Animations">
@@ -230,11 +240,6 @@ export const RemotionRoot: React.FC = () => {
           component={IntroPoster}
           width={PRINT_SIZES.A4.width}
           height={PRINT_SIZES.A4.height}
-          schema={z.object({
-            title: z.string(),
-            subtitle: z.string(),
-            showGuides: z.boolean().default(true),
-          })}
           defaultProps={{
             title: "*MODERNÍ* *RE*IS",
             subtitle: "Všechny studijní materiály na dosah ruky.",
@@ -246,11 +251,6 @@ export const RemotionRoot: React.FC = () => {
           component={IntroPoster}
           width={PRINT_SIZES.A6.width}
           height={PRINT_SIZES.A6.height}
-          schema={z.object({
-            title: z.string(),
-            subtitle: z.string(),
-            showGuides: z.boolean().default(true),
-          })}
           defaultProps={{
             title: "*MODERNÍ* *RE*IS",
             subtitle: "Všechny studijní materiály na dosah ruky.",
