@@ -5,11 +5,40 @@ import { Background } from "../../components/Background";
 import { OutlookSyncHint } from "../../components/OutlookSync/Hint";
 import { WeeklyCalendar } from "../../components/reis/WeeklyCalendar";
 import { BrandedEndSlide } from "../BrandedEndSlide";
+import { spring } from "remotion";
+import { interpolate } from "remotion";
+import { useVideoConfig } from "remotion";
+import { useCurrentFrame } from "remotion";
 
 /**
  * OutlookSync Introduction: Emotional Narrative Arc
  */
 export const OutlookSyncIntroduction: React.FC = () => {
+  const { fps } = useVideoConfig();
+  
+  const TransitionWrapper: React.FC = () => {
+    const frame = useCurrentFrame();
+    const transition = spring({
+      frame,
+      fps,
+      config: { damping: 12, mass: 0.5 },
+    });
+
+    const height = interpolate(transition, [0, 1], [80, 480]);
+    const opacity = interpolate(transition, [0, 0.2], [0, 1]);
+    
+    return (
+      <WeeklyCalendar 
+        scale={1.6} 
+        hideBackground 
+        cardStyle={{ 
+          height, 
+          opacity,
+          transformOrigin: "top"
+        }} 
+      />
+    );
+  };
   // ============================================================================
   // TIMELINE: 15.5 seconds @ 30fps = 465 frames
   // ============================================================================
@@ -65,7 +94,7 @@ export const OutlookSyncIntroduction: React.FC = () => {
         {/* ===================================================================
             ACT 2: Hero Feature - Outlook Sync Transition (4s)
             =================================================================== */}
-        <Sequence from={ACT2_START} durationInFrames={ACT2_DURATION}>
+        <Sequence from={ACT2_START} durationInFrames={ACT2_DURATION + 30}>
            <OutlookSyncHint 
              scale={1.6}
            />
@@ -75,8 +104,9 @@ export const OutlookSyncIntroduction: React.FC = () => {
             ACT 2.5: Weekly Calendar (4s)
             =================================================================== */}
         <Sequence from={ACT2_START + ACT2_DURATION} durationInFrames={120}>
-           <WeeklyCalendar scale={1.6} />
+           <TransitionWrapper />
         </Sequence>
+
 
         {/* ===================================================================
             ACT 3: Brand + Call-to-Action

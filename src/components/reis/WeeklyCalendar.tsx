@@ -45,18 +45,22 @@ const mockLessons: BlockLesson[] = [
   }
 ];
 
-export const WeeklyCalendar: React.FC<{ scale?: number }> = ({ scale = 1 }) => {
+export const WeeklyCalendar: React.FC<{ 
+  scale?: number;
+  hideBackground?: boolean;
+  cardStyle?: React.CSSProperties;
+}> = ({ scale = 1, hideBackground = false, cardStyle = {} }) => {
   const START_HOUR = 8;
   const END_HOUR = 13; // Focus on a smaller part of the day as requested
   const TOTAL_HOURS = END_HOUR - START_HOUR;
 
   return (
     <AbsoluteFill>
-      <Background type="stars" starsCount={500} />
+      {!hideBackground && <Background type="stars" starsCount={500} />}
       
       <AbsoluteFill className="flex items-center justify-center">
         <div 
-          className="flex flex-row items-center justify-center gap-6"
+          className="flex flex-row items-center justify-center gap-8"
           style={{ transform: `scale(${scale})` }}
         >
           {/* Outlook Logo - Moved to left */}
@@ -87,6 +91,7 @@ export const WeeklyCalendar: React.FC<{ scale?: number }> = ({ scale = 1 }) => {
             style={{ 
               height: 480, // Proportional height for the snapshot
               boxShadow: `0 20px 60px rgba(0,0,0,0.5)`,
+              ...cardStyle
             }}
           >
             {/* REIS Header Replication - Dark Mode */}
