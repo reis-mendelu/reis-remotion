@@ -4,7 +4,8 @@ import {
   OutlookSyncSchema,
 } from "./compositions/OutlookSync";
 import { SpolkyComposition, SpolkyCompositionSchema } from "./components/Spolky/SpolkyComposition";
-import { ReISIntroduction } from "./compositions/ReISIntroduction";
+import { SubjectDrawerIntroduction } from "./compositions/SubjectDrawerIntroduction";
+import { OutlookSyncIntroduction } from "./compositions/OutlookSyncIntroduction";
 import { SubjectDrawerComposition } from "./compositions/SubjectDrawer";
 import { FilesHint } from "./compositions/SubjectDrawer/FilesHint";
 import { SubjectDrawerSchema } from "./compositions/SubjectDrawer/schema";
@@ -19,9 +20,17 @@ export const RemotionRoot: React.FC = () => {
     <>
       <Folder name="Official-Sequences">
         <Composition
-          id="ReIS-Intro"
-          component={ReISIntroduction}
-          durationInFrames={465} // 15.5 seconds (streamlined)
+          id="SubjectDrawer-Intro"
+          component={SubjectDrawerIntroduction}
+          durationInFrames={465} // 15.5 seconds
+          fps={30}
+          width={1920}
+          height={1080}
+        />
+        <Composition
+          id="OutlookSync-Intro"
+          component={OutlookSyncIntroduction}
+          durationInFrames={465} // 15.5 seconds
           fps={30}
           width={1920}
           height={1080}
