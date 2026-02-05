@@ -1,6 +1,6 @@
 import React from "react";
 import { z } from "zod";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Sequence } from "remotion";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Sequence, Img, staticFile } from "remotion";
 import { MendeluEnvironment } from "../../Environment";
 import { SoundEffect } from "../../components/SoundEffect";
 import { SynchronizationButton } from "../../components/OutlookSync/SynchronizationButton";
@@ -85,14 +85,43 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> 
         className="w-full h-full flex items-center justify-center"
         style={{ backgroundColor: "transparent" }}
       >
+        <div className="flex flex-row items-center justify-center gap-8"
+             style={{
+               opacity: entranceOpacity,
+               transform: `scale(${scale}) translateY(${entranceY}px)`,
+             }}
+        >
+          {/* Mendelu Logo - BrandedEndSlide style */}
+          <div style={{ 
+            position: "relative",
+            zIndex: 10,
+            borderRadius: "50%",
+            overflow: "hidden",
+            width: "55px",
+            height: "55px",
+            backgroundColor: "#ffffff",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+            flexShrink: 0
+          }}>
+            <Img 
+              src={staticFile("mendelu_logo.png")} 
+              style={{ 
+                width: "100%", 
+                height: "100%", 
+                objectFit: "contain",
+                padding: "8px", 
+              }} 
+            />
+          </div>
+
         <div 
           className="w-80 bg-[#1e2329] p-4 rounded-xl border border-white/5"
           style={{
-            opacity: entranceOpacity,
-            transform: `scale(${scale}) translateY(${entranceY}px)`,
             boxShadow: `0 20px 60px rgba(0,0,0,0.3)`,
           }}
         >
+
+
           <SynchronizationButton
             enabled={enabled}
             loading={loading}
@@ -108,6 +137,7 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> 
               eventCount={eventCount}
             />
           )}
+        </div>
         </div>
         {children}
       </MendeluEnvironment>

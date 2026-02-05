@@ -124,3 +124,9 @@ Maintain a clean, categorized studio environment to prevent cognitive load drift
 ### B. Zero-Mocks Policy
 - **Rule**: Do not commit "test" or "mock" compositions to `Root.tsx`.
 - **Rationale**: If a component needs testing, create a dedicated "Hint" or "Building Block" composition that documents its usage, or rely on Unit Tests (Rule #3). Mocks decay and clutter the workspace.
+
+## 12. Clarify Scope ("Measure Twice, Cut Once")
+Before implementing a change based on a brief instruction, ask clarifying questions to ensure alignment on visual and functional scope. 
+- **Trigger**: When a request is ambiguous or lacks a specific visual target (e.g., "make it look nice").
+- **Action**: Pause and ask: "Should this match specific existing components (like BrandedEndSlide)?" or "Is there a specific reference style?"
+- **Rationale**: Prevents "industrial aggression" in design and reduces rework cycles.

@@ -67,7 +67,7 @@ export const OutlookSyncIntroduction: React.FC = () => {
             =================================================================== */}
         <Sequence from={ACT2_START} durationInFrames={ACT2_DURATION}>
            <OutlookSyncHint 
-             scale={2}
+             scale={1.6}
            />
         </Sequence>
 
@@ -75,7 +75,7 @@ export const OutlookSyncIntroduction: React.FC = () => {
             ACT 2.5: Weekly Calendar (4s)
             =================================================================== */}
         <Sequence from={ACT2_START + ACT2_DURATION} durationInFrames={120}>
-           <WeeklyCalendar />
+           <WeeklyCalendar scale={1.6} />
         </Sequence>
 
         {/* ===================================================================
