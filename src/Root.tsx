@@ -26,7 +26,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="OutlookSync-Intro"
           component={OutlookSyncIntroduction}
-          durationInFrames={480} // 16 seconds
+          durationInFrames={495} // 16.5 seconds
           fps={30}
           width={1920}
           height={1080}

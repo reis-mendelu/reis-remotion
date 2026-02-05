@@ -47,9 +47,9 @@ export const OutlookSyncIntroduction: React.FC = () => {
   const ACT0_START = 0;
   const ACT0_DURATION = 75; // 2.5s
   
-  // ACT 1: Question Hook (1.5s)
+  // ACT 1: Question Hook (2s)
   const ACT1_START = ACT0_START + ACT0_DURATION;
-  const ACT1_DURATION = 45; // 1.5s
+  const ACT1_DURATION = 60; // 2s
   
   // ACT 2: Hero Feature - Outlook Sync (4s)
   const ACT2_START = ACT1_START + ACT1_DURATION;
