@@ -33,11 +33,11 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
   // Scripted Selection Logic
   let effectiveSelectedIds = selectedIds;
   if (scriptedSelection) {
-     if (frame < 30) {
-        effectiveSelectedIds = [];
-     } else if (frame < 60) {
-        effectiveSelectedIds = ["l1", "l2", "l3"];
-     }
+    if (frame < 30) {
+      effectiveSelectedIds = [];
+    } else if (frame < 60) {
+      effectiveSelectedIds = ["l1", "l2", "l3"];
+    }
   }
 
   const entrance = spring({
@@ -53,7 +53,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
   return (
     <AbsoluteFill className="overflow-hidden">
       {background && <Background {...background} />}
-      
+
       {/* Audio for scripted selection / entrance */}
       {props.animate && (
         <Sequence>
@@ -61,11 +61,11 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
         </Sequence>
       )}
 
-      <MendeluEnvironment 
+      <MendeluEnvironment
         className="w-full h-full flex items-center justify-center p-12"
         style={{ backgroundColor: "transparent" }}
       >
-        <div 
+        <div
           className="w-[600px] h-[450px] bg-[#1a1f26] rounded-3xl border border-white/5 flex flex-col relative"
           style={{
             opacity: entranceOpacity,
@@ -75,29 +75,30 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
         >
           {/* No 3D extrusion layers - clean and simple */}
 
-          <SubjectDrawerHeader 
-            subject={subject} 
-            selectedCount={effectiveSelectedIds.length} 
+          <SubjectDrawerHeader
+            subject={subject}
+            selectedCount={effectiveSelectedIds.length}
             isDone={isDone}
             buttonState={buttonState}
+            activeTab={activeTab}
           />
 
           <div className="flex-1 overflow-hidden bg-[#1a1f26] rounded-b-3xl">
             {activeTab === "files" && (
-                <SubjectDrawerFileList 
-                    groups={groups}
-                    selectedIds={effectiveSelectedIds}
-                    downloadedIds={downloadedIds}
-                    downloadProgress={downloadProgress}
-                />
+              <SubjectDrawerFileList
+                groups={groups}
+                selectedIds={effectiveSelectedIds}
+                downloadedIds={downloadedIds}
+                downloadProgress={downloadProgress}
+              />
             )}
             {activeTab === "stats" && (
-                <SubjectDrawerSuccessRate successRate={successRate} />
+              <SubjectDrawerSuccessRate successRate={successRate} />
             )}
           </div>
-          
+
           {/* Download Folder - Bottom-right indicator */}
-          <DownloadFolder 
+          <DownloadFolder
             downloadedCount={downloadedIds.length}
             totalCount={selectedIds.length}
             isVisible={buttonState === 'downloading' || buttonState === 'complete'}

@@ -8,6 +8,7 @@ import { BrandedEndSlideSchema } from "./compositions/BrandedEndSlide/schema";
 import { IntroPoster } from "./compositions/IntroPoster";
 import { IntroPosterSchema } from "./compositions/IntroPoster/schema";
 import { OutlookSyncHint } from "./components/OutlookSync/Hint";
+import { SuccessRateHint } from "./compositions/SubjectDrawer/SuccessRateHint";
 import { WeeklyCalendar } from "./components/reis/WeeklyCalendar";
 import { PRINT_SIZES } from "./constants/print";
 
@@ -78,6 +79,30 @@ export const RemotionRoot: React.FC = () => {
           height={1080}
           defaultProps={{
             scale: 2,
+          }}
+        />
+        <Composition
+          id="SubjectDrawer-SuccessRate"
+          component={SuccessRateHint}
+          durationInFrames={240}
+          fps={30}
+          width={1920}
+          height={1080}
+          schema={SubjectDrawerSchema}
+          defaultProps={{
+            subject: {
+              name: "Statistika",
+              code: "STA",
+              credits: "6 KREDITŮ",
+              status: "POVINNÝ",
+              completion: "Zkouška",
+            },
+            scale: 2,
+            animate: true,
+            background: { type: "stars", starsCount: 500 },
+            rotationX: 25,
+            rotationY: -15,
+            depth: 50,
           }}
         />
         <Composition

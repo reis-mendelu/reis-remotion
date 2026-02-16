@@ -13,14 +13,14 @@ Config.setVideoImageFormat("png");
 Config.setOverwriteOutput(true);
 Config.overrideWebpackConfig((currentConfiguration) => {
   const configWithTailwind = enableTailwind(currentConfiguration);
-  
+
   return {
     ...configWithTailwind,
     resolve: {
       ...configWithTailwind.resolve,
       alias: {
         ...(configWithTailwind.resolve?.alias || {}),
-        "@": path.resolve(__dirname, "../reis/src"),
+        "@": path.resolve(__dirname, "../../REIS/reis-extension/src"),
       },
     },
   };
