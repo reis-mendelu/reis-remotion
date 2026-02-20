@@ -5,6 +5,8 @@ import { Background } from "../../components/Background";
 import { SubjectDrawerHeader } from "../../components/SubjectDrawer/Header";
 import { SubjectDrawerFileList } from "../../components/SubjectDrawer/Tabs/FileList";
 import { SubjectDrawerSuccessRate } from "../../components/SubjectDrawer/Tabs/SuccessRate";
+import { SubjectDrawerClassmates } from "../../components/SubjectDrawer/Tabs/Classmates";
+import { SubjectDrawerSyllabus } from "../../components/SubjectDrawer/Tabs/Syllabus";
 import { DownloadFolder } from "../../components/SubjectDrawer/DownloadFolder";
 import { MendeluEnvironment } from "../../Environment";
 import { SoundEffect } from "../../components/SoundEffect";
@@ -15,6 +17,8 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
     subject,
     groups = [],
     successRate,
+    syllabus,
+    classmates,
     activeTab = "files",
     background,
     scale = 1,
@@ -23,6 +27,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
     downloadProgress,
     buttonState,
     scriptedSelection = false,
+    tabOffset = 0,
     isDone = false,
     children,
   } = props;
@@ -83,18 +88,45 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
             activeTab={activeTab}
           />
 
-          <div className="flex-1 overflow-hidden bg-[#1a1f26] rounded-b-3xl">
-            {activeTab === "files" && (
-              <SubjectDrawerFileList
-                groups={groups}
-                selectedIds={effectiveSelectedIds}
-                downloadedIds={downloadedIds}
-                downloadProgress={downloadProgress}
-              />
-            )}
-            {activeTab === "stats" && (
-              <SubjectDrawerSuccessRate successRate={successRate} />
-            )}
+          <div
+            className="flex-1 overflow-hidden bg-[#1a1f26] rounded-b-3xl"
+          >
+            <div
+              className="w-full h-full"
+              style={{
+                opacity: interpolate(frame - tabOffset, [0, 15], [0, 1], { extrapolateRight: 'clamp' }),
+                transform: `translateY(${interpolate(frame - tabOffset, [0, 15], [5, 0], { extrapolateRight: 'clamp' })}px)`,
+              }}
+            >
+              {activeTab === "files" && (
+                <Sequence from={tabOffset} layout="none">
+                  <SubjectDrawerFileList
+                    groups={groups}
+                    selectedIds={effectiveSelectedIds}
+                    downloadedIds={downloadedIds}
+                    downloadProgress={downloadProgress}
+                  />
+                </Sequence>
+              )}
+              {activeTab === "stats" && (
+                <Sequence from={tabOffset} layout="none">
+                  <SubjectDrawerSuccessRate successRate={successRate} />
+                </Sequence>
+              )}
+              {activeTab === "syllabus" && (
+                <Sequence from={tabOffset} layout="none">
+                  <SubjectDrawerSyllabus syllabus={syllabus} />
+                </Sequence>
+              )}
+              {activeTab === "classmates" && (
+                <Sequence from={tabOffset} layout="none">
+                  <SubjectDrawerClassmates
+                    classmates={classmates}
+                    activeSubTab={props.activeSubTab as any}
+                  />
+                </Sequence>
+              )}
+            </div>
           </div>
 
           {/* Download Folder - Bottom-right indicator */}
