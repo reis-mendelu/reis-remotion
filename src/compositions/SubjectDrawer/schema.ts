@@ -10,7 +10,7 @@ export const FileSchema = z.object({
 export const FileGroupSchema = z.object({
   name: z.string(),
   displayName: z.string(),
-  files: z.array(FileSchema),
+  files: z.array(FileSchema).default([]),
 });
 
 export const TeacherSchema = z.object({
@@ -26,6 +26,15 @@ export const SubjectSchema = z.object({
   completion: z.string(),
   garant: z.string().optional(),
   vyucujici: z.array(TeacherSchema).optional(),
+});
+
+export const ClassmateSchema = z.object({
+  name: z.string(),
+  avatarUrl: z.string().optional(),
+  degree: z.string().optional(),
+  year: z.string().optional(),
+  semester: z.string().optional(),
+  hasMessage: z.boolean().optional(),
 });
 
 export const SyllabusSchema = z.object({
@@ -50,22 +59,24 @@ export const SuccessRateSchema = z.object({
         nezap: z.number(),
         zapNedost: z.number().optional(),
       }).optional(),
-    })),
-  })),
+    })).default([]),
+  })).default([]),
 });
 
 export const SubjectDrawerSchema = z.object({
   subject: SubjectSchema,
-  groups: z.array(FileGroupSchema).default([]),
+  groups: z.array(FileGroupSchema).optional().default([]),
   syllabus: SyllabusSchema.optional(),
   successRate: SuccessRateSchema.optional(),
-  activeTab: z.enum(["files", "syllabus", "stats"]).default("files"),
+  classmates: z.array(ClassmateSchema).optional().default([]),
+  activeTab: z.enum(["files", "syllabus", "stats", "classmates"]).default("files"),
   progress: z.number().min(0).max(1).default(1),
   animate: z.boolean().default(false),
   background: zBackground.optional(),
   scale: z.number().default(1),
   selectedIds: z.array(z.string()).default([]),
   downloadedIds: z.array(z.string()).default([]),
+  activeSubTab: z.enum(["all", "exercise"]).optional().default("all"),
   downloadProgress: z.record(z.string(), z.number().min(0).max(1)).optional(),
   buttonState: z.enum(['hidden', 'ready', 'clicking', 'downloading', 'complete']).optional(),
   rotationX: z.number().default(0),
@@ -73,11 +84,12 @@ export const SubjectDrawerSchema = z.object({
   depth: z.number().default(0),
   scriptedSelection: z.boolean().optional(),
   isDone: z.boolean().optional(),
+  tabOffset: z.number().optional().default(0),
 });
 
 export type File = z.infer<typeof FileSchema>;
 export type FileGroup = z.infer<typeof FileGroupSchema>;
 export type Teacher = z.infer<typeof TeacherSchema>;
 export type Subject = z.infer<typeof SubjectSchema>;
-export type SubjectDrawerProps = z.input<typeof SubjectDrawerSchema>;
+export type SubjectDrawerProps = z.infer<typeof SubjectDrawerSchema>;
 export type SubjectDrawerOutput = z.infer<typeof SubjectDrawerSchema>;

@@ -37,6 +37,7 @@
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion bundle",
+    "render-stats": "remotion render SubjectDrawer-SuccessRate-Seq out.mp4 --pixel-format yuv420p --pro-preset main --crf 18",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "test": "vitest"

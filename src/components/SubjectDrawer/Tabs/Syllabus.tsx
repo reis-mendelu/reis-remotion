@@ -10,12 +10,12 @@ export const SubjectDrawerSyllabus: React.FC<SubjectDrawerSyllabusProps> = ({
   syllabus,
 }) => {
   const frame = useCurrentFrame();
-  
+
   if (!syllabus || (!syllabus.requirementsText && !syllabus.requirementsTable?.length)) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-12 text-center opacity-30 font-inter">
         <BookOpen className="w-16 h-16 mb-4" />
-        <p className="text-sm font-black uppercase tracking-[0.2em]">PRO TENTO PŘEDMĚT NEJSOU<br/>DOSTUPNÉ POŽADAVKY.</p>
+        <p className="text-sm font-black uppercase tracking-[0.2em]">PRO TENTO PŘEDMĚT NEJSOU<br />DOSTUPNÉ POŽADAVKY.</p>
       </div>
     );
   }
@@ -24,9 +24,9 @@ export const SubjectDrawerSyllabus: React.FC<SubjectDrawerSyllabusProps> = ({
   const entranceY = interpolate(frame, [0, 15], [20, 0], { extrapolateRight: 'clamp' });
 
   return (
-    <div 
-        className="h-full overflow-y-auto bg-[#1f2937] p-6 space-y-8 font-inter"
-        style={{ opacity: entranceOpacity, transform: `translateY(${entranceY}px)` }}
+    <div
+      className="h-full overflow-y-auto bg-[#1f2937] p-6 space-y-8 font-inter"
+      style={{ opacity: entranceOpacity, transform: `translateY(${entranceY}px)` }}
     >
       {/* Requirements Text */}
       {syllabus.requirementsText && (
@@ -51,11 +51,11 @@ export const SubjectDrawerSyllabus: React.FC<SubjectDrawerSyllabusProps> = ({
               </thead>
               <tbody className="divide-y divide-white/5">
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                {syllabus.requirementsTable.map((row: any) => (
-                  <tr key={row.id}>
-                    <td className="px-4 py-3 text-[#79be15]">{row.id}</td>
-                    <td className="px-4 py-3 text-[#f3f4f6]/80">{row.label}</td>
-                    <td className="px-4 py-3 text-right text-[#f3f4f6]">{row.points}</td>
+                {(syllabus?.requirementsTable || []).map((req, i) => (
+                  <tr key={req.id}>
+                    <td className="px-4 py-3 text-[#79be15]">{req.id}</td>
+                    <td className="px-4 py-3 text-[#f3f4f6]/80">{req.label}</td>
+                    <td className="px-4 py-3 text-right text-[#f3f4f6]">{req.points}</td>
                   </tr>
                 ))}
               </tbody>

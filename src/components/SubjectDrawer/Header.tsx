@@ -6,7 +6,7 @@ import type { Subject } from "../../compositions/SubjectDrawer/schema";
 interface SubjectDrawerHeaderProps {
   subject: Subject;
   selectedCount?: number;
-  activeTab?: "files" | "syllabus" | "stats";
+  activeTab?: "files" | "syllabus" | "stats" | "classmates";
   isDone?: boolean;
   buttonState?: 'hidden' | 'ready' | 'clicking' | 'downloading' | 'complete';
 }
@@ -20,14 +20,13 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Button entrance animation (spring from frame 56)
-  // Button entrance animation (spring from frame 56)
+  // Button entrance animation (spring from frame 112 @ 60fps)
   const buttonEntranceRaw = spring({
-    frame: frame - 56,
+    frame: frame - 112,
     fps,
     config: { damping: 15, mass: 0.5 },
   });
-  
+
   const buttonEntrance = buttonState !== 'hidden' ? buttonEntranceRaw : 0;
 
   const entranceOpacity = buttonState === 'hidden' ? 0 : interpolate(buttonEntrance, [0, 1], [0, 1], {
@@ -36,14 +35,14 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
 
   // Combined button opacity with entrance and fade-out when complete
   const buttonOpacity = buttonState === 'complete'
-    ? interpolate(frame - 166, [0, 30], [1, 0], { extrapolateRight: "clamp" })
+    ? interpolate(frame - 332, [0, 60], [1, 0], { extrapolateRight: "clamp" })
     : entranceOpacity;
 
   const buttonScale = buttonState === 'clicking'
     ? 0.95  // Click down animation
     : interpolate(buttonEntrance, [0, 1], [0, 1], {
-        extrapolateRight: "clamp",
-      });
+      extrapolateRight: "clamp",
+    });
 
 
   // Button colors - unified brand green for all states
@@ -59,35 +58,37 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
           <h1 className="text-white font-bold text-xl leading-tight flex-1 overflow-hidden" style={{ lineHeight: '1.3' }}>
             {subject.name}
           </h1>
-          
+
           {/* Download Button - Enhanced with buttonState */}
-          <div 
+          <div
             className="flex items-center gap-2 px-3 py-2 rounded-lg font-bold text-[10px]"
-            style={{ 
+            style={{
               opacity: buttonOpacity,
               transform: `scale(${buttonScale})`,
               backgroundColor,
               boxShadow: buttonState !== 'hidden' ? `0 0 25px ${shadowColor}` : 'none',
-              transition: 'background-color 0.3s ease',
             }}
           >
             {buttonState === 'complete' ? (
               <Check size={14} strokeWidth={4} className="text-white" />
             ) : buttonState === 'downloading' ? (
-              <Loader2 
-                size={14} 
-                strokeWidth={3} 
-                className="text-white animate-pulse"
+              <Loader2
+                size={14}
+                strokeWidth={3}
+                className="text-white"
+                style={{
+                  transform: `rotate(${interpolate(frame, [0, 60], [0, 360], { extrapolateLeft: 'extend', extrapolateRight: 'extend' })}deg)`
+                }}
               />
             ) : (
               <Download size={14} strokeWidth={3} className="text-white" />
             )}
             <span className="text-white">
-              {buttonState === 'complete' 
-                ? "Staženo" 
+              {buttonState === 'complete'
+                ? "Staženo"
                 : buttonState === 'downloading'
-                ? "Stahování..."
-                : `Stáhnout ${selectedCount} soubory`}
+                  ? "Stahování..."
+                  : `Stáhnout ${selectedCount} soubory`}
             </span>
           </div>
         </div>
@@ -96,22 +97,23 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
       {/* Tabs */}
       <div className="flex items-center gap-6 border-b border-white/5">
         {[
-            { id: "files", label: "Soubory" },
-            { id: "syllabus", label: "Požadavky" },
-            { id: "stats", label: "Úspěšnost" }
+          { id: "files", label: "Soubory" },
+          { id: "syllabus", label: "Požadavky" },
+          { id: "stats", label: "Úspěšnost" },
+          { id: "classmates", label: "Moji spolužáci" }
         ].map(tab => (
-            <div 
-                key={tab.id}
-                className={`
-                    pb-3 text-[13px] font-bold border-b-2 transition-colors cursor-pointer
-                    ${activeTab === tab.id 
-                        ? "text-white border-[#79be15]" 
-                        : "text-white/20 border-transparent hover:text-white/40"
-                    }
+          <div
+            key={tab.id}
+            className={`
+                    pb-3 text-[13px] font-bold border-b-2
+                    ${activeTab === tab.id
+                ? "text-white border-[#79be15]"
+                : "text-white/20 border-transparent"
+              }
                 `}
-            >
-                {tab.label}
-            </div>
+          >
+            {tab.label}
+          </div>
         ))}
       </div>
     </div>

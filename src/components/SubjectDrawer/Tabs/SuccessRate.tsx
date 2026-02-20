@@ -76,30 +76,37 @@ export const SubjectDrawerSuccessRate: React.FC<SubjectDrawerSuccessRateProps> =
           const count = aggregatedGrades[grade] || 0;
           const barHeight = (count / maxCount) * 100;
 
-          // Staggered grow animation for bars
+          // Staggered grow animation for bars - Stiffer for 60fps
           const growSpring = spring({
-            frame: frame - (20 + i * 2),
+            frame: frame - (40 + i * 4), // Doubled delay for 60fps
             fps,
-            config: { damping: 12, mass: 0.5 }
+            config: { damping: 20, mass: 0.5, stiffness: 150 } // Stiffer
           });
 
           return (
-            <div key={grade} className="flex flex-col items-center gap-1 flex-1">
+            <div key={grade} className="flex flex-col items-center gap-1 flex-1" style={{ transform: 'translateZ(0)' }}>
               <span
-                className="text-[9px] font-bold transition-opacity"
-                style={{ opacity: count > 0 ? interpolate(growSpring, [0.8, 1], [0, 0.4]) : 0 }}
+                className="text-[9px] font-bold tabular-nums"
+                style={{
+                  opacity: count > 0 ? Math.round(interpolate(growSpring, [0.8, 1], [0, 0.4]) * 100) / 100 : 0,
+                  transform: 'translateZ(0)',
+                }}
               >
                 {count}
               </span>
               <div
                 className="w-full rounded-t-sm shadow-sm"
                 style={{
-                  height: `${Math.max(3, barHeight * growSpring)}px`,
+                  height: `${Math.round(Math.max(3, barHeight * growSpring))}px`,
                   backgroundColor: GRADE_COLORS[grade] || '#fff',
-                  opacity: count > 0 ? 1 : 0.05
+                  opacity: count > 0 ? 1 : 0.05,
+                  transform: 'translateZ(0)',
                 }}
               />
-              <span className="text-[9px] font-black text-white/30 mt-1 uppercase">
+              <span
+                className="text-[9px] font-black text-white/30 mt-1 uppercase"
+                style={{ transform: 'translateZ(0)' }}
+              >
                 {grade}
               </span>
             </div>
@@ -109,9 +116,11 @@ export const SubjectDrawerSuccessRate: React.FC<SubjectDrawerSuccessRateProps> =
 
       {/* Semester Indicators */}
       <div className="flex justify-center gap-3 mt-auto mb-10">
-        {successRate.stats.map((stat, i) => {
-          const successPct = Math.round((stat.totalPass / (stat.totalPass + stat.totalFail)) * 100);
-          const dashArray = 62.83; // 2 * Math.PI * 10
+        {(successRate.stats || []).map((stat, i) => {
+          const successPct = stat.totalPass + stat.totalFail === 0
+            ? 0
+            : Math.round((stat.totalPass / (stat.totalPass + stat.totalFail)) * 100);
+          const dashArray = 78.54; // 2 * Math.PI * 12.5
           const dashOffset = dashArray * (1 - successPct / 100);
 
           const isActive = i === 0;
@@ -122,29 +131,38 @@ export const SubjectDrawerSuccessRate: React.FC<SubjectDrawerSuccessRateProps> =
             config: { damping: 15, mass: 0.6 }
           });
 
+          const animatedDashOffset = interpolate(
+            circleEntrance,
+            [0, 1],
+            [dashArray, dashOffset]
+          );
+
           return (
             <div
               key={stat.semester}
-              className={`flex flex-col items-center gap-1.5 px-2 py-1.5 rounded-xl transition-all ${isActive ? "bg-[#10b981]/10 ring-1 ring-[#10b981]/30" : "text-white/40 hover:bg-white/5"
+              className={`flex flex-col items-center gap-1.5 px-0 py-1.5 rounded-xl w-[60px] ${isActive ? "bg-[#10b981]/10 ring-1 ring-[#10b981]/30" : "text-white/40"
                 }`}
               style={{
-                transform: `scale(${circleEntrance})`,
-                opacity: i < 5 ? 1 : 0 // Limit to 5 as in picture
+                transform: `scale(${circleEntrance}) translateZ(0)`,
+                opacity: i < 5 ? 1 : 0,
+                backfaceVisibility: 'hidden',
               }}
             >
-              <div className="relative w-10 h-10 flex items-center justify-center">
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 32 32">
-                  <circle cx="16" cy="16" r="10" className="fill-none stroke-white/10" strokeWidth="2.5" />
+              <div className="relative w-10 h-10 flex items-center justify-center" style={{ transform: 'translateZ(0)' }}>
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 32 32" style={{ shapeRendering: 'geometricPrecision' }}>
+                  <circle cx="16" cy="16" r="12.5" className="fill-none stroke-white/10" strokeWidth="2" />
                   <circle
-                    cx="16" cy="16" r="10"
-                    className={`fill-none transition-base ${isActive ? 'stroke-[#10b981]' : 'stroke-[#10b981]/40'}`}
-                    strokeWidth="2.5"
+                    cx="16" cy="16" r="12.5"
+                    className={`fill-none ${isActive ? 'stroke-[#10b981]' : 'stroke-[#10b981]/40'}`}
+                    strokeWidth="2"
                     strokeDasharray={dashArray}
-                    strokeDashoffset={dashOffset}
+                    strokeDashoffset={animatedDashOffset}
                     strokeLinecap="round"
                   />
                 </svg>
-                <span className="absolute text-[9px] font-black">{successPct}%</span>
+                <span className={`absolute font-black tabular-nums ${successPct === 100 ? 'text-[7.5px]' : 'text-[8.5px]'}`}>
+                  {successPct}%
+                </span>
               </div>
               <span className={`text-[9px] font-black ${isActive ? 'text-[#10b981]' : ''}`}>
                 {stat.semester}

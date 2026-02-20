@@ -33,7 +33,7 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   const groups = [{ name: "ostatni", displayName: "OSTATNÍ", files }];
 
   // --- ORCHESTRATION: 4-PHASE ANIMATION (240 frames @ 30fps = 8 seconds) ---
-  
+
   // PHASE 1: SELECTION (0-100 frames, 0-3.3s)
   // Sequential checkbox selection with 15-frame delays
   const selectedIds: string[] = [];
@@ -51,21 +51,21 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
   // PHASE 3: PROGRESS (106-166 frames, 3.5-5.5s)
   // Sequential downloads: 20 frames per file (0.67 seconds each) - Quick demo
   const downloadProgress: Record<string, number> = {};
-  
+
   // File 1: Frames 106-126 (3.5-4.2s)
   if (frame >= 106 && frame < 126) {
     downloadProgress["c1"] = Math.min((frame - 106) / 20, 1);
   } else if (frame >= 126) {
     downloadProgress["c1"] = 1;
   }
-  
+
   // File 2: Frames 126-146 (4.2-4.9s)
   if (frame >= 126 && frame < 146) {
     downloadProgress["c2"] = Math.min((frame - 126) / 20, 1);
   } else if (frame >= 146) {
     downloadProgress["c2"] = 1;
   }
-  
+
   // File 3: Frames 146-166 (4.9-5.5s)
   if (frame >= 146 && frame < 166) {
     downloadProgress["h1"] = Math.min((frame - 146) / 20, 1);
@@ -96,29 +96,29 @@ export const FilesHint: React.FC<SubjectDrawerProps> = (props) => {
     >
       {/* Audio Tracks - Sequential Selection */}
       <Sequence from={20}>
-          <SoundEffect type="TOGGLE_ON" volume={0.3} />
+        <SoundEffect type="TOGGLE_ON" volume={0.3} />
       </Sequence>
       <Sequence from={35}>
-          <SoundEffect type="TOGGLE_ON" volume={0.3} />
+        <SoundEffect type="TOGGLE_ON" volume={0.3} />
       </Sequence>
       <Sequence from={50}>
-          <SoundEffect type="TOGGLE_ON" volume={0.3} />
+        <SoundEffect type="TOGGLE_ON" volume={0.3} />
       </Sequence>
-      
+
       {/* Button Click */}
       <Sequence from={96}>
-          <SoundEffect type="TOGGLE_ON" volume={0.4} />
+        <SoundEffect type="TOGGLE_ON" volume={0.4} />
       </Sequence>
-      
+
       {/* Completion Celebrations - synchronized with file fly-outs */}
       <Sequence from={126}>
-          <SoundEffect type="SUCCESS" volume={0.4} />
+        <SoundEffect type="SUCCESS" volume={0.4} />
       </Sequence>
       <Sequence from={146}>
-          <SoundEffect type="SUCCESS" volume={0.3} />
+        <SoundEffect type="SUCCESS" volume={0.3} />
       </Sequence>
       <Sequence from={166}>
-          <SoundEffect type="SUCCESS" volume={0.5} />
+        <SoundEffect type="SUCCESS" volume={0.5} />
       </Sequence>
     </SubjectDrawerComposition>
   );
