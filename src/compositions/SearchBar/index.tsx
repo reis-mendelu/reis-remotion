@@ -69,9 +69,24 @@ export const SearchBarComposition: React.FC<SearchBarProps & { children?: React.
     }
   }
 
+  // Keystroke sound frames
+  const keystrokeSoundFrames: number[] = [];
+  for (let i = 0; i < totalChars; i++) {
+    if (i % 2 === 0 && query[i] !== " ") {
+      keystrokeSoundFrames.push(TYPE_START + i * FRAMES_PER_KEYSTROKE);
+    }
+  }
+
   return (
     <AbsoluteFill className="overflow-hidden">
       {background && <Background {...background} />}
+
+      {/* Keyboard click sounds during typewriter */}
+      {keystrokeSoundFrames.map((f) => (
+        <Sequence key={`key-${f}`} from={f} durationInFrames={5}>
+          <SoundEffect type="KEYBOARD_CLICK" volume={0.3} />
+        </Sequence>
+      ))}
 
       {/* Tick sounds during navigation */}
       {navSoundFrames.map((f) => (
@@ -92,8 +107,9 @@ export const SearchBarComposition: React.FC<SearchBarProps & { children?: React.
         <div
           style={{
             opacity: entranceOpacity,
-            transform: `scale(${entranceScale})`,
-            width: `${380 * scale}px`,
+            transform: `scale(${entranceScale * scale})`,
+            width: `480px`,
+            marginTop: `-160px`,
           }}
         >
           <SearchBarStatic
