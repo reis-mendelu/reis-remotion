@@ -14,6 +14,8 @@ import { SyllabusHint } from "./compositions/SubjectDrawer/SyllabusHint";
 import { ClassmatesHint } from "./compositions/SubjectDrawer/ClassmatesHint";
 import { FilesStaticHint } from "./compositions/SubjectDrawer/FilesStaticHint";
 import { WeeklyCalendar } from "./components/reis/WeeklyCalendar";
+import { SearchBarComposition } from "./compositions/SearchBar";
+import { SearchBarSchema } from "./compositions/SearchBar/schema";
 import { PRINT_SIZES } from "./constants/print";
 
 export const RemotionRoot: React.FC = () => {
@@ -253,6 +255,21 @@ export const RemotionRoot: React.FC = () => {
           fps={30}
           width={1920}
           height={1080}
+        />
+        <Composition
+          id="SearchBar"
+          component={SearchBarComposition}
+          durationInFrames={240}
+          fps={30}
+          width={1920}
+          height={1080}
+          schema={SearchBarSchema}
+          defaultProps={{
+            query: "podnikova ekonomi",
+            selectedResultIndex: 7,
+            background: { type: "stars", starsCount: 500 },
+            scale: 2,
+          }}
         />
         <Composition
           id="End-Slide"
