@@ -10,6 +10,8 @@ interface SearchBarStaticProps {
   showClear: boolean;
   showCursor: boolean;
   cursorOpacity: number;
+  /** 0-1 spring progress for dropdown slide-down reveal */
+  dropdownProgress?: number;
 }
 
 export function SearchBarStatic({
@@ -21,6 +23,7 @@ export function SearchBarStatic({
   showClear,
   showCursor,
   cursorOpacity,
+  dropdownProgress = 1,
 }: SearchBarStaticProps) {
   return (
     <div className="w-full h-full flex items-center">
@@ -59,7 +62,13 @@ export function SearchBarStatic({
           </div>
 
           {isOpen && (
-            <div className="absolute top-full left-0 right-0 bg-base-100 border border-t-0 border-base-300 rounded-b-lg shadow-lg overflow-hidden flex flex-col">
+            <div
+              className="absolute top-full left-0 right-0 bg-base-100 border border-t-0 border-base-300 rounded-b-lg shadow-lg overflow-hidden flex flex-col"
+              style={{
+                clipPath: `inset(0 0 ${(1 - dropdownProgress) * 100}% 0)`,
+                opacity: dropdownProgress,
+              }}
+            >
               <div className="h-px w-full bg-base-300" />
               <div className="px-4 py-2 text-xs font-semibold text-base-content/50 uppercase tracking-wider mt-1">
                 <span>Výsledky</span>

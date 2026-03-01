@@ -259,7 +259,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="SearchBar"
           component={SearchBarComposition}
-          durationInFrames={240}
+          durationInFrames={260}
           fps={30}
           width={1920}
           height={1080}
@@ -271,13 +271,9 @@ export const RemotionRoot: React.FC = () => {
               { id: "2", title: "Podniková ekonomika", type: "subject", detail: "EKO · ZS 2025/2026 · AF", subjectCode: "EKO" },
               { id: "3", title: "Podniková ekonomika", type: "subject", detail: "RRPEK · LS 2025/2026 · FRRMS", subjectCode: "RRPEK" },
               { id: "4", title: "Podniková ekonomika", type: "subject", detail: "EKO · LS 2025/2026 · AF", subjectCode: "EKO" },
-              { id: "5", title: "Podniková ekonomika (FT)", type: "subject", detail: "POEKF · LS 2025/2026 · ZF", subjectCode: "POEKF" },
-              { id: "6", title: "Podniková ekonomika (RSZ)", type: "subject", detail: "POEKR · ZS 2025/2026 · ZF", subjectCode: "POEKR" },
-              { id: "7", title: "Podniková ekonomika (ZI)", type: "subject", detail: "PODEK · ZS 2025/2026 · ZF", subjectCode: "PODEK" },
-              { id: "8", title: "Podniková ekonomika 1", type: "subject", detail: "EBC-PE · ZS 2025/2026 · PEF", subjectCode: "EBC-PE" },
-              { id: "9", title: "Podniková ekonomika 1", type: "subject", detail: "EBC-PE · LS 2025/2026 · PEF", subjectCode: "EBC-PE" },
+              { id: "5", title: "Podniková ekonomika 1", type: "subject", detail: "EBC-PE · ZS 2025/2026 · PEF", subjectCode: "EBC-PE" },
             ],
-            selectedResultIndex: 7,
+            selectedResultIndex: 4,
             background: { type: "stars", starsCount: 500 },
             scale: 2,
           }}
