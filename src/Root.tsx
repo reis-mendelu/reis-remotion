@@ -16,6 +16,7 @@ import { FilesStaticHint } from "./compositions/SubjectDrawer/FilesStaticHint";
 import { WeeklyCalendar } from "./components/reis/WeeklyCalendar";
 import { SearchBarComposition } from "./compositions/SearchBar";
 import { SearchBarSchema } from "./compositions/SearchBar/schema";
+import { SearchBarIntroduction } from "./compositions/SearchBar/Introduction";
 import { PRINT_SIZES } from "./constants/print";
 
 export const RemotionRoot: React.FC = () => {
@@ -43,6 +44,14 @@ export const RemotionRoot: React.FC = () => {
           component={SuccessRateSequence}
           durationInFrames={1074} // 17.9 seconds @ 60fps
           fps={60}
+          width={1920}
+          height={1080}
+        />
+        <Composition
+          id="SearchBar-Intro"
+          component={SearchBarIntroduction}
+          durationInFrames={710} // 23.7 seconds @ 30fps
+          fps={30}
           width={1920}
           height={1080}
         />
