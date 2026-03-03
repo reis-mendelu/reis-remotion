@@ -166,13 +166,11 @@ export const ReelSubjectDrawerFiles: React.FC = () => {
       <KineticText text="3 kliky →" startFrame={10} duration={45} fontSize={64} />
 
       {/* End card */}
-      {showEndCard && (
+      <Sequence from={240}>
         <AbsoluteFill style={{ opacity: endCardOpacity }}>
-          <Sequence from={240} layout="none">
-            <BrandedEndSlide logoScale={1.0} theme="dark" animate={true} ctaText="Link v biu" />
-          </Sequence>
+          <BrandedEndSlide logoScale={1.0} theme="dark" animate={true} ctaText="Link v biu" />
         </AbsoluteFill>
-      )}
+      </Sequence>
     </AbsoluteFill>
   );
 };

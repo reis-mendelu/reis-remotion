@@ -19,6 +19,7 @@ import { SearchBarSchema } from "./compositions/SearchBar/schema";
 import { SearchBarIntroduction } from "./compositions/SearchBar/Introduction";
 import { ReelSubjectDrawerFiles } from "./compositions/Reels/SubjectDrawerFiles";
 import { ReelOutlookSync } from "./compositions/Reels/OutlookSync";
+import { ReelSearchBarStats } from "./compositions/Reels/SearchBarStats";
 import { PRINT_SIZES } from "./constants/print";
 
 export const RemotionRoot: React.FC = () => {
@@ -310,7 +311,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="Reel-SubjectDrawer-Files"
           component={ReelSubjectDrawerFiles}
-          durationInFrames={300}
+          durationInFrames={330}
           fps={30}
           width={1080}
           height={1920}
@@ -318,12 +319,19 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="Reel-OutlookSync"
           component={ReelOutlookSync}
-          durationInFrames={330}
+          durationInFrames={340}
           fps={30}
           width={1080}
           height={1920}
         />
-
+        <Composition
+          id="Reel-SearchBar-Stats"
+          component={ReelSearchBarStats}
+          durationInFrames={455}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
       </Folder>
 
       <Folder name="Posters">

@@ -162,18 +162,16 @@ export const ReelOutlookSync: React.FC = () => {
       />
 
       {/* End card */}
-      {showEndCard && (
+      <Sequence from={END_CARD_START}>
         <AbsoluteFill style={{ opacity: endCardOpacity }}>
-          <Sequence from={END_CARD_START} layout="none">
-            <BrandedEndSlide
-              logoScale={1.0}
-              theme="dark"
-              animate={true}
-              ctaText="Link v biu"
-            />
-          </Sequence>
+          <BrandedEndSlide
+            logoScale={1.0}
+            theme="dark"
+            animate={true}
+            ctaText="Link v biu"
+          />
         </AbsoluteFill>
-      )}
+      </Sequence>
     </AbsoluteFill>
   );
 };

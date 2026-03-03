@@ -81,7 +81,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerCompositionProps> =
         style={{ backgroundColor: "transparent" }}
       >
         <div
-          className="w-[600px] h-[450px] bg-[#1a1f26] rounded-3xl border border-white/5 flex flex-col relative"
+          className="w-[600px] h-[500px] bg-[#1a1f26] rounded-3xl border border-white/5 flex flex-col relative"
           style={{
             opacity: entranceOpacity,
             transform: `scale(${scale}) translateY(${entranceY}px)`, // Apple-style: Simple 2D only
