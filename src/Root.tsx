@@ -323,6 +323,7 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
         />
+
       </Folder>
 
       <Folder name="Posters">
