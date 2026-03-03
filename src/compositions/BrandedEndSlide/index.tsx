@@ -17,7 +17,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
   ctaText,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, width, height } = useVideoConfig();
 
   const logoSrc = staticFile("mendelu_logo.png");
 
@@ -31,71 +31,73 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
     },
   });
 
-  // Logo animation dynamics (Apple-style: simple scale and fade only)
-  const scale = interpolate(entrance, [0, 1], [0.8 * logoScale, 1.2 * logoScale]);
+  // Responsive logo size: 14% of the shortest dimension works for both
+  // landscape (1920×1080 → 151px) and portrait reels (1080×1920 → 151px)
+  // logoScale is then applied on top for fine-tuning per composition
+  const baseLogoSize = Math.min(width, height) * 0.14 * logoScale;
+
+  // Logo animation: simple scale and fade (Apple-style)
+  const scale = interpolate(entrance, [0, 1], [0.8, 1.2]);
   const opacity = interpolate(entrance, [0, 0.5], [0, 1]);
 
-  const containerStyle: React.CSSProperties = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: theme === "dark" ? "#0a0c10" : "white",
-  };
-
   return (
-    <AbsoluteFill style={containerStyle}>
+    <AbsoluteFill style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme === "dark" ? "#0a0c10" : "white",
+    }}>
       {theme === "dark" ? (
         <Background type="stars" starsCount={300} />
       ) : (
         <Background type="solid" color="white" />
       )}
-      
+
       <AbsoluteFill className="items-center justify-center">
-        <div style={{ 
-          position: "relative",
+        {/* Flex column: logo + CTA always tightly grouped, regardless of aspect ratio */}
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "32px",
           opacity,
-          transform: `scale(${scale * logoScale})`,
-          zIndex: 10, // Logo layer
-          borderRadius: "50%", // Circular clipping
-          overflow: "hidden", // Clip content to circle
-          width: "120px",
-          height: "120px",
-          backgroundColor: "#ffffff", // White background to blend with logo square
+          transform: `scale(${scale})`,
+          zIndex: 10,
         }}>
-          <Img 
-            src={logoSrc} 
-            style={{ 
-              width: "100%", 
-              height: "100%", 
-              objectFit: "contain",
-              padding: "15px", // Extra padding to keep 'M' safely inside the green ring
-            }} 
-            alt="Mendelova Univerzita Logo" 
-          />
-        </div>
-        
-        {ctaText && (
+          {/* Logo circle */}
           <div style={{
-            position: "absolute",
-            bottom: "26%",
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            opacity: interpolate(frame, [30, 50], [0, 1], { extrapolateRight: "clamp" }),
-            transform: `scale(${interpolate(frame, [50, 100, 150], [1, 1.02, 1], { extrapolateRight: "clamp" })})`,
-            zIndex: 20,
+            borderRadius: "50%",
+            overflow: "hidden",
+            width: `${baseLogoSize}px`,
+            height: `${baseLogoSize}px`,
+            backgroundColor: "#ffffff",
           }}>
-            <div style={{ 
-              color: "#ffffff", 
-              fontSize: "60px", 
+            <Img
+              src={logoSrc}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                padding: "15px",
+              }}
+              alt="Mendelova Univerzita Logo"
+            />
+          </div>
+
+          {/* CTA text — fades in after logo settles */}
+          {ctaText && (
+            <div style={{
+              color: "#ffffff",
+              fontSize: "60px",
               fontWeight: 700,
               fontFamily: "Inter, sans-serif",
               letterSpacing: "0.01em",
+              opacity: interpolate(frame, [30, 50], [0, 1], { extrapolateRight: "clamp" }),
             }}>
               {ctaText}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </AbsoluteFill>
     </AbsoluteFill>
   );
