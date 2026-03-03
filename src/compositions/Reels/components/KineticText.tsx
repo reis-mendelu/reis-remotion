@@ -6,6 +6,7 @@ interface KineticTextProps {
   startFrame: number;
   duration?: number;
   fontSize?: number;
+  top?: string;
 }
 
 export const KineticText: React.FC<KineticTextProps> = ({
@@ -13,6 +14,7 @@ export const KineticText: React.FC<KineticTextProps> = ({
   startFrame,
   duration = 40,
   fontSize = 72,
+  top = "15%",
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -37,7 +39,7 @@ export const KineticText: React.FC<KineticTextProps> = ({
     <div
       style={{
         position: "absolute",
-        top: "15%",
+        top,
         left: 0,
         right: 0,
         display: "flex",
