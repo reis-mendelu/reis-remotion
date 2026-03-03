@@ -12,7 +12,14 @@ import { MendeluEnvironment } from "../../Environment";
 import { SoundEffect } from "../../components/SoundEffect";
 import { type SubjectDrawerProps } from "./schema";
 
-export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?: React.ReactNode }> = (props) => {
+interface SubjectDrawerCompositionProps extends SubjectDrawerProps {
+  children?: React.ReactNode;
+  completionFrames?: number[];
+  folderEntranceFrame?: number;
+  folderCelebrationFrame?: number;
+}
+
+export const SubjectDrawerComposition: React.FC<SubjectDrawerCompositionProps> = (props) => {
   const {
     subject,
     groups = [],
@@ -30,6 +37,9 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
     tabOffset = 0,
     isDone = false,
     children,
+    completionFrames,
+    folderEntranceFrame,
+    folderCelebrationFrame,
   } = props;
 
   const { fps } = useVideoConfig();
@@ -105,6 +115,7 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
                     selectedIds={effectiveSelectedIds}
                     downloadedIds={downloadedIds}
                     downloadProgress={downloadProgress}
+                    completionFrames={completionFrames}
                   />
                 </Sequence>
               )}
@@ -135,6 +146,8 @@ export const SubjectDrawerComposition: React.FC<SubjectDrawerProps & { children?
             totalCount={selectedIds.length}
             isVisible={buttonState === 'downloading' || buttonState === 'complete'}
             isComplete={isDone}
+            entranceFrame={folderEntranceFrame}
+            celebrationFrame={folderCelebrationFrame}
           />
         </div>
         {children}

@@ -17,6 +17,7 @@ import { WeeklyCalendar } from "./components/reis/WeeklyCalendar";
 import { SearchBarComposition } from "./compositions/SearchBar";
 import { SearchBarSchema } from "./compositions/SearchBar/schema";
 import { SearchBarIntroduction } from "./compositions/SearchBar/Introduction";
+import { ReelSubjectDrawerFiles } from "./compositions/Reels/SubjectDrawerFiles";
 import { PRINT_SIZES } from "./constants/print";
 
 export const RemotionRoot: React.FC = () => {
@@ -301,6 +302,17 @@ export const RemotionRoot: React.FC = () => {
             animate: true,
             ctaText: "Link v biu",
           }}
+        />
+      </Folder>
+
+      <Folder name="Instagram-Reels">
+        <Composition
+          id="Reel-SubjectDrawer-Files"
+          component={ReelSubjectDrawerFiles}
+          durationInFrames={300}
+          fps={30}
+          width={1080}
+          height={1920}
         />
       </Folder>
 

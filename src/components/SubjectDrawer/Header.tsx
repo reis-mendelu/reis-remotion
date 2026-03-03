@@ -100,7 +100,6 @@ export const SubjectDrawerHeader: React.FC<SubjectDrawerHeaderProps> = ({
           { id: "files", label: "Soubory" },
           { id: "syllabus", label: "Požadavky" },
           { id: "stats", label: "Úspěšnost" },
-          { id: "classmates", label: "Moji spolužáci" }
         ].map(tab => (
           <div
             key={tab.id}

@@ -8,6 +8,7 @@ interface SubjectDrawerFileListProps {
   selectedIds: string[];
   downloadedIds: string[];
   downloadProgress?: Record<string, number>;
+  completionFrames?: number[];
 }
 
 export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
@@ -15,6 +16,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
   selectedIds,
   downloadedIds,
   downloadProgress = {},
+  completionFrames: completionFramesProp,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -56,8 +58,7 @@ export const SubjectDrawerFileList: React.FC<SubjectDrawerFileListProps> = ({
 
           if (isDownloaded) {
             const downloadedIndex = downloadedIds.indexOf(file.link);
-            // Files fly immediately when download completes: 126, 146, 166
-            const completionFrames = [126, 146, 166];
+            const completionFrames = completionFramesProp ?? [126, 146, 166];
             flyStartFrame = completionFrames[downloadedIndex];
             flyDuration = 15; // 0.5 seconds
 

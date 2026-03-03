@@ -7,6 +7,8 @@ interface DownloadFolderProps {
   totalCount: number;
   isVisible: boolean;
   isComplete: boolean;
+  entranceFrame?: number;
+  celebrationFrame?: number;
 }
 
 export const DownloadFolder: React.FC<DownloadFolderProps> = ({
@@ -14,14 +16,15 @@ export const DownloadFolder: React.FC<DownloadFolderProps> = ({
   totalCount,
   isVisible,
   isComplete,
+  entranceFrame = 106,
+  celebrationFrame = 186,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Entrance animation - slide in from bottom-right (frame 106)
   const entranceProgress = isVisible
     ? spring({
-        frame: frame - 106,
+        frame: frame - entranceFrame,
         fps,
         config: { damping: 12, mass: 0.4 },
       })
@@ -39,12 +42,11 @@ export const DownloadFolder: React.FC<DownloadFolderProps> = ({
     extrapolateRight: "clamp",
   });
 
-  // Celebration animation when complete (frame 186)
   let celebrationScale = 1;
   let celebrationGlow = 0;
-  if (isComplete && frame >= 186) {
+  if (isComplete && frame >= celebrationFrame) {
     const celebrationProgress = spring({
-      frame: frame - 186,
+      frame: frame - celebrationFrame,
       fps,
       config: { damping: 10, mass: 0.3 },
     });
