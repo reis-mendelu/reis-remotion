@@ -1,5 +1,5 @@
 import React from "react";
-import { Clock, MapPin, Users, CircleCheck } from "lucide-react";
+import { Clock, MapPin, CircleCheck } from "lucide-react";
 
 export interface MockTermData {
   date: string;      // "05.01"
@@ -17,26 +17,25 @@ interface TermTileMockupProps {
 }
 
 export const TermTileMockup: React.FC<TermTileMockupProps> = ({ term, state = "idle" }) => {
-  const isFull = term.full || term.capacity.occupied >= term.capacity.total;
+  const isFull = term.full || (term.capacity && term.capacity.occupied >= term.capacity.total);
   const isHighlighted = state === "highlighted";
   const isProcessing = state === "processing";
   const isDone = state === "done";
   const disabled = isFull || isDone;
 
-  const capacityPct = Math.min(100, (term.capacity.occupied / term.capacity.total) * 100);
-
   return (
     <div
-      className={`flex items-center gap-3 w-full p-3 rounded-lg border text-left transition-none ${
+      className={`flex items-center gap-3 w-full p-3 border text-left transition-none ${
         isFull
           ? "bg-base-200 opacity-60 border-base-300"
           : isHighlighted || isProcessing
           ? "bg-primary/10 border-primary/60 shadow-sm"
           : "bg-base-100 border-base-200 shadow-sm"
       }`}
+      style={{ borderRadius: "8px" }}
     >
       {/* Date + Day */}
-      <div className="flex flex-col min-w-[48px]">
+      <div className="flex flex-col min-w-[80px]">
         <span className={`font-semibold text-sm ${disabled ? "text-base-content/50 line-through" : ""}`}>
           {term.date}
         </span>
@@ -49,7 +48,7 @@ export const TermTileMockup: React.FC<TermTileMockupProps> = ({ term, state = "i
       </div>
 
       {/* Time */}
-      <div className="flex items-center gap-1 min-w-[52px]">
+      <div className="flex items-center gap-1 min-w-[60px]">
         <Clock size={12} className="text-base-content/40" />
         <span className="text-sm opacity-70">{term.time}</span>
       </div>
@@ -60,20 +59,7 @@ export const TermTileMockup: React.FC<TermTileMockupProps> = ({ term, state = "i
         <span className="text-sm truncate opacity-70">{term.room}</span>
       </div>
 
-      {/* Capacity */}
-      <div className="flex items-center gap-2 min-w-[90px]">
-        <Users size={12} className="text-base-content/40" />
-        <div className="flex items-center gap-1.5">
-          <progress
-            className={`progress w-12 h-1.5 ${isFull ? "progress-error" : "progress-primary"}`}
-            value={capacityPct}
-            max="100"
-          />
-          <span className={`text-xs ${isFull ? "text-error font-medium" : "opacity-50"}`}>
-            {isFull ? "Plná" : `${term.capacity.occupied}/${term.capacity.total}`}
-          </span>
-        </div>
-      </div>
+
 
       {/* CTA */}
       <div className="shrink-0 ml-auto">
@@ -83,8 +69,8 @@ export const TermTileMockup: React.FC<TermTileMockupProps> = ({ term, state = "i
           <span className="text-error/60 text-sm font-medium">✕</span>
         ) : isDone ? null : (
           <span
-            className={`btn btn-primary btn-sm ${isHighlighted ? "btn-active" : ""}`}
-            style={{ pointerEvents: "none" }}
+            className={`btn btn-primary btn-sm h-auto py-1.5 ${isHighlighted ? "btn-active" : ""}`}
+            style={{ pointerEvents: "none", borderRadius: "8px", paddingLeft: "24px", paddingRight: "24px" }}
           >
             Přihlásit
           </span>

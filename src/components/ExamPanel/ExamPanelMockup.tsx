@@ -1,5 +1,4 @@
 import React from "react";
-import { BookOpen } from "lucide-react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { ExamSectionCardMockup, type MockSectionData } from "./ExamSectionCardMockup";
 import { MendeluEnvironment } from "../../Environment";
@@ -61,14 +60,6 @@ export const ExamPanelMockup: React.FC<ExamPanelMockupProps> = ({
     successFrame,
   };
 
-  const registeredTerm = {
-    date: "05.01",
-    day: "Po",
-    time: "09:00",
-    room: "PEF studovna",
-    deregistrationDeadline: "02.01.2026 23:59",
-  };
-
   return (
     <MendeluEnvironment
       style={{
@@ -78,50 +69,54 @@ export const ExamPanelMockup: React.FC<ExamPanelMockupProps> = ({
         width: "520px",
       }}
     >
-      <div className="flex flex-col bg-base-100 rounded-xl border border-base-300 shadow-lg overflow-hidden">
-        {/* Panel header */}
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-base-200">
-          <BookOpen size={16} className="text-primary" />
-          <span className="font-black text-sm uppercase tracking-wider">Zkoušky</span>
-          <div className="ml-auto flex gap-1.5">
-            <span className="badge badge-sm badge-success badge-outline font-semibold">Přihlášen · 1</span>
-            <span className="badge badge-sm bg-base-200 border-none font-semibold opacity-70">Volné · 2</span>
-          </div>
+      <div className="flex flex-col bg-base-100 rounded-lg border border-base-300 overflow-hidden">
+        {/* Panel header — matches ExamPanelHeader */}
+        <div className="flex items-center justify-between px-4 pt-4 pb-0 bg-base-100">
+          <h2 className="text-lg font-semibold text-base-content tracking-tight">Zápisy na zkoušky</h2>
         </div>
 
         {/* Card list */}
-        <div className="flex flex-col gap-3 p-3">
+        <div className="flex-1 overflow-y-auto px-4 pb-4 pt-2 space-y-3">
           {/* Matematika — animated */}
           <div style={{ transform: `translateY(${card1Y}px)`, opacity: card1Opacity }}>
             <ExamSectionCardMockup
               section={matematikaSectionData}
               phase={isRegistered ? "registered" : isExpanded ? "expanded" : "collapsed"}
               expandFrame={expandFrame}
-              registeredTerm={registeredTerm}
+              registeredTerm={{ date: "05.01", day: "Po", time: "09:00" }}
             />
           </div>
 
           {/* Statistika — registered, static */}
           <div style={{ transform: `translateY(${card2Y}px)`, opacity: card2Opacity }}>
-            <div className="card bg-base-100 shadow-sm border border-base-200">
+            <div className="card bg-base-100 shadow-sm border border-base-200 hover:shadow-md transition-shadow" style={{ borderRadius: "8px" }}>
               <div className="p-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="badge badge-sm font-bold bg-primary/10 text-primary py-1 h-auto border-none">
-                    Statistika
-                  </span>
-                  <span className="text-sm font-bold opacity-80">Zkouška</span>
-                  <span className="badge badge-success badge-outline badge-sm font-semibold">Přihlášen</span>
-                </div>
-                <div className="text-xs text-base-content/60 flex items-center gap-3 mt-1.5 flex-wrap">
-                  <span className="flex items-center gap-1.5">
-                    <span className="text-base-content/80 font-medium">18.12.2025</span>
-                    <span className="text-base-content/40">(Čt)</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="text-base-content/80 font-medium">09:00</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="text-base-content/80 font-medium">Q02</span>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span
+                        className="badge badge-sm font-bold bg-primary/10 text-primary py-1 h-auto border-none"
+                        style={{ borderRadius: "8px", paddingLeft: "12px", paddingRight: "12px" }}
+                      >
+                        Statistika
+                      </span>
+                      <span className="text-sm font-bold opacity-80">Zkouška</span>
+                    </div>
+                    <div className="text-xs text-base-content/60 flex items-center gap-2 flex-wrap">
+                      <span className="flex items-center gap-1.5">
+                        <span className="text-base-content/80 font-medium">18.12.2025</span>
+                        <span className="text-base-content/40">(Čt)</span>
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <span className="text-base-content/80 font-medium">09:00</span>
+                      </span>
+                    </div>
+                  </div>
+                  <span
+                    className="badge badge-success badge-outline badge-sm font-semibold shrink-0"
+                    style={{ borderRadius: "8px" }}
+                  >
+                    Přihlášen
                   </span>
                 </div>
               </div>
