@@ -57,7 +57,21 @@ export const TermTileMockup: React.FC<TermTileMockupProps> = ({
       })
     : 0;
 
-  const tileOpacity = interpolate(doneProgress, [0, 1], [1, 0.4]);
+  const tileOpacity = interpolate(doneProgress, [0, 1], [1, 0.4], { extrapolateRight: "clamp" });
+
+  // Processing transition (button fade out / spinner fade in)
+  const processingProgress = processingFrame
+    ? spring({
+        frame: frame - processingFrame,
+        fps,
+        config: { damping: 25, mass: 1.2 }, 
+      })
+    : 0;
+
+  const ctaOpacity = interpolate(processingProgress, [0, 1], [1, 0], { extrapolateRight: "clamp" });
+  const spinnerOpacity = interpolate(processingProgress, [0, 1], [0, 1], { extrapolateRight: "clamp" });
+  const spinnerScale = interpolate(processingProgress, [0, 1], [0.8, 1], { extrapolateRight: "clamp" });
+  const ctaScale = interpolate(processingProgress, [0, 1], [1, 0.9], { extrapolateRight: "clamp" });
 
   return (
     <div
@@ -105,12 +119,16 @@ export const TermTileMockup: React.FC<TermTileMockupProps> = ({
         <div 
           className="absolute inset-0 flex items-center justify-end"
           style={{ 
-            opacity: isProcessing || isDone ? 1 : 0,
-            transform: `scale(${isProcessing || isDone ? 1 : 0.8})`,
-            transition: "opacity 0.2s ease, transform 0.2s ease"
+            opacity: spinnerOpacity,
+            transform: `scale(${spinnerScale})`,
           }}
         >
-          {isProcessing && <span className="loading loading-spinner loading-sm text-primary" />}
+          {isProcessing && (
+            <span 
+              className="loading loading-spinner loading-sm text-primary" 
+              style={{ animationDuration: "1.2s" }} // Slower, more deliberate rotation
+            />
+          )}
         </div>
 
         {/* Button */}
@@ -122,9 +140,8 @@ export const TermTileMockup: React.FC<TermTileMockupProps> = ({
               borderRadius: "8px", 
               paddingLeft: "24px", 
               paddingRight: "24px",
-              opacity: isProcessing ? 0 : 1,
-              transform: `scale(${isProcessing ? 0.9 : 1})`,
-              transition: "opacity 0.2s ease, transform 0.2s ease"
+              opacity: ctaOpacity,
+              transform: `scale(${ctaScale})`,
             }}
           >
             Přihlásit

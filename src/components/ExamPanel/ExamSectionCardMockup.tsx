@@ -48,21 +48,22 @@ export const ExamSectionCardMockup: React.FC<ExamSectionCardMockupProps> = ({
   const expandSpring = spring({
     frame: frame - expandFrame,
     fps,
-    config: { damping: 14, mass: 0.5, stiffness: 150 },
+    config: { damping: 20, mass: 1, stiffness: 100 },
   });
 
   // Animate height back to 0 when successFrame is reached
+  // We use an overdamped spring here to prevent "jitter" (overshooting back to visible)
   const collapseProgress = section.successFrame
     ? spring({
         frame: frame - section.successFrame,
         fps,
-        config: { damping: 15, mass: 0.6, stiffness: 140 },
+        config: { damping: 25, mass: 1, stiffness: 80 },
       })
     : 0;
 
   // Calculate list height based on expansion and collapse state
-  const currentListHeight = interpolate(expandSpring, [0, 1], [0, section.terms.length * 68 + 24]);
-  const listHeight = interpolate(collapseProgress, [0, 1], [currentListHeight, 0]);
+  const currentListHeight = interpolate(expandSpring, [0, 1], [0, section.terms.length * 68 + 24], { extrapolateRight: "clamp" });
+  const listHeight = interpolate(collapseProgress, [0, 1], [currentListHeight, 0], { extrapolateRight: "clamp" });
 
   // Registered info opacity
   const registeredInfoOpacity = section.successFrame
@@ -125,9 +126,13 @@ export const ExamSectionCardMockup: React.FC<ExamSectionCardMockupProps> = ({
             <div 
               style={{ 
                 position: "relative",
-                height: isRegistered ? "16px" : !isExpanded && section.terms.length > 0 ? "24px" : "0px",
+                height: interpolate(
+                  isRegistered ? collapseProgress : 0, 
+                  [0, 1], 
+                  [!isExpanded && section.terms.length > 0 ? 24 : 0, 16],
+                  { extrapolateRight: "clamp" }
+                ) + "px",
                 overflow: "hidden",
-                transition: "height 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
               }}
             >
               {/* Registered info — date + time with icons */}
@@ -200,9 +205,9 @@ export const ExamSectionCardMockup: React.FC<ExamSectionCardMockupProps> = ({
             
             <div 
               style={{ 
-                opacity: isRegistered ? 0 : 1,
-                transform: `scale(${isRegistered ? 0.8 : 1})`,
-                transition: "opacity 0.3s ease, transform 0.3s ease"
+                opacity: 1 - registeredInfoOpacity,
+                transform: `scale(${interpolate(registeredInfoOpacity, [0, 1], [1, 0.8])})`,
+                pointerEvents: isRegistered ? "none" : "auto"
               }}
             >
               <span
