@@ -20,6 +20,9 @@ import { SearchBarIntroduction } from "./compositions/SearchBar/Introduction";
 import { ReelSubjectDrawerFiles } from "./compositions/Reels/SubjectDrawerFiles";
 import { ReelOutlookSync } from "./compositions/Reels/OutlookSync";
 import { ReelSearchBarStats } from "./compositions/Reels/SearchBarStats";
+import { ExamRegistrationComposition } from "./compositions/ExamRegistration/index";
+import { ExamRegistrationSchema } from "./compositions/ExamRegistration/schema";
+import { ReelExamRegistration } from "./compositions/Reels/ExamRegistration";
 import { PRINT_SIZES } from "./constants/print";
 
 export const RemotionRoot: React.FC = () => {
@@ -261,6 +264,16 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
         <Composition
+          id="ExamRegistration-Hint"
+          component={ExamRegistrationComposition}
+          durationInFrames={240}
+          fps={30}
+          width={1920}
+          height={1080}
+          schema={ExamRegistrationSchema}
+          defaultProps={{ scale: 2, animate: true }}
+        />
+        <Composition
           id="WeeklyCalendar"
           component={WeeklyCalendar}
           durationInFrames={150}
@@ -328,6 +341,14 @@ export const RemotionRoot: React.FC = () => {
           id="Reel-SearchBar-Stats"
           component={ReelSearchBarStats}
           durationInFrames={455}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        <Composition
+          id="Reel-ExamRegistration"
+          component={ReelExamRegistration}
+          durationInFrames={370}
           fps={30}
           width={1080}
           height={1920}
