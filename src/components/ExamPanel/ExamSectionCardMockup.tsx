@@ -41,14 +41,14 @@ export const ExamSectionCardMockup: React.FC<ExamSectionCardMockupProps> = ({
   const successSpring = spring({
     frame: frame - (section.successFrame ?? 0),
     fps,
-    config: { damping: 12, mass: 0.5, stiffness: 100 },
+    config: { damping: 10, mass: 0.4, stiffness: 150 },
   });
 
   // Height spring for term list expansion/collapse
   const expandSpring = spring({
     frame: frame - expandFrame,
     fps,
-    config: { damping: 18, mass: 0.6, stiffness: 120 },
+    config: { damping: 14, mass: 0.5, stiffness: 150 },
   });
 
   // Animate height back to 0 when successFrame is reached
@@ -56,7 +56,7 @@ export const ExamSectionCardMockup: React.FC<ExamSectionCardMockupProps> = ({
     ? spring({
         frame: frame - section.successFrame,
         fps,
-        config: { damping: 20, mass: 0.8 },
+        config: { damping: 15, mass: 0.6, stiffness: 140 },
       })
     : 0;
 
@@ -66,7 +66,7 @@ export const ExamSectionCardMockup: React.FC<ExamSectionCardMockupProps> = ({
 
   // Registered info opacity
   const registeredInfoOpacity = section.successFrame
-    ? interpolate(frame, [section.successFrame, section.successFrame + 15], [0, 1], {
+    ? interpolate(frame, [section.successFrame, section.successFrame + 10], [0, 1], {
         extrapolateLeft: "clamp",
         extrapolateRight: "clamp",
       })
@@ -74,7 +74,7 @@ export const ExamSectionCardMockup: React.FC<ExamSectionCardMockupProps> = ({
 
   // Header content fade out (Summary when collapsed)
   const summaryOpacity = section.successFrame
-    ? interpolate(frame, [section.successFrame, section.successFrame + 10], [1, 0], {
+    ? interpolate(frame, [section.successFrame, section.successFrame + 8], [1, 0], {
         extrapolateLeft: "clamp",
         extrapolateRight: "clamp",
       })

@@ -348,7 +348,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="Reel-ExamRegistration"
           component={ReelExamRegistration}
-          durationInFrames={370}
+          durationInFrames={286}
           fps={30}
           width={1080}
           height={1920}

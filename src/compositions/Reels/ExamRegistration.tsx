@@ -6,19 +6,19 @@ import { KineticText } from "./components/KineticText";
 import { ExamPanelMockup } from "../../components/ExamPanel/ExamPanelMockup";
 import { SoundEffect } from "../../components/SoundEffect";
 
-// --- TIMELINE (370 frames = ~12.3s @ 30fps) ---
+// --- TIMELINE (286 frames = ~9.5s @ 30fps) ---
 // 0-20:    Panel springs in
-// 10-50:   KineticText "Přihlas se ke zkoušce →"
-// 50-90:   Card expands
-// 130:     Term highlight (cursor)
-// 145:     Spinner
-// 165:     Registered — badge + details appear
-// 165-270: Linger on registered state
-// 255-270: Panel fades out
-// 270-370: BrandedEndSlide (90 frames → CTA text visible at local f30-50)
+// 10-40:   KineticText "Přihlas se ke zkoušce →"
+// 40-80:   Card expands
+// 100:     Term highlight (cursor)
+// 112:     Spinner
+// 125:     Registered — badge + details appear
+// 125-186: Linger on registered state
+// 171-186: Panel fades out
+// 186-286: BrandedEndSlide
 
-const PANEL_FADE_START = 255;
-const END_CARD_START = 270;
+const PANEL_FADE_START = 171;
+const END_CARD_START = 186;
 
 export const ReelExamRegistration: React.FC = () => {
   const frame = useCurrentFrame();
@@ -48,20 +48,20 @@ export const ReelExamRegistration: React.FC = () => {
       >
         <ExamPanelMockup
           scale={1.8}
-          expandFrame={50}
-          highlightFrame={130}
-          processingFrame={145}
-          successFrame={165}
+          expandFrame={40}
+          highlightFrame={100}
+          processingFrame={112}
+          successFrame={125}
         />
 
         {/* Sound effects */}
         <Sequence>
           <SoundEffect type="SWOOSH" volume={0.5} />
         </Sequence>
-        <Sequence from={130}>
+        <Sequence from={100}>
           <SoundEffect type="TOGGLE_ON" volume={0.3} />
         </Sequence>
-        <Sequence from={165}>
+        <Sequence from={125}>
           <SoundEffect type="SUCCESS" volume={0.5} />
         </Sequence>
       </AbsoluteFill>
@@ -70,7 +70,7 @@ export const ReelExamRegistration: React.FC = () => {
       <KineticText
         text="Přihlas se ke zkoušce →"
         startFrame={10}
-        duration={45}
+        duration={30}
         fontSize={52}
         top="22%"
       />

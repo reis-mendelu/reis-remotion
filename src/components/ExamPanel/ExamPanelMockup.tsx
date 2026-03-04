@@ -23,10 +23,10 @@ const MATEMATIKA_TERMS = [
 
 export const ExamPanelMockup: React.FC<ExamPanelMockupProps> = ({
   scale = 1,
-  expandFrame = 50,
-  highlightFrame = 130,
-  processingFrame = 145,
-  successFrame = 165,
+  expandFrame = 40,
+  highlightFrame = 100,
+  processingFrame = 112,
+  successFrame = 125,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
