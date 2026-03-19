@@ -19,7 +19,7 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
 
-  const logoSrc = staticFile("mendelu_logo.png");
+  const logoSrc = staticFile("reIS_logo.png");
 
   // Entrance spring
   const entrance = spring({
@@ -64,25 +64,15 @@ export const BrandedEndSlide: React.FC<BrandedEndSlideProps> = ({
           transform: `scale(${scale})`,
           zIndex: 10,
         }}>
-          {/* Logo circle */}
-          <div style={{
-            borderRadius: "50%",
-            overflow: "hidden",
-            width: `${baseLogoSize}px`,
-            height: `${baseLogoSize}px`,
-            backgroundColor: "#ffffff",
-          }}>
-            <Img
-              src={logoSrc}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-                padding: "15px",
-              }}
-              alt="Mendelova Univerzita Logo"
-            />
-          </div>
+          <Img
+            src={logoSrc}
+            style={{
+              width: `${baseLogoSize}px`,
+              height: `${baseLogoSize}px`,
+              objectFit: "contain",
+            }}
+            alt="reIS Logo"
+          />
 
           {/* CTA text — fades in after logo settles */}
           {ctaText && (

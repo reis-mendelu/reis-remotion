@@ -12,23 +12,21 @@ import { WeeklyCalendar } from "../../components/reis/WeeklyCalendar";
 import { SoundEffect } from "../../components/SoundEffect";
 import { Background } from "../../components/Background";
 import { BrandedEndSlide } from "../BrandedEndSlide";
-import { KineticText } from "./components/KineticText";
 
 export const ReelOutlookSync: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // --- TIMELINE (330 frames = 11s @ 30fps) ---
+  // --- TIMELINE (299 frames = 10s @ 30fps) ---
   // 0-15:    Entrance spring
-  // 10-55:   KineticText "ROZVRH V KALENDÁŘI →"
   // 30:      Toggle ON
   // 45-110:  Sync progress 0→100%
   // 110:     Sync complete
   // 120-135: Sync card fades out
   // 130-140: WeeklyCalendar springs in
-  // 130-250: Calendar visible (linger)
-  // 240-255: Calendar fades out
-  // 250-330: BrandedEndSlide
+  // 130-209: Calendar visible (linger)
+  // 199-214: Calendar fades out
+  // 209-299: BrandedEndSlide
 
   // --- ENTRANCE ---
   const entranceSpring = spring({
@@ -69,7 +67,7 @@ export const ReelOutlookSync: React.FC = () => {
 
   // --- WEEKLY CALENDAR TRANSITION ---
   const CALENDAR_IN = 130;
-  const CALENDAR_OUT = 240;
+  const CALENDAR_OUT = 199;
   const calendarEntrance = spring({
     frame: frame - CALENDAR_IN,
     fps,
@@ -81,13 +79,13 @@ export const ReelOutlookSync: React.FC = () => {
   });
   const calendarFadeOut =
     frame >= CALENDAR_OUT
-      ? interpolate(frame, [CALENDAR_OUT, 255], [1, 0], {
+      ? interpolate(frame, [CALENDAR_OUT, CALENDAR_OUT + 15], [1, 0], {
           extrapolateRight: "clamp",
         })
       : 1;
 
   // --- END CARD ---
-  const END_CARD_START = 250;
+  const END_CARD_START = 209;
   const showEndCard = frame >= END_CARD_START;
   const endCardOpacity = showEndCard
     ? interpolate(frame, [END_CARD_START, END_CARD_START + 10], [0, 1], {
@@ -152,14 +150,6 @@ export const ReelOutlookSync: React.FC = () => {
         </AbsoluteFill>
       </Sequence>
 
-      {/* Kinetic text overlay */}
-      <KineticText
-        text="Rozvrh v kalendáři →"
-        startFrame={10}
-        duration={45}
-        fontSize={56}
-        top="28%"
-      />
 
       {/* End card */}
       <Sequence from={END_CARD_START}>

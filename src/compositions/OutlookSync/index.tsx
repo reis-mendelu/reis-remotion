@@ -91,28 +91,19 @@ export const OutlookSyncComposition: React.FC<z.infer<typeof OutlookSyncSchema> 
                transform: `scale(${scale}) translateY(${entranceY}px)`,
              }}
         >
-          {/* Mendelu Logo - BrandedEndSlide style */}
-          <div style={{ 
-            position: "relative",
-            zIndex: 10,
-            borderRadius: "50%",
-            overflow: "hidden",
-            width: "55px",
-            height: "55px",
-            backgroundColor: "#ffffff",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-            flexShrink: 0
-          }}>
-            <Img 
-              src={staticFile("mendelu_logo.png")} 
-              style={{ 
-                width: "100%", 
-                height: "100%", 
-                objectFit: "contain",
-                padding: "8px", 
-              }} 
-            />
-          </div>
+          {/* reIS Logo */}
+          <Img
+            src={staticFile("reIS_logo.png")}
+            style={{
+              position: "relative",
+              zIndex: 10,
+              width: "55px",
+              height: "55px",
+              objectFit: "contain",
+              flexShrink: 0,
+              filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.5))",
+            }}
+          />
 
         <div 
           className="w-80 bg-[#1e2329] p-4 rounded-xl border border-white/5"

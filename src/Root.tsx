@@ -332,7 +332,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="Reel-OutlookSync"
           component={ReelOutlookSync}
-          durationInFrames={340}
+          durationInFrames={299}
           fps={30}
           width={1080}
           height={1920}

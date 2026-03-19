@@ -49,8 +49,8 @@ describe('BrandedEndSlide', () => {
             />
         );
 
-        const logo = await screen.findByAltText(/Mendelova Univerzita Logo/i);
+        const logo = await screen.findByAltText(/reIS Logo/i);
         expect(logo).toBeDefined();
-        expect(logo.getAttribute('src')).toContain('mendelu_logo.png');
+        expect(logo.getAttribute('src')).toContain('reIS_logo.png');
     });
 });
