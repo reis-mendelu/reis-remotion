@@ -60,22 +60,28 @@ export const CalendarEventCard: React.FC<CalendarEventCardProps> = ({ lesson, on
                         ${styles.bg} border-l-4 ${styles.border}`}
             onClick={onClick}
         >
-            <div className="p-2 h-full flex flex-col text-sm overflow-hidden font-inter">
-                <div className={`font-semibold ${styles.text} flex-shrink-0 break-words line-clamp-2`}>
+            <div className="p-2 h-full flex flex-col text-sm overflow-hidden" style={{ fontFamily: 'Inter, sans-serif' }}>
+                <div 
+                    className={`font-semibold ${styles.text} flex-shrink-0 break-words line-clamp-2`}
+                    style={{ fontWeight: 600 }}
+                >
                     {courseTitle}
                 </div>
 
 
 
                 {isLongEnough && (
-                    <div className="text-gray-600 text-sm mt-auto flex-shrink-0 flex items-center justify-between gap-2">
+                    <div 
+                        className="text-gray-600 text-[11px] mt-auto flex-shrink-0 flex items-center justify-between gap-1"
+                        style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}
+                    >
                         {lesson.room && (
-                            <div className="flex items-center gap-1 min-w-0 flex-1">
-                                <MapPin size={12} className="flex-shrink-0" />
+                            <div className="flex items-center gap-1 min-w-0 flex-1 opacity-80">
+                                <MapPin size={10} className="flex-shrink-0" />
                                 <span className="truncate">{lesson.room}</span>
                             </div>
                         )}
-                        <div className="text-gray-500 whitespace-nowrap flex-shrink-0">
+                        <div className="text-gray-500 whitespace-nowrap flex-shrink-0 opacity-80">
                             {lesson.startTime} - {lesson.endTime}
                         </div>
                     </div>

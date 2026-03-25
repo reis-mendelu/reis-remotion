@@ -24,6 +24,8 @@ import { ExamRegistrationComposition } from "./compositions/ExamRegistration/ind
 import { ExamRegistrationSchema } from "./compositions/ExamRegistration/schema";
 import { ReelExamRegistration } from "./compositions/Reels/ExamRegistration";
 import { PRINT_SIZES } from "./constants/print";
+import { DiningTableSequence } from "./compositions/DiningTable/Sequence";
+import { DiningTableSchema } from "./compositions/DiningTable/schema";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -261,6 +263,41 @@ export const RemotionRoot: React.FC = () => {
             downloadedIds: [],
             classmates: [],
             tabOffset: 0,
+          }}
+        />
+        <Composition
+          id="DiningTable-Hint"
+          component={DiningTableSequence}
+          durationInFrames={270}
+          fps={30}
+          width={1920}
+          height={1080}
+          schema={DiningTableSchema}
+          defaultProps={{
+            scale: 2,
+            animate: true,
+            date: 26,
+            dayName: "Čtvrtek",
+            activeTab: "X",
+            menus: {
+              X: [
+                "Zeleninová polévka s vločkami",
+                "Kuřecí steak 120g",
+                "Vepřový kotlet Texas",
+                "Zeleninové rizoto s vepřovým masem 80g",
+                "Pečená paprika plněná polentou se suš.rajčaty",
+                "Kuřecí závitek s houbovou nádivkou",
+                "Grilovaná dýně s paprikou a houbami Shii-take",
+              ],
+              KA: [
+                "Kuřecí vývar s nudlemi",
+                "Kuřecí řízek se špenátovým salátem",
+              ],
+              JAK: [
+                "Zeleninový vývar",
+                "Zapečená brokolice s vejci",
+              ],
+            },
           }}
         />
         <Composition
