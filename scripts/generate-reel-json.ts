@@ -60,9 +60,13 @@ export function generateReelConfig(subject: string, code: string): ReelProps {
     ]
   };
 }
+import { fileURLToPath } from 'url';
 
-if (require.main === module) {
+// ... (rest of generateReelConfig function) ...
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const subject = process.argv[2] || 'Statistika';
   const code = process.argv[3] || 'STA';
   console.log(JSON.stringify(generateReelConfig(subject, code), null, 2));
 }
+

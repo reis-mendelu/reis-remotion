@@ -18,6 +18,7 @@ import { SearchBarComposition } from "./compositions/SearchBar";
 import { SearchBarSchema } from "./compositions/SearchBar/schema";
 import { SearchBarIntroduction } from "./compositions/SearchBar/Introduction";
 import { ExamRegistrationComposition } from "./compositions/ExamRegistration/index";
+import { PatAMatComposition } from "./compositions/PatAMat";
 import { ExamRegistrationSchema } from "./compositions/ExamRegistration/schema";
 import { PRINT_SIZES } from "./constants/print";
 import { DiningTableSequence } from "./compositions/DiningTable/Sequence";
@@ -408,6 +409,21 @@ export const RemotionRoot: React.FC = () => {
         />
         <Still
           id="Intro-Poster-A6"
+          component={IntroPoster}
+          width={PRINT_SIZES.A6.width}
+          height={PRINT_SIZES.A6.height}
+          schema={IntroPosterSchema}
+          defaultProps={{
+            title: "*MODERNÍ* *RE*IS",
+            subtitle: "Všechny studijní materiály na dosah ruky.",
+            showGuides: true,
+          }}
+        />
+      </Folder>
+    </>
+  );
+};
+    id="Intro-Poster-A6"
           component={IntroPoster}
           width={PRINT_SIZES.A6.width}
           height={PRINT_SIZES.A6.height}
