@@ -17,15 +17,13 @@ import { WeeklyCalendar } from "./components/reis/WeeklyCalendar";
 import { SearchBarComposition } from "./compositions/SearchBar";
 import { SearchBarSchema } from "./compositions/SearchBar/schema";
 import { SearchBarIntroduction } from "./compositions/SearchBar/Introduction";
-import { ReelSubjectDrawerFiles } from "./compositions/Reels/SubjectDrawerFiles";
-import { ReelOutlookSync } from "./compositions/Reels/OutlookSync";
-import { ReelSearchBarStats } from "./compositions/Reels/SearchBarStats";
 import { ExamRegistrationComposition } from "./compositions/ExamRegistration/index";
 import { ExamRegistrationSchema } from "./compositions/ExamRegistration/schema";
-import { ReelExamRegistration } from "./compositions/Reels/ExamRegistration";
 import { PRINT_SIZES } from "./constants/print";
 import { DiningTableSequence } from "./compositions/DiningTable/Sequence";
 import { DiningTableSchema } from "./compositions/DiningTable/schema";
+import { ReelDirector } from "./compositions/ReelDirector";
+import { ReelSchema } from "./schemas/director";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -359,36 +357,39 @@ export const RemotionRoot: React.FC = () => {
 
       <Folder name="Instagram-Reels">
         <Composition
-          id="Reel-SubjectDrawer-Files"
-          component={ReelSubjectDrawerFiles}
-          durationInFrames={330}
+          id="AI-Reel-Director"
+          component={ReelDirector}
+          durationInFrames={300}
           fps={30}
           width={1080}
           height={1920}
-        />
-        <Composition
-          id="Reel-OutlookSync"
-          component={ReelOutlookSync}
-          durationInFrames={299}
-          fps={30}
-          width={1080}
-          height={1920}
-        />
-        <Composition
-          id="Reel-SearchBar-Stats"
-          component={ReelSearchBarStats}
-          durationInFrames={455}
-          fps={30}
-          width={1080}
-          height={1920}
-        />
-        <Composition
-          id="Reel-ExamRegistration"
-          component={ReelExamRegistration}
-          durationInFrames={310}
-          fps={30}
-          width={1080}
-          height={1920}
+          schema={ReelSchema}
+          defaultProps={{
+            theme: "success",
+            actions: [
+              {
+                type: "intro-title",
+                durationInFrames: 60,
+                mascotAction: "wave",
+                text: "Vítejte u reIS tipů!",
+                transitionOut: "fade",
+              },
+              {
+                type: "mascot-explainer",
+                durationInFrames: 120,
+                mascotAction: "point-right",
+                text: "Dneska si ukážeme, jak na statistiku.",
+                transitionOut: "fade",
+              },
+              {
+                type: "data-showcase",
+                durationInFrames: 90,
+                mascotAction: "idle",
+                text: "Úspěšnost je letos 65%!",
+                transitionOut: "none",
+              },
+            ],
+          }}
         />
       </Folder>
 
