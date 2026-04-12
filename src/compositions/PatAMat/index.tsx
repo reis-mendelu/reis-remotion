@@ -9,7 +9,7 @@ export const PatAMatComposition: React.FC = () => {
   
   const videoDuration = Math.round(5.18 * fps); // Cut at 5.18 seconds
   const leafletDuration = 5 * fps; // 5 seconds
-  const endSlideDuration = 5 * fps; // 5 seconds
+  const endSlideDuration = 2 * fps; // 2 seconds
   
   const leafletStart = videoDuration;
   const endSlideStart = leafletStart + leafletDuration;

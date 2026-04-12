@@ -65,7 +65,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="Pat-And-Mat"
           component={PatAMatComposition}
-          durationInFrames={455}
+          durationInFrames={365}
           fps={30}
           width={1080}
           height={1920}
