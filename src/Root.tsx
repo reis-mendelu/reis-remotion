@@ -62,6 +62,14 @@ export const RemotionRoot: React.FC = () => {
           width={1920}
           height={1080}
         />
+        <Composition
+          id="Pat-And-Mat"
+          component={PatAMatComposition}
+          durationInFrames={455}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
       </Folder>
 
       <Folder name="Building-Blocks">
@@ -409,21 +417,6 @@ export const RemotionRoot: React.FC = () => {
         />
         <Still
           id="Intro-Poster-A6"
-          component={IntroPoster}
-          width={PRINT_SIZES.A6.width}
-          height={PRINT_SIZES.A6.height}
-          schema={IntroPosterSchema}
-          defaultProps={{
-            title: "*MODERNÍ* *RE*IS",
-            subtitle: "Všechny studijní materiály na dosah ruky.",
-            showGuides: true,
-          }}
-        />
-      </Folder>
-    </>
-  );
-};
-    id="Intro-Poster-A6"
           component={IntroPoster}
           width={PRINT_SIZES.A6.width}
           height={PRINT_SIZES.A6.height}

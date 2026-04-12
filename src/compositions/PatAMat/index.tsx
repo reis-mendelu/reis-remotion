@@ -76,13 +76,11 @@ export const PatAMatComposition: React.FC = () => {
              justifyContent: 'center'
            }}>
              <Img 
-                src={staticFile("eduoram_leaflet_dark.png")} 
+                src={staticFile("eduroam_ig_transparent.png")} 
                 style={{ 
                   width: '100%', 
                   height: '100%', 
                   objectFit: 'contain',
-                  borderRadius: '20px',
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.8)' // Darker shadow for dark theme
                 }} 
              />
            </div>
