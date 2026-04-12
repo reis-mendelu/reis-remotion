@@ -10,8 +10,10 @@ import { CalendarScene } from '../components/ui/CalendarScene';
 import { SearchBarScene } from '../components/ui/SearchBarScene';
 import { KineticText } from '../components/ui/KineticText';
 import { BrandedEndSlide } from './BrandedEndSlide';
+import { SoundEffect } from '../components/SoundEffect';
+import { Audio } from 'remotion';
 
-export const ReelDirector: React.FC<ReelProps> = ({ actions, theme }) => {
+export const ReelDirector: React.FC<ReelProps> = ({ actions, theme, backgroundMusic }) => {
   const themeColors = {
     success: '#79BE15',
     warning: '#F59E0B',
@@ -26,6 +28,11 @@ export const ReelDirector: React.FC<ReelProps> = ({ actions, theme }) => {
       <TransitionSeries.Sequence key={`seq-${i}`} durationInFrames={action.durationInFrames}>
         <AbsoluteFill className="flex flex-col items-center justify-center">
           
+          {/* Sound Effect for the start of the action */}
+          {action.soundEffect && (
+            <SoundEffect type={action.soundEffect} volume={0.4} />
+          )}
+
           {/* Background Layer */}
           {action.type !== 'end-card' && (
              <Scene 
@@ -95,6 +102,9 @@ export const ReelDirector: React.FC<ReelProps> = ({ actions, theme }) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#111' }}>
+      {backgroundMusic && (
+        <Audio src={backgroundMusic} volume={0.2} loop />
+      )}
       <TransitionSeries>
         {children}
       </TransitionSeries>

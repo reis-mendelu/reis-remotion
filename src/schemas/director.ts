@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { AudioKeySchema } from '../audio/AudioMap';
 
 export const ActionSchema = z.object({
   type: z.enum([
@@ -16,6 +17,9 @@ export const ActionSchema = z.object({
   mascotAction: z.enum(['idle', 'wave', 'point-right', 'point-left', 'celebrate']).optional(),
   text: z.string().max(100).optional(),
   transitionOut: z.enum(['fade', 'wipe-left', 'none']),
+  
+  // Audio
+  soundEffect: AudioKeySchema.optional(),
   
   // Specific props for subject-drawer-demo & subject-stats-demo
   subjectProps: z.object({
@@ -41,6 +45,7 @@ export const ActionSchema = z.object({
 export const ReelSchema = z.object({
   theme: z.enum(['success', 'warning', 'info', 'dark']),
   actions: z.array(ActionSchema),
+  backgroundMusic: z.string().optional(), // path to an ogg/mp3 file in public/
 });
 
 export type ReelProps = z.infer<typeof ReelSchema>;
