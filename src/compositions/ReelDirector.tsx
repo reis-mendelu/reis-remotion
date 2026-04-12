@@ -8,6 +8,7 @@ import { SubjectDrawerScene } from '../components/ui/SubjectDrawerScene';
 import { OutlookSyncScene } from '../components/ui/OutlookSyncScene';
 import { CalendarScene } from '../components/ui/CalendarScene';
 import { SearchBarScene } from '../components/ui/SearchBarScene';
+import { KineticText } from '../components/ui/KineticText';
 import { BrandedEndSlide } from './BrandedEndSlide';
 
 export const ReelDirector: React.FC<ReelProps> = ({ actions, theme }) => {
@@ -27,7 +28,10 @@ export const ReelDirector: React.FC<ReelProps> = ({ actions, theme }) => {
           
           {/* Background Layer */}
           {action.type !== 'end-card' && (
-             <Scene action={action.mascotAction || 'idle'} />
+             <Scene 
+                action={action.mascotAction || 'idle'} 
+                themeColor={themeColors[theme]} 
+             />
           )}
 
           {/* Content Layer */}
@@ -56,14 +60,18 @@ export const ReelDirector: React.FC<ReelProps> = ({ actions, theme }) => {
              />
           )}
           
-          {/* Text Overlay Layer */}
+          {/* Kinetic Text Overlay Layer */}
           {action.text && (
-            <div 
-              className="absolute bottom-20 z-50 px-10 py-5 rounded-2xl shadow-2xl backdrop-blur-md border border-white/20 text-white font-bold text-5xl text-center"
-              style={{ backgroundColor: `${themeColors[theme]}cc` }}
-            >
-              {action.text}
-            </div>
+            <>
+              {/* Overlay behind text for legibility */}
+              <div className="absolute inset-0 bg-black/20 z-40 backdrop-blur-[2px]" />
+              <KineticText 
+                text={action.text} 
+                themeColor={themeColors[theme]} 
+                fontSize={80} 
+                className="absolute z-50 pointer-events-none"
+              />
+            </>
           )}
         </AbsoluteFill>
       </TransitionSeries.Sequence>
