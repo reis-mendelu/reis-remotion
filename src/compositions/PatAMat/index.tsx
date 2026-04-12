@@ -76,7 +76,7 @@ export const PatAMatComposition: React.FC = () => {
              justifyContent: 'center'
            }}>
              <Img 
-                src={staticFile("eduroam_ig_transparent.png")} 
+                src={staticFile("eduoram_leaflet_v4.png")} 
                 style={{ 
                   width: '100%', 
                   height: '100%', 
