@@ -370,7 +370,6 @@ export const RemotionRoot: React.FC = () => {
               {
                 type: "intro-title",
                 durationInFrames: 60,
-                mascotAction: "wave",
                 text: "Vítejte u reIS tipů!",
                 transitionOut: "fade",
                 soundEffect: "INTRO_SWOOSH",
@@ -378,7 +377,6 @@ export const RemotionRoot: React.FC = () => {
               {
                 type: "mascot-explainer",
                 durationInFrames: 120,
-                mascotAction: "point-right",
                 text: "Dneska si ukážeme, jak na statistiku.",
                 transitionOut: "fade",
                 soundEffect: "SWOOSH",
@@ -386,7 +384,6 @@ export const RemotionRoot: React.FC = () => {
               {
                 type: "data-showcase",
                 durationInFrames: 90,
-                mascotAction: "idle",
                 text: "Úspěšnost je letos 65%!",
                 transitionOut: "none",
                 soundEffect: "SUCCESS",

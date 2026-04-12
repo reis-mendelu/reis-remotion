@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { 
   AbsoluteFill, 
   interpolate, 
@@ -22,7 +22,9 @@ export const KineticText: React.FC<KineticTextProps> = ({
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const words = text.split(' ');
+  
+  // Memoize words to avoid splitting on every frame
+  const words = useMemo(() => text.split(' '), [text]);
 
   return (
     <AbsoluteFill className={`flex flex-col items-center justify-center pointer-events-none ${className}`}>
@@ -30,6 +32,9 @@ export const KineticText: React.FC<KineticTextProps> = ({
         {words.map((word, i) => {
           // Stagger the entrance of each word
           const delay = i * 3;
+          
+          // spring() and interpolate() are lightweight, but we still 
+          // ensure they only calculate based on the current frame.
           const entrance = spring({
             frame: frame - delay,
             fps,
@@ -40,14 +45,13 @@ export const KineticText: React.FC<KineticTextProps> = ({
             },
           });
 
-          // Animate from below and transparent to position and opaque
           const translateY = interpolate(entrance, [0, 1], [50, 0]);
           const opacity = interpolate(entrance, [0, 1], [0, 1]);
           const scale = interpolate(entrance, [0, 1], [0.8, 1]);
 
           return (
             <span
-              key={i}
+              key={`${word}-${i}`}
               className="inline-block font-black uppercase italic tracking-tighter"
               style={{
                 fontSize: `${fontSize}px`,

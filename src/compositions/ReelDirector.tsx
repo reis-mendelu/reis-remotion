@@ -1,8 +1,7 @@
 import React from 'react';
 import TransitionSeries from 'remotion-transition-series';
 import { ReelProps } from '../schemas/director';
-import { Scene } from '../components/3d/Scene';
-import { AbsoluteFill, Sequence } from 'remotion';
+import { AbsoluteFill, Audio, Sequence } from 'remotion';
 import { Transition } from '@remotion/transitions';
 import { SubjectDrawerScene } from '../components/ui/SubjectDrawerScene';
 import { OutlookSyncScene } from '../components/ui/OutlookSyncScene';
@@ -11,7 +10,6 @@ import { SearchBarScene } from '../components/ui/SearchBarScene';
 import { KineticText } from '../components/ui/KineticText';
 import { BrandedEndSlide } from './BrandedEndSlide';
 import { SoundEffect } from '../components/SoundEffect';
-import { Audio } from 'remotion';
 
 export const ReelDirector: React.FC<ReelProps> = ({ actions, theme, backgroundMusic }) => {
   const themeColors = {
@@ -21,8 +19,6 @@ export const ReelDirector: React.FC<ReelProps> = ({ actions, theme, backgroundMu
     dark: '#111',
   };
 
-  // Flatten actions into a series of Sequence and Transition elements
-  // TransitionSeries doesn't like Fragments or arrays within children
   const children = actions.flatMap((action, i) => {
     const sequence = (
       <TransitionSeries.Sequence key={`seq-${i}`} durationInFrames={action.durationInFrames}>
@@ -33,13 +29,13 @@ export const ReelDirector: React.FC<ReelProps> = ({ actions, theme, backgroundMu
             <SoundEffect type={action.soundEffect} volume={0.4} />
           )}
 
-          {/* Background Layer */}
-          {action.type !== 'end-card' && (
-             <Scene 
-                action={action.mascotAction || 'idle'} 
-                themeColor={themeColors[theme]} 
-             />
-          )}
+          {/* Background Glow Overlay Layer (Purely 2D) */}
+          <div 
+            className="absolute inset-0 opacity-10"
+            style={{
+              background: `radial-gradient(circle at center, ${themeColors[theme]} 0%, transparent 70%)`,
+            }}
+          />
 
           {/* Content Layer */}
           {(action.type === 'subject-drawer-demo' || action.type === 'subject-stats-demo') && action.subjectProps && (
@@ -70,8 +66,7 @@ export const ReelDirector: React.FC<ReelProps> = ({ actions, theme, backgroundMu
           {/* Kinetic Text Overlay Layer */}
           {action.text && (
             <>
-              {/* Overlay behind text for legibility */}
-              <div className="absolute inset-0 bg-black/20 z-40 backdrop-blur-[2px]" />
+              <div className="absolute inset-0 bg-black/10 z-40 backdrop-blur-[1px]" />
               <KineticText 
                 text={action.text} 
                 themeColor={themeColors[theme]} 

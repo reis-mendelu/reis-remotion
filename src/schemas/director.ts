@@ -1,10 +1,24 @@
 import { z } from 'zod';
 import { AudioKeySchema } from '../audio/AudioMap';
 
+export const FileSchema = z.object({
+  file_name: z.string(),
+  link: z.string(),
+});
+
+export const SuccessRateStatSchema = z.object({
+  semester: z.string(),
+  totalPass: z.number(),
+  totalFail: z.number(),
+  type: z.enum(['exam', 'credit']),
+  terms: z.array(z.object({
+    grades: z.record(z.string(), z.number()),
+  })),
+});
+
 export const ActionSchema = z.object({
   type: z.enum([
     'intro-title', 
-    'mascot-explainer', 
     'data-showcase', 
     'subject-drawer-demo',
     'outlook-sync-demo',
@@ -14,7 +28,6 @@ export const ActionSchema = z.object({
     'end-card'
   ]),
   durationInFrames: z.number().min(30).max(600),
-  mascotAction: z.enum(['idle', 'wave', 'point-right', 'point-left', 'celebrate']).optional(),
   text: z.string().max(100).optional(),
   transitionOut: z.enum(['fade', 'wipe-left', 'none']),
   
@@ -27,12 +40,23 @@ export const ActionSchema = z.object({
     subjectCode: z.string(),
     activeTab: z.enum(['info', 'files', 'syllabus', 'classmates', 'stats']).default('files'),
     selectedFileIndices: z.array(z.number()).optional(),
+    files: z.array(FileSchema).optional(),
+    successRate: z.object({
+      stats: z.array(SuccessRateStatSchema),
+    }).optional(),
   }).optional(),
 
   // Specific props for search-bar-demo
   searchProps: z.object({
     query: z.string(),
     selectedResultIndex: z.number().default(0),
+    results: z.array(z.object({
+      id: z.string(),
+      title: z.string(),
+      type: z.string(),
+      detail: z.string(),
+      subjectCode: z.string(),
+    })).optional(),
   }).optional(),
 
   // Specific props for end-card
@@ -45,7 +69,7 @@ export const ActionSchema = z.object({
 export const ReelSchema = z.object({
   theme: z.enum(['success', 'warning', 'info', 'dark']),
   actions: z.array(ActionSchema),
-  backgroundMusic: z.string().optional(), // path to an ogg/mp3 file in public/
+  backgroundMusic: z.string().optional(),
 });
 
 export type ReelProps = z.infer<typeof ReelSchema>;

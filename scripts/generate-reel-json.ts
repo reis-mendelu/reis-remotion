@@ -2,7 +2,6 @@ import { ReelProps } from '../src/schemas/director';
 
 /**
  * A utility to generate a standard reIS Reel JSON.
- * This is what the LLM should eventually be tasked with.
  */
 export function generateReelConfig(subject: string, code: string): ReelProps {
   return {
@@ -11,7 +10,6 @@ export function generateReelConfig(subject: string, code: string): ReelProps {
       {
         type: 'intro-title',
         durationInFrames: 60,
-        mascotAction: 'wave',
         text: `Jak na ${subject}?`,
         transitionOut: 'fade',
         soundEffect: 'INTRO_SWOOSH',
@@ -23,6 +21,9 @@ export function generateReelConfig(subject: string, code: string): ReelProps {
         searchProps: {
           query: subject,
           selectedResultIndex: 0,
+          results: [
+            { id: "1", title: subject, type: "subject", detail: `${code} · PEF`, subjectCode: code },
+          ]
         },
         transitionOut: 'fade',
         soundEffect: 'KEYBOARD_CLICK',
@@ -36,6 +37,11 @@ export function generateReelConfig(subject: string, code: string): ReelProps {
           subjectCode: code,
           activeTab: 'files',
           selectedFileIndices: [0, 1, 2],
+          files: [
+            { file_name: "Přednášky", link: "p1" },
+            { file_name: "Cvičení", link: "c1" },
+            { file_name: "Zkouškové okruhy", link: "z1" },
+          ]
         },
         transitionOut: 'fade',
         soundEffect: 'SUCCESS',
@@ -55,7 +61,6 @@ export function generateReelConfig(subject: string, code: string): ReelProps {
   };
 }
 
-// Example usage
 if (require.main === module) {
   const subject = process.argv[2] || 'Statistika';
   const code = process.argv[3] || 'STA';

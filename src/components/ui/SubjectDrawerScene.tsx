@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { AbsoluteFill, useCurrentFrame, spring, interpolate, useVideoConfig } from "remotion";
 import { SubjectDrawerComposition } from "../../compositions/SubjectDrawer/index";
 import { ActionProps } from "../../schemas/director";
@@ -8,12 +8,14 @@ export const SubjectDrawerScene: React.FC<NonNullable<ActionProps['subjectProps'
   subjectCode,
   activeTab,
   selectedFileIndices = [],
+  files = [],
+  successRate,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
 
-  // 1. Subject data
-  const subject = {
+  // 1. Subject data (Memoized to prevent re-creation)
+  const subject = useMemo(() => ({
     name: subjectName,
     code: subjectCode,
     credits: "6 KREDITŮ",
@@ -21,48 +23,39 @@ export const SubjectDrawerScene: React.FC<NonNullable<ActionProps['subjectProps'
     completion: "Zkouška",
     garant: "doc. Ing. Oldřich Trenz, Ph.D.",
     vyucujici: [],
-  };
+  }), [subjectName, subjectCode]);
 
-  const files = [
-    { file_name: "Cvičení 1", link: "c1" },
-    { file_name: "Cvičení 2", link: "c2" },
-    { file_name: "Harmonogram", link: "h1" },
-    { file_name: "Přednáška 1", link: "p1" },
-    { file_name: "Přednáška 2", link: "p2" },
-  ];
-  const groups = [{ name: "ostatni", displayName: "OSTATNÍ", files }];
+  const groups = useMemo(() => [{ 
+    name: "ostatni", 
+    displayName: "OSTATNÍ", 
+    files 
+  }], [files]);
 
-  const successRateData = {
-    stats: [
-      {
-        semester: "ZS 25/26",
-        totalPass: 651,
-        totalFail: 195,
-        type: "exam" as const,
-        terms: [{ grades: { A: 51, B: 80, C: 174, D: 183, E: 163, F: 32, FN: 163 } }],
-      },
-    ],
-  };
-
-  // 2. Relative Animation Math (Prevents Brittle Numbers)
-  // Instead of frame >= 30, we use relative frame progress
+  // 2. Relative Animation Logic (Scale with duration)
   const entranceSpring = spring({ frame, fps, config: { damping: 14, mass: 0.5 } });
   const drawerScale = interpolate(entranceSpring, [0, 1], [1.2, 1.5]);
 
-  // Interaction logic based on indices
-  const selectedIds: string[] = [];
-  selectedFileIndices.forEach((idx, i) => {
-     // Spread selections over the first half of the sequence
-     const triggerFrame = 20 + i * 20; 
-     if (frame >= triggerFrame) selectedIds.push(files[idx]?.link);
-  });
+  // Interaction logic using percentages (0.3 to 0.8 of the sequence)
+  const selectionStartPct = 0.3;
+  const selectionEndPct = 0.8;
+  const totalSlots = selectedFileIndices.length;
+
+  const selectedIds: string[] = useMemo(() => {
+    const ids: string[] = [];
+    selectedFileIndices.forEach((idx, i) => {
+       const relativePct = selectionStartPct + (i / Math.max(1, totalSlots - 1)) * (selectionEndPct - selectionStartPct);
+       const triggerFrame = Math.floor(durationInFrames * relativePct);
+       if (frame >= triggerFrame) ids.push(files[idx]?.link);
+    });
+    return ids;
+  }, [selectedFileIndices, files, durationInFrames, frame, totalSlots]);
 
   return (
     <AbsoluteFill className="flex items-center justify-center">
       <SubjectDrawerComposition
         subject={subject}
         groups={groups}
-        successRate={successRateData}
+        successRate={successRate as any}
         activeTab={activeTab}
         animate={false}
         scale={drawerScale}
