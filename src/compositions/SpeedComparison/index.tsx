@@ -14,11 +14,6 @@ import { Background } from "../../components/Background";
 import { SpeedComparisonProps } from "./schema";
 
 // ─── Frame constants ────────────────────────────────────────────────────────
-// reIS done at frame 236 (7.87s). IS stays visible 4s more → fade starts 356.
-const FADE_START = 356;       // split screen starts fading to black
-const RACE_END = 386;         // fade-out complete → end card starts immediately
-const END_CARD_START = 386;   // stars + logo + CTA
-
 const FONT = "Inter, system-ui, sans-serif";
 
 function formatTime(seconds: number): string {
@@ -60,6 +55,7 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
   reisVideoSrc,
   isVideoDurationFrames,
   reisVideoDurationFrames,
+  isGraceFrames,
   title,
   isLabel,
   reisLabel,
@@ -70,6 +66,11 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
 
   const multiplier = (isVideoDurationFrames / reisVideoDurationFrames).toFixed(1);
   const halfHeight = height / 2;
+
+  // Timing derived from props — works for any video pair
+  const FADE_START = reisVideoDurationFrames + isGraceFrames;
+  const RACE_END = FADE_START + 30;
+  const END_CARD_START = RACE_END;
 
   // ── ACT 1 & 2: Race timers ──────────────────────────────────────────────
   const reisElapsed = Math.min(frame, reisVideoDurationFrames) / fps;

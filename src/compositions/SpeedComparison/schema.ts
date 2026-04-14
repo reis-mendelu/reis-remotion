@@ -5,6 +5,7 @@ export const SpeedComparisonSchema = z.object({
   reisVideoSrc: z.string().default("reIS soubor.mov"),
   isVideoDurationFrames: z.number().default(1180),
   reisVideoDurationFrames: z.number().default(236),
+  isGraceFrames: z.number().default(120), // frames IS stays visible after reIS finishes
   title: z.string().default("Stažení souboru ze cvik"),
   isLabel: z.string().default("IS"),
   reisLabel: z.string().default("reIS"),

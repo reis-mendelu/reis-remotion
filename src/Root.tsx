@@ -75,7 +75,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="SpeedComparison"
           component={SpeedComparison}
-          durationInFrames={476} // ~16s: race(386) + end card(90)
+          durationInFrames={476} // reIS=236 + grace120 + fade30 + endcard90
           fps={30}
           width={1080}
           height={1920}
@@ -85,7 +85,28 @@ export const RemotionRoot: React.FC = () => {
             reisVideoSrc: "reIS soubor.mov",
             isVideoDurationFrames: 1180,
             reisVideoDurationFrames: 236,
+            isGraceFrames: 120,
             title: "Stažení souboru ze cvik",
+            isLabel: "IS",
+            reisLabel: "reIS",
+            accentColor: "#79BE15",
+          }}
+        />
+        <Composition
+          id="Uspesnost"
+          component={SpeedComparison}
+          durationInFrames={485} // reIS=245 + grace120 + fade30 + endcard90
+          fps={30}
+          width={1080}
+          height={1920}
+          schema={SpeedComparisonSchema}
+          defaultProps={{
+            isVideoSrc: "uspesnost_is.mov",
+            reisVideoSrc: "uspesnost_reis.mov",
+            isVideoDurationFrames: 593,
+            reisVideoDurationFrames: 245,
+            isGraceFrames: 120,
+            title: "Úspěšnost matematiky v posledním semestru",
             isLabel: "IS",
             reisLabel: "reIS",
             accentColor: "#79BE15",
