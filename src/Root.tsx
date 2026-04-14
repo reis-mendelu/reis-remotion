@@ -25,6 +25,8 @@ import { DiningTableSequence } from "./compositions/DiningTable/Sequence";
 import { DiningTableSchema } from "./compositions/DiningTable/schema";
 import { ReelDirector } from "./compositions/ReelDirector";
 import { ReelSchema } from "./schemas/director";
+import { SpeedComparison } from "./compositions/SpeedComparison";
+import { SpeedComparisonSchema } from "./compositions/SpeedComparison/schema";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -69,6 +71,25 @@ export const RemotionRoot: React.FC = () => {
           fps={30}
           width={1080}
           height={1920}
+        />
+        <Composition
+          id="SpeedComparison"
+          component={SpeedComparison}
+          durationInFrames={476} // ~16s: race(386) + end card(90)
+          fps={30}
+          width={1080}
+          height={1920}
+          schema={SpeedComparisonSchema}
+          defaultProps={{
+            isVideoSrc: "is soubor.mov",
+            reisVideoSrc: "reIS soubor.mov",
+            isVideoDurationFrames: 1180,
+            reisVideoDurationFrames: 236,
+            title: "Stažení souboru ze cvik",
+            isLabel: "IS",
+            reisLabel: "reIS",
+            accentColor: "#79BE15",
+          }}
         />
       </Folder>
 
