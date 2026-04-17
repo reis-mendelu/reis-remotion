@@ -61,6 +61,7 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
     extrapolateRight: "clamp",
   });
 
+
   // Title pill: fade in 0–20, stay visible throughout the race,
   // ride the split fade to the end card so late scrollers always see context.
   const titleFadeIn = interpolate(frame, [0, 20], [0, 1], {
@@ -157,20 +158,13 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
           </div>
         </div>
 
-        {/* Divider with title interrupting the line */}
+        {/* Title text floating in center — lines removed as requested */}
         <div style={{
           position: "absolute", top: halfHeight, left: 0, right: 0,
-          display: "flex", alignItems: "center",
+          display: "flex", alignItems: "center", justifyContent: "center",
           transform: "translateY(-50%)", zIndex: 20,
           opacity: titleOpacity, pointerEvents: "none",
-          gap: 24,
         }}>
-          {/* Left line segment */}
-          <div style={{
-            flex: 1, height: 2, backgroundColor: accentColor,
-            boxShadow: `0 0 16px ${accentColor}90`,
-          }} />
-          {/* Label — no box, pure text */}
           <span style={{
             fontFamily: FONT, fontWeight: 600, fontSize: height * 0.0231,
             color: "rgba(255,255,255,0.7)", textTransform: "uppercase", letterSpacing: 4,
@@ -179,11 +173,6 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
           }}>
             {title}
           </span>
-          {/* Right line segment */}
-          <div style={{
-            flex: 1, height: 2, backgroundColor: accentColor,
-            boxShadow: `0 0 16px ${accentColor}90`,
-          }} />
         </div>
       </AbsoluteFill>
 
