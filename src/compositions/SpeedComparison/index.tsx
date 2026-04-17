@@ -24,45 +24,7 @@ function formatTime(seconds: number): string {
 }
 
 // ─── Done badge — centered celebration, shows the payoff time ───────────────
-const DoneBadge: React.FC<{
-  progress: number;
-  accentColor: string;
-  elapsedSeconds: number;
-}> = ({ progress, accentColor, elapsedSeconds }) => {
-  const scale = interpolate(progress, [0, 1], [0.5, 1]);
-  const opacity = interpolate(progress, [0, 0.3], [0, 1], { extrapolateRight: "clamp" });
-  return (
-    <div
-      style={{
-        opacity,
-        transform: `scale(${scale})`,
-        transformOrigin: "center",
-        backgroundColor: accentColor,
-        borderRadius: 28,
-        padding: "28px 56px",
-        boxShadow: `0 0 0 4px ${accentColor}40, 0 0 64px ${accentColor}aa`,
-        textAlign: "center",
-      }}
-    >
-      <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 72, color: "#fff", lineHeight: 1 }}>
-        ✓ Hotovo!
-      </div>
-      <div
-        style={{
-          fontFamily: FONT,
-          fontWeight: 700,
-          fontSize: 32,
-          color: "#fff",
-          marginTop: 12,
-          fontVariantNumeric: "tabular-nums",
-          letterSpacing: 1,
-        }}
-      >
-        za {elapsedSeconds.toFixed(1)} s
-      </div>
-    </div>
-  );
-};
+
 
 // ─── Main composition ────────────────────────────────────────────────────────
 export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
@@ -90,13 +52,8 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
   // ── ACT 1 & 2: Race timers ──────────────────────────────────────────────
   const reisElapsed = Math.min(frame, reisVideoDurationFrames) / fps;
   const isElapsed = Math.min(frame, isVideoDurationFrames) / fps;
-  const reisIsDone = frame >= reisVideoDurationFrames;
 
-  const reisDoneProgress = spring({
-    frame: Math.max(0, frame - reisVideoDurationFrames),
-    fps,
-    config: { damping: 14, stiffness: 120 },
-  });
+
 
   // Split screen fades out to black
   const splitOpacity = interpolate(frame, [FADE_START, RACE_END], [1, 0], {
@@ -185,34 +142,19 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
           <div style={{
             position: "absolute", bottom: 36, left: 48,
             fontFamily: FONT, fontWeight: 900, fontSize: 44,
-            color: accentColor, textTransform: "uppercase", letterSpacing: 5,
+            color: "rgba(255,255,255,0.55)", textTransform: "uppercase", letterSpacing: 5,
           }}>
             {reisLabel}
           </div>
-          {/* Timer shown until done, centered badge takes over on finish */}
           <div style={{
             position: "absolute", bottom: 36, right: 48,
             fontFamily: FONT, fontWeight: 800, fontSize: 56,
             color: "rgba(255,255,255,0.92)",
             letterSpacing: 1, fontVariantNumeric: "tabular-nums",
             textShadow: "0 2px 12px rgba(0,0,0,0.6)",
-            opacity: reisIsDone ? 0 : 1,
           }}>
             ⏱ {formatTime(reisElapsed)}
           </div>
-          {reisIsDone && (
-            <div style={{
-              position: "absolute",
-              top: "50%", left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}>
-              <DoneBadge
-                progress={reisDoneProgress}
-                accentColor={accentColor}
-                elapsedSeconds={reisVideoDurationFrames / fps}
-              />
-            </div>
-          )}
         </div>
 
         {/* Divider with title interrupting the line */}
@@ -230,10 +172,10 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
           }} />
           {/* Label — no box, pure text */}
           <span style={{
-            fontFamily: FONT, fontWeight: 600, fontSize: 26,
-            color: "rgba(255,255,255,0.65)", textTransform: "uppercase", letterSpacing: 5,
+            fontFamily: FONT, fontWeight: 600, fontSize: height * 0.0231,
+            color: "rgba(255,255,255,0.7)", textTransform: "uppercase", letterSpacing: 4,
             whiteSpace: "nowrap",
-            textShadow: "0 1px 8px rgba(0,0,0,0.8)",
+            textShadow: "0 1px 6px rgba(0,0,0,0.7)",
           }}>
             {title}
           </span>
