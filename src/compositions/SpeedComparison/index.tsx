@@ -23,11 +23,12 @@ function formatTime(seconds: number): string {
   return `${m}:${String(s).padStart(2, "0")}.${tenth}`;
 }
 
-// ─── Done badge — replaces the timer in-place, no redundant time ────────────
-const DoneBadge: React.FC<{ progress: number; accentColor: string }> = ({
-  progress,
-  accentColor,
-}) => {
+// ─── Done badge — centered celebration, shows the payoff time ───────────────
+const DoneBadge: React.FC<{
+  progress: number;
+  accentColor: string;
+  elapsedSeconds: number;
+}> = ({ progress, accentColor, elapsedSeconds }) => {
   const scale = interpolate(progress, [0, 1], [0.5, 1]);
   const opacity = interpolate(progress, [0, 0.3], [0, 1], { extrapolateRight: "clamp" });
   return (
@@ -35,16 +36,30 @@ const DoneBadge: React.FC<{ progress: number; accentColor: string }> = ({
       style={{
         opacity,
         transform: `scale(${scale})`,
-        transformOrigin: "bottom right",
+        transformOrigin: "center",
         backgroundColor: accentColor,
-        borderRadius: 16,
-        padding: "10px 24px",
-        boxShadow: `0 0 32px ${accentColor}70`,
+        borderRadius: 28,
+        padding: "28px 56px",
+        boxShadow: `0 0 0 4px ${accentColor}40, 0 0 64px ${accentColor}aa`,
+        textAlign: "center",
       }}
     >
-      <span style={{ fontFamily: FONT, fontWeight: 800, fontSize: 26, color: "#fff" }}>
+      <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 72, color: "#fff", lineHeight: 1 }}>
         ✓ Hotovo!
-      </span>
+      </div>
+      <div
+        style={{
+          fontFamily: FONT,
+          fontWeight: 700,
+          fontSize: 32,
+          color: "#fff",
+          marginTop: 12,
+          fontVariantNumeric: "tabular-nums",
+          letterSpacing: 1,
+        }}
+      >
+        za {elapsedSeconds.toFixed(1)} s
+      </div>
     </div>
   );
 };
@@ -89,10 +104,13 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
     extrapolateRight: "clamp",
   });
 
-  // Title pill: fade in 0–20, hold, fade out 70–90
-  const titleOpacity = frame < 45
-    ? interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
-    : interpolate(frame, [70, 90], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  // Title pill: fade in 0–20, stay visible throughout the race,
+  // ride the split fade to the end card so late scrollers always see context.
+  const titleFadeIn = interpolate(frame, [0, 20], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const titleOpacity = titleFadeIn * splitOpacity;
 
   // ── ACT 3: End card CTA overlay ─────────────────────────────────────────
   const endCTAOpacity = interpolate(frame - END_CARD_START, [30, 50], [0, 1], {
@@ -127,17 +145,18 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
             endAt={RACE_END}
           />
           <div style={{
-            position: "absolute", top: 28, left: 36,
-            fontFamily: FONT, fontWeight: 800, fontSize: 28,
-            color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: 4,
+            position: "absolute", top: 36, left: 48,
+            fontFamily: FONT, fontWeight: 900, fontSize: 44,
+            color: "rgba(255,255,255,0.55)", textTransform: "uppercase", letterSpacing: 5,
           }}>
             {isLabel}
           </div>
           <div style={{
-            position: "absolute", bottom: 28, left: 36,
-            fontFamily: FONT, fontWeight: 700, fontSize: 24,
-            color: "rgba(255,255,255,0.45)", letterSpacing: 1,
+            position: "absolute", top: 36, right: 48,
+            fontFamily: FONT, fontWeight: 800, fontSize: 56,
+            color: "rgba(255,255,255,0.92)", letterSpacing: 1,
             fontVariantNumeric: "tabular-nums",
+            textShadow: "0 2px 12px rgba(0,0,0,0.6)",
           }}>
             ⏱ {formatTime(isElapsed)}
           </div>
@@ -164,51 +183,65 @@ export const SpeedComparison: React.FC<SpeedComparisonProps> = ({
             endAt={reisVideoDurationFrames}
           />
           <div style={{
-            position: "absolute", top: 28, left: 36,
-            fontFamily: FONT, fontWeight: 800, fontSize: 28,
-            color: accentColor, textTransform: "uppercase", letterSpacing: 4,
+            position: "absolute", bottom: 36, left: 48,
+            fontFamily: FONT, fontWeight: 900, fontSize: 44,
+            color: accentColor, textTransform: "uppercase", letterSpacing: 5,
           }}>
             {reisLabel}
           </div>
-          {/* Timer shown until done, badge replaces it in the same spot */}
+          {/* Timer shown until done, centered badge takes over on finish */}
           <div style={{
-            position: "absolute", bottom: 28, right: 36,
-            fontFamily: FONT, fontWeight: 700, fontSize: 24,
-            color: "rgba(255,255,255,0.45)",
+            position: "absolute", bottom: 36, right: 48,
+            fontFamily: FONT, fontWeight: 800, fontSize: 56,
+            color: "rgba(255,255,255,0.92)",
             letterSpacing: 1, fontVariantNumeric: "tabular-nums",
+            textShadow: "0 2px 12px rgba(0,0,0,0.6)",
             opacity: reisIsDone ? 0 : 1,
           }}>
             ⏱ {formatTime(reisElapsed)}
           </div>
           {reisIsDone && (
-            <div style={{ position: "absolute", bottom: 28, right: 36 }}>
-              <DoneBadge progress={reisDoneProgress} accentColor={accentColor} />
+            <div style={{
+              position: "absolute",
+              top: "50%", left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}>
+              <DoneBadge
+                progress={reisDoneProgress}
+                accentColor={accentColor}
+                elapsedSeconds={reisVideoDurationFrames / fps}
+              />
             </div>
           )}
         </div>
 
-        {/* Horizontal divider */}
-        <div style={{
-          position: "absolute", top: halfHeight - 1, left: 0, right: 0,
-          height: 2, backgroundColor: accentColor, zIndex: 10,
-          boxShadow: `0 0 16px ${accentColor}90`,
-        }} />
-
-        {/* Title pill — ACT 1 */}
+        {/* Divider with title interrupting the line */}
         <div style={{
           position: "absolute", top: halfHeight, left: 0, right: 0,
-          display: "flex", justifyContent: "center",
+          display: "flex", alignItems: "center",
           transform: "translateY(-50%)", zIndex: 20,
           opacity: titleOpacity, pointerEvents: "none",
+          gap: 24,
         }}>
+          {/* Left line segment */}
+          <div style={{
+            flex: 1, height: 2, backgroundColor: accentColor,
+            boxShadow: `0 0 16px ${accentColor}90`,
+          }} />
+          {/* Label — no box, pure text */}
           <span style={{
-            fontFamily: FONT, fontWeight: 800, fontSize: 20,
-            color: "#fff", textTransform: "uppercase", letterSpacing: 2,
-            backgroundColor: "#000000", padding: "8px 24px", borderRadius: 999,
-            border: `2px solid ${accentColor}`,
+            fontFamily: FONT, fontWeight: 600, fontSize: 26,
+            color: "rgba(255,255,255,0.65)", textTransform: "uppercase", letterSpacing: 5,
+            whiteSpace: "nowrap",
+            textShadow: "0 1px 8px rgba(0,0,0,0.8)",
           }}>
             {title}
           </span>
+          {/* Right line segment */}
+          <div style={{
+            flex: 1, height: 2, backgroundColor: accentColor,
+            boxShadow: `0 0 16px ${accentColor}90`,
+          }} />
         </div>
       </AbsoluteFill>
 
